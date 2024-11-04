@@ -76,6 +76,44 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-images" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/11/04/images/" class="article-date">
+  <time class="dt-published" datetime="2024-11-04T00:29:54.000Z" itemprop="datePublished">2024-11-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/11/04/images/">images</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/11/04/images/" data-id="cm32acy3i0000vovl6vipdam1" data-title="images" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-军训场V题-双指针（Codeforces-Round-898-Div-4-F-Money-Trees-题解）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2024/11/03/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/" class="article-date">
@@ -98,11 +136,11 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="军训场V题-双指针（-Codeforces-Round-898-Div-4-F-Money-Trees-题解）"><a href="#军训场V题-双指针（-Codeforces-Round-898-Div-4-F-Money-Trees-题解）" class="headerlink" title="军训场V题-双指针（ Codeforces Round #898 (Div. 4) F. Money Trees 题解）"></a>军训场V题-双指针（ Codeforces Round #898 (Div. 4) F. Money Trees 题解）</h1><h2 id="1-自我介绍"><a href="#1-自我介绍" class="headerlink" title="1.自我介绍"></a>1.自我介绍</h2><p>作为一个刚敲代码没有多久的的&#x3D;&#x3D;小蒟蒻&#x3D;&#x3D;，也是第一次发博客:joy:,有一些没说好的地方希望各位大佬谅解，如果存在错误的地方也希望大家可以指出，那么话不多说，&#x3D;&#x3D;action!&#x3D;&#x3D;:star2:</p>
+        <h1 id="军训场V题-双指针（-Codeforces-Round-898-Div-4-F-Money-Trees-题解）"><a href="#军训场V题-双指针（-Codeforces-Round-898-Div-4-F-Money-Trees-题解）" class="headerlink" title="军训场V题-双指针（ Codeforces Round #898 (Div. 4) F. Money Trees 题解）"></a>军训场V题-双指针（ Codeforces Round #898 (Div. 4) F. Money Trees 题解）</h1><h2 id="1-自我介绍"><a href="#1-自我介绍" class="headerlink" title="1.自我介绍"></a>1.自我介绍</h2><p>作为一个刚敲代码没有多久的的&#x3D;&#x3D;小蒟蒻&#x3D;&#x3D;，也是第一次发博客:joy:,有一些没说好的地方希望各位大佬谅解，如果存在错误的地方也希望大家可以指出，那么话不多说，action!</p>
 <hr>
 <h2 id="2-题目"><a href="#2-题目" class="headerlink" title="2.题目"></a>2.题目</h2><p><a target="_blank" rel="noopener" href="https://vjudge.net/contest/655848#problem/V">军训训练场 - Virtual Judge </a><br><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1873/problem/F">原题目</a></p>
-<p><img src="https://i-blog.csdnimg.cn/direct/dfaf159ff06d46dfb7b01084f75220c6.png#pic_center" alt="在这里插入图片描述"><br><img src="https://i-blog.csdnimg.cn/direct/eb5ea4636e9d4940b99d05d3973d6afb.png#pic_center"></p>
-<h2 id="3-分析题目"><a href="#3-分析题目" class="headerlink" title="3.分析题目"></a>3.分析题目</h2><p>根据观察题目我们不难发现Luca所能得到的子数组的数得满足&#x3D;&#x3D;两个条件&#x3D;&#x3D;：</p>
+<p><img src="D:\myblog.deploy_git\css\images\dfaf159ff06d46dfb7b01084f75220c6.png" alt="dfaf159ff06d46dfb7b01084f75220c6"></p>
+<h2 id="3-分析题目"><a href="#3-分析题目" class="headerlink" title="3.分析题目"></a><img src="D:\myblog.deploy_git\css\images\eb5ea4636e9d4940b99d05d3973d6afb.png" alt="eb5ea4636e9d4940b99d05d3973d6afb">3.分析题目</h2><p>根据观察题目我们不难发现Luca所能得到的子数组的数得满足&#x3D;&#x3D;两个条件&#x3D;&#x3D;：</p>
 <p>1.高度h[i]能被下一个高度h[i]整除（最后一个数因为后面没有数了，得舍弃）。</p>
 <p>2.子数组里的所有a[i]相加不能超过k。</p>
 <p>这思路不就来了吗，对数组里的数进行两个条件的判断，如果满足条件子数组个数每次加一，否则子数组个数固定，下一个数返回循环重新判断，直接暴力做。(&#x3D;&#x3D;代码乱写的，但大概意思就是这样&#x3D;&#x3D;)</p>
@@ -110,10 +148,10 @@
 
 <p>当然我们写起来肯定比想起来要难，反正我是没暴力出来:joy_cat:,就算暴力出来也可能会超时，哎，只能去请教&#x3D;&#x3D;圈圈学长&#x3D;&#x3D;了！</p>
 <hr>
-<h2 id="4-题目方法-双指针"><a href="#4-题目方法-双指针" class="headerlink" title="4.题目方法-双指针"></a>4.题目方法-双指针</h2><p>其实我们思考一下这题就类似于一种滑动窗口，就像一根辣条，我们每次切中间的一段吃，看那一段切的最长，我们要求的就是那一段的长度，这就需要动态处理区间-&#x3D;&#x3D;双指针&#x3D;&#x3D;！<br><img src="https://i-blog.csdnimg.cn/direct/219c44241220490097ad295f236571a2.jpeg#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="4-题目方法-双指针"><a href="#4-题目方法-双指针" class="headerlink" title="4.题目方法-双指针"></a>4.题目方法-双指针</h2><p>其实我们思考一下这题就类似于一种滑动窗口，就像一根辣条，我们每次切中间的一段吃，看那一段切的最长，我们要求的就是那一段的长度，这就需要动态处理区间-&#x3D;&#x3D;双指针&#x3D;&#x3D;！<br><img src="D:\myblog.deploy_git\css\images\219c44241220490097ad295f236571a2.jpeg" alt="219c44241220490097ad295f236571a2"></p>
 <h3 id="双指针算法"><a href="#双指针算法" class="headerlink" title="双指针算法"></a>双指针算法</h3><p>双指针算法是一种常用的算法技巧，主要用于处理数组和链表等线性结构。它通过使用两个指针（索引位置）来遍历数据结构，从而达到减少时间复杂度的目的。双指针算法有多种变体，包括快慢指针、对撞指针和滑动窗口等。</p>
 <p>下面是我从网上找的一段与我们题目类似&#x3D;&#x3D;快慢双指针&#x3D;&#x3D;的题目与代码：</p>
-<p><img src="https://i-blog.csdnimg.cn/direct/1bfbd076d1284dec93c9636b27f8fdac.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="D:\myblog.deploy_git\css\images\1bfbd076d1284dec93c9636b27f8fdac.png" alt="1bfbd076d1284dec93c9636b27f8fdac"></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    string a; <span class="comment">//定义一个字符串a</span></span><br><span class="line">    <span class="built_in">getline</span>(cin,a); <span class="comment">//忽略空格读入所有字符</span></span><br><span class="line">    <span class="type">int</span> n=a.<span class="built_in">size</span>(); <span class="comment">//n为a字符串的长度</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n i++) <span class="comment">//字符串下标都是从0开始</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j=i; <span class="comment">//j为快字符，i为慢字符</span></span><br><span class="line">        <span class="keyword">while</span>(a[j]!=<span class="string">&#x27; &#x27;</span>) j++; <span class="comment">//如果没读到空格，j继续向前移动</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k=i; k&lt;j;k++) cout&lt;&lt;a[k]; <span class="comment">//把i到j中间的字符输出</span></span><br><span class="line">        cout&lt;&lt;endl; <span class="comment">//记得换行</span></span><br><span class="line">        i=j; <span class="comment">//循环体执行完后for()中的i才i++即，下一次开始时i就到了上一次空格(位置j)的下一位了 </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>我尽力了，如果大家还没搞懂的话可以<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_54773252/article/details/122836179?ops_request_misc=%7B%22request_id%22:%228E6F2263-C83C-4AD8-BF36-F2EB9BF139D3%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=8E6F2263-C83C-4AD8-BF36-F2EB9BF139D3&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-122836179-null-null.142%5Ev100%5Econtrol&utm_term=%E5%8F%8C%E6%8C%87%E9%92%88&spm=1018.2226.3001.4187">双指针算法-CSDN博客</a>看看。</p>
@@ -385,6 +423,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2024/11/04/images/">images</a>
+          </li>
         
           <li>
             <a href="/2024/11/03/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/">军训场V题-双指针（Codeforces Round</a>
