@@ -1,108 +1,198 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>军训场V题-双指针（Codeforces Round | 何琪旺的小库</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="1.自我介绍作为一个刚敲代码没有多久的的&#x3D;&#x3D;小蒟蒻&#x3D;&#x3D;，也是第一次发博客:joy:,有一些没说好的地方希望各位大佬谅解，如果存在错误的地方也希望大家可以指出，那么话不多说，&#x3D;&#x3D;action!&#x3D;&#x3D;:star2:  2.题目军训训练场 - Virtual Judge 原题目   3.分析题目根据观察题目我们不难发现Luca">
-<meta property="og:type" content="article">
-<meta property="og:title" content="军训场V题-双指针（Codeforces Round">
-<meta property="og:url" content="http://example.com/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/index.html">
-<meta property="og:site_name" content="何琪旺的小库">
-<meta property="og:description" content="1.自我介绍作为一个刚敲代码没有多久的的&#x3D;&#x3D;小蒟蒻&#x3D;&#x3D;，也是第一次发博客:joy:,有一些没说好的地方希望各位大佬谅解，如果存在错误的地方也希望大家可以指出，那么话不多说，&#x3D;&#x3D;action!&#x3D;&#x3D;:star2:  2.题目军训训练场 - Virtual Judge 原题目   3.分析题目根据观察题目我们不难发现Luca">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/%E5%86%9B%E8%AE%AD/1.png">
-<meta property="og:image" content="http://example.com/images/%E5%86%9B%E8%AE%AD/2.png">
-<meta property="og:image" content="http://example.com/images/%E5%86%9B%E8%AE%AD/3.jpeg">
-<meta property="og:image" content="http://example.com/images/%E5%86%9B%E8%AE%AD/4.png">
-<meta property="article:published_time" content="2024-11-04T00:37:50.000Z">
-<meta property="article:modified_time" content="2024-11-04T01:54:29.406Z">
-<meta property="article:author" content="何琪旺">
-<meta property="article:tag" content="开心">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/%E5%86%9B%E8%AE%AD/1.png">
-  
-    <link rel="alternate" href="/atom.xml" title="何琪旺的小库" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="何琪旺">
+    
+    <meta name="description" content="我想一直游到海水变蓝">
+    
+    
+    
+    
+    
+    
+    <title>军训场V题-双指针（Codeforces Round | 何琪旺的小库</title>
+    <link href="http://example.com" rel="prefetch" />
+
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
 <link rel="stylesheet" href="/css/style.css">
 
-  
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+<script src="/js/jquery.min.js"></script>
 
-  
-  
+    
+<script src="/js/bootstrap.min.js"></script>
+
+    
+<script src="/js/aos.js"></script>
+
+    
+<script src="/js/highslide/highslide-full.min.js"></script>
+
+    
+<link rel="stylesheet" href="/js/highslide/highslide.css">
+
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
 <meta name="generator" content="Hexo 7.3.0"></head>
-
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">何琪旺的小库</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Lucky forever</a>
-        </h2>
-      
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="http://example.com">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">何琪旺的小库</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/categories">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                </li>
+                
+                
+                
+                
+                
+                <li class="">
+                    <a href="/tags">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
 </header>
-
-      <div class="outer">
-        <section id="main"><article id="post-军训场V题-双指针（Codeforces-Round-898-Div-4-F-Money-Trees-题解）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/" class="article-date">
-  <time class="dt-published" datetime="2024-11-04T00:37:50.000Z" itemprop="datePublished">2024-11-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      军训场V题-双指针（Codeforces Round
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 gal-right" id="mainstay">
+                    
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="http://example.com">何琪旺的小库</a>
+        >
+        <span>军训场V题-双指针（Codeforces Round</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/">军训场V题-双指针（Codeforces Round</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2024-11-04
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/">军训场V题-双指针（Codeforces Round</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2024-11-04
+            </p>
+            <p>
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
         <h2 id="1-自我介绍"><a href="#1-自我介绍" class="headerlink" title="1.自我介绍"></a>1.自我介绍</h2><p>作为一个刚敲代码没有多久的的&#x3D;&#x3D;小蒟蒻&#x3D;&#x3D;，也是第一次发博客:joy:,有一些没说好的地方希望各位大佬谅解，如果存在错误的地方也希望大家可以指出，那么话不多说，&#x3D;&#x3D;action!&#x3D;&#x3D;:star2:</p>
 <hr>
 <h2 id="2-题目"><a href="#2-题目" class="headerlink" title="2.题目"></a>2.题目</h2><p><a target="_blank" rel="noopener" href="https://vjudge.net/contest/655848#problem/V">军训训练场 - Virtual Judge </a><br><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1873/problem/F">原题目</a></p>
@@ -161,134 +251,291 @@
 <p>其实敲代码真的很累，但需要大家一起坚持，在此我很感谢圈圈学长，苏希无学姐，肖明阳学长，潜水大佬室友等人长期以来给予我的帮助，让我可以坚持下来，最后☆*: .｡. o(≧▽≦)o .｡.:*☆😘</p>
 <p>​           </p>
 
-      
     </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/" data-id="cm32dti3b0003bgvl4m926n0w" data-title="军训场V题-双指针（Codeforces Round" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2024/11/04/test-1/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          test
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2024/11/03/Markdown%E7%AE%80%E8%A6%81%E8%AF%AD%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">Markdown基本语法</div>
-    </a>
-  
-</nav>
-
-  
 </article>
 
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">十一月 2024</a></li></ul>
+                </div>
+                <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
     </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2024/11/04/%E5%B8%85%E7%85%A7/">帅照</a>
-          </li>
-        
-          <li>
-            <a href="/2024/11/04/test-1/">test</a>
-          </li>
-        
-          <li>
-            <a href="/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/">军训场V题-双指针（Codeforces Round</a>
-          </li>
-        
-          <li>
-            <a href="/2024/11/03/Markdown%E7%AE%80%E8%A6%81%E8%AF%AD%E6%B3%95/">Markdown基本语法</a>
-          </li>
-        
-          <li>
-            <a href="/2024/11/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">我的第一篇博客</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
 </aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2024 何琪旺<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            何琪旺
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>我想一直游到海水变蓝</p>
+</p>
+        </div>
     </div>
-  </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/04/%E5%B8%85%E7%85%A7/">帅照</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/04/test-1/">test</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/">军训场V题-双指针（Codeforces Round</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/03/Markdown%E7%AE%80%E8%A6%81%E8%AF%AD%E6%B3%95/">Markdown基本语法</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">我的第一篇博客</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/02/hello-world/">Hello World</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/03/Markdown%E7%AE%80%E8%A6%81%E8%AF%AD%E6%B3%95/">Markdown基本语法</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/02/hello-world/">Hello World</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/04/test-1/">test</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/">军训场V题-双指针（Codeforces Round</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/04/%E5%B8%85%E7%85%A7/">帅照</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">我的第一篇博客</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+</div>
+                
+                
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://kdays.net/days/" target="_blank">KDays Forum</a>
+    </li>
+    
+    <li>
+        <a href="http://www.gal123.com/" target="_blank">绅士导航♂</a>
+    </li>
+    
+    <li>
+        <a href="http://www.moe123.com/" target="_blank">萌导航</a>
+    </li>
+    
+</div>
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/ZEROKISEKI/" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://coding.net/u/SORA1" target="_blank">Coding</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/aonosora/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 何琪旺 Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
 </footer>
 
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
 </body>
+
+<script src="/js/activate-power-mode.js"></script>
+
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+
+
+
 </html>
