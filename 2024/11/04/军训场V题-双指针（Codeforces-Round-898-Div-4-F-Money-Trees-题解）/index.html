@@ -350,6 +350,17 @@
 </article>
 
 
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <div id="comment-card" class="comment-card">
+    <div class="main-title-bar">
+      <div class="main-title-dot"></div>
+      <div class="main-title">留言 </div>
+    </div>
+    <div id="vcomments"></div>
+  </div>
+  
+
 
 
 
@@ -384,6 +395,9 @@
     dropdownEle.classList.toggle("hidden");
   }
 ;
+
+      new Valine({"enable":true,"appId":"b7Uv4NXRiVPmsu7Tec7FIJDW-gzGzoHsz","appKey":"u4aNkh761cZAuwwlF1oOpbqN","placeholder":"Just go go","pageSize":10,"highlight":true,"serverURLs":"https://leancloud.cn","el":"#vcomments"});
+  ;
 
     function topFunction() {
         window.scroll({ top: 0, behavior: 'smooth' });
