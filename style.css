@@ -1767,6 +1767,41 @@ a {
   background: url("../images/taichi.png") no-repeat center/80%;
   animation: rotate-all 3s linear infinite;
 }
+.article-copyright {
+  background: var(--red-5-5);
+  border-left: 6px var(--red-4) solid;
+  margin: 1.8em 0;
+  border-radius: 5px;
+  transition: 0.3s;
+  padding: 5px 10px;
+  box-shadow: 0 0 5px 2px var(--color-meta-shadow);
+  position: relative;
+  overflow: hidden;
+  word-break: break-all;
+}
+.article-copyright p {
+  font-size: 14px;
+  line-height: 2;
+  color: var(--color-default);
+}
+.article-copyright p strong {
+  font-weight: 700;
+}
+.article-copyright a {
+  color: var(--color-default);
+  text-decoration: none;
+}
+.article-copyright a:hover {
+  text-decoration: underline;
+}
+.article-copyright-bg {
+  font-size: 120px;
+  color: var(--red-3);
+  opacity: 0.2;
+  position: absolute;
+  right: -15px;
+  bottom: -40px;
+}
 @media screen and (min-width: 960px) {
   #mobile-nav {
     display: none;
@@ -2278,6 +2313,95 @@ pre .javascript .function {
   opacity: 0;
 }
 .sidebar-top:hover .arrow-up {
+  opacity: 1;
+}
+.tagcloud a {
+  display: inline-block;
+  margin: 5px 5px 0 0;
+}
+[data-theme="dark"] .widget-wrap {
+  box-shadow: 0 0 10px 3px var(--color-hover-shadow);
+}
+.widget-wrap {
+  margin: 40px 0;
+  background: var(--color-wrap);
+  border-radius: 5px;
+  transition: 0.3s;
+}
+.widget-wrapper {
+  transition: 0.3s;
+}
+.widget-wrapper .aos-animate {
+  transition-property: initial !important;
+}
+.widget-wrapper .aos-animate:hover {
+  box-shadow: 0 0 10px 3px var(--color-hover-shadow);
+}
+.widget-wrapper:hover {
+  transform: scale(1.015);
+}
+.widget-title {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--grey-9);
+  padding: 20px 20px 10px;
+}
+.widget {
+  color: var(--grey-7);
+  padding: 10px 20px;
+}
+.widget li {
+  color: var(--color-link);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.widget a,
+.widget span {
+  color: var(--color-link);
+  text-decoration: none;
+  opacity: 0.85;
+  transition: 0.3s;
+}
+.widget a:hover,
+.widget span:hover {
+  opacity: 1;
+  color: var(--red-0);
+}
+.widget span {
+  margin-left: 5px;
+}
+.widget ul ul,
+.widget ol ul,
+.widget dl ul,
+.widget ul ol,
+.widget ol ol,
+.widget dl ol,
+.widget ul dl,
+.widget ol dl,
+.widget dl dl {
+  margin-left: 15px;
+  list-style: none;
+}
+.widget li {
+  margin: 10px 0;
+}
+.widget li:before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 10px;
+  background: var(--color-h2-after);
+  vertical-align: middle;
+  margin-right: 11px;
+  box-shadow: 0 2px 12px var(--color-h2-after-shadow);
+  opacity: 0.5;
+  transition: 0.3s;
+}
+.widget li:hover:before {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
   opacity: 1;
 }
 @media screen and (max-width: 959px) {

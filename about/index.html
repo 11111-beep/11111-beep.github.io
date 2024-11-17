@@ -199,7 +199,22 @@
     </div>
     <footer class="article-footer">
       
+        <blockquote class="article-copyright">
+    <p><strong>本文作者：</strong>何琪旺 @ 何琪旺的小库</p>
+    <p><strong>本文链接：</strong><a href="http://example.com/about/index.html">http://example.com/about/index.html</a></p>
+    <p><strong>本文标题：</strong>about</p>
+    <p><strong>本文发布时间：</strong>2024-11-05 10:59:19</p>
+    <p><strong>本文修改时间：</strong>2024-11-05 10:59:19</p>
+    <p><strong>本文版权：</strong>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"><span class="icon-creative-commons"></span>BY-NC-SA</a> 许可协议。转载请注明出处！</p>
+    <span class="icon-creative-commons article-copyright-bg"></span>
+  </blockquote>
       
+      
+      
+        <a data-aos="zoom-in" href="/about/index.html#comments" class="article-comment-link">
+          <span class="post-comments-count valine-comment-count" data-xid="/about/" itemprop="commentCount"></span>
+          留言
+        </a>
       
       
       
@@ -213,6 +228,8 @@
 
 </article>
 
+  <section id="comments" class="vcomment" data-aos="fade-up"></section>
+
 
 
 
@@ -225,7 +242,7 @@
     <div class="sidebar-wrap" data-aos="fade-up">
       
         <div class="sidebar-author">
-  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="何琪旺" class="lazyload">
+  <img data-src="/avatar/images/2.png" data-sizes="auto" alt="何琪旺" class="lazyload">
   <div class="sidebar-author-name">何琪旺</div>
   <div class="sidebar-description">我想一直游到海水变蓝</div>
 </div>
@@ -280,6 +297,63 @@
   </div>
 
   
+    
+      
+
+    
+      
+
+    
+      
+
+    
+      
+  <div class="widget-wrapper">
+    <div class="widget-wrap" data-aos="fade-up">
+      <h3 class="widget-title">归档</h3>
+      <div class="widget">
+        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">十一月 2024</a></li></ul>
+      </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrapper">
+    <div class="widget-wrap" data-aos="fade-up">
+      <h3 class="widget-title">最新文章</h3>
+      <div class="widget">
+        <ul>
+          
+            <li>
+              <a href="/2024/11/11/%E4%B8%89%E9%9D%A2%E9%94%99%E9%A2%98%E4%B8%8E%E5%8F%8D%E6%80%9D/">三面错题与反思</a>
+            </li>
+          
+            <li>
+              <a href="/2024/11/10/%E9%9D%92%E5%AA%92%E6%97%A5%E5%B8%B8-%E4%B8%80/">青媒日常(一)</a>
+            </li>
+          
+            <li>
+              <a href="/2024/11/04/%E5%B8%85%E7%85%A7/">帅照</a>
+            </li>
+          
+            <li>
+              <a href="/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/">军训场V题-双指针（Codeforces Round</a>
+            </li>
+          
+            <li>
+              <a href="/2024/11/03/Markdown%E7%AE%80%E8%A6%81%E8%AF%AD%E6%B3%95/">Markdown基本语法</a>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+    
+  
 </aside>
 
           
@@ -292,7 +366,7 @@
     
     <div>
       <span class="icon-copyright"></span>
-      2020-2024
+      2024-2024
       <span class="footer-info-sep"></span>
       何琪旺
     </div>
@@ -335,7 +409,7 @@
   <div class="sidebar-wrap">
     
       <div class="sidebar-author">
-  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="何琪旺" class="lazyload">
+  <img data-src="/avatar/images/2.png" data-sizes="auto" alt="何琪旺" class="lazyload">
   <div class="sidebar-author-name">何琪旺</div>
   <div class="sidebar-description">我想一直游到海水变蓝</div>
 </div>
@@ -443,6 +517,11 @@
     
       
       
+  
+<script src="https://npm.webcache.cn/valine@1.5.1/dist/Valine.min.js" integrity="sha384-3ma91AExDeMAZ1rjTjaP8V2A2obQE+s5ltKRwYlwdpArz9xVbp0tF3b0VV2ACNPn" crossorigin="anonymous" data-pjax=""></script>
+
+  
+
 
 
 
@@ -517,6 +596,30 @@
           window.addEventListener('lightbox:ready', pswp);
         }
       ;
+
+    var GUEST_INFO = ['nick', 'mail', 'link'];
+    var guest_info = 'nick,mail,link'.split(',').filter((item) => {
+      return GUEST_INFO.indexOf(item) > -1
+    });
+    var recordIP = JSON.parse('true');
+    var highlight = JSON.parse('true');
+    var visitor = JSON.parse('false');
+
+    new Valine({
+      el: '.vcomment',
+      appId: "b7Uv4NXRiVPmsu7Tec7FIJDW-gzGzoHsz",
+      appKey: "u4aNkh761cZAuwwlF1oOpbqN",
+      placeholder: "Just go go",
+      pageSize: '10',
+      avatar: 'mp',
+      lang: 'zh-cn',
+      recordIP: recordIP,
+      highlight: highlight,
+      visitor: visitor,
+      requiredFields: guest_info,
+      path: window.location.pathname
+    });
+  ;
 
     console.log(String.raw`%c 
  ______     ______     __     __    __     __  __    
