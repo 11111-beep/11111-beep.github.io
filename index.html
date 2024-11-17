@@ -1,267 +1,396 @@
-<!DOCTYPE html><html lang="zh-CN"><head>
+<!DOCTYPE html><html theme="dark" showbanner="true" hasbanner="true"><head>
+
+
+
+
+
   <meta charset="utf-8">
   
+  
+  
 
   
-
-  
-
-  
-  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
-  
-  
-  <title>
-    
-    何琪旺的小库
-  </title>
+  <title>何琪旺的小库</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin=""><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&amp;display=swap">
-  
-    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  
-  
-    
 
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  
-  
-    <meta name="description" content="我想一直游到海水变蓝">
+  <meta name="description" content="我想一直游到海水变蓝">
 <meta property="og:type" content="website">
 <meta property="og:title" content="何琪旺的小库">
 <meta property="og:url" content="http://example.com/index.html">
 <meta property="og:site_name" content="何琪旺的小库">
 <meta property="og:description" content="我想一直游到海水变蓝">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/banner.webp">
 <meta property="article:author" content="何琪旺">
 <meta property="article:tag" content="开心">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/banner.webp">
-  
   
     <link rel="alternate" href="/atom.xml" title="何琪旺的小库" type="application/atom+xml">
   
   
-    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.png">
   
   
 
 
-  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  
-  
+<meta name="generator" content="Hexo 7.3.0"><script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');loadCss('https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css');loadCss('https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css');loadCss('https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css');</script><noscript><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css"></noscript></head>
+
+<body>
   
   
     
-<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
-
-  
-  
-    
-
-
-  
-<meta name="generator" content="Hexo 7.3.0"><script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');loadCss('https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap');loadCss('https://npm.webcache.cn/@reimujs/aos@0.1.0/dist/aos.css');</script><noscript><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&amp;display=swap"><link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.0/dist/aos.css"></noscript></head>
-
-  <body>
-    
-  <div id="loader">
-    <div class="loading-left-bg loading-bg"></div>
-    <div class="loading-right-bg loading-bg"></div>
-    <div class="spinner-box">
-      <div class="loading-taichi">
-        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
-          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252"></path>
-          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
-         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252"></path>
-        </svg>
-      </div>
-      <div class="loading-word">少女祈祷中...</div>
-    </div>
-  </div>
-  
-  <script>
-    var time = null;
-    var startLoading = () => {
-      time = Date.now();
-      document.getElementById('loader').classList.remove("loading");
-    }
-    var endLoading = () => {
-      if (!time) {
-        document.body.style.overflow = 'auto';
-        document.getElementById('loader').classList.add("loading");
-      } else {
-        if (Date.now() - time > 500) {
-          time = null;
-          document.body.style.overflow = 'auto';
-          document.getElementById('loader').classList.add("loading");
-        } else {
-          setTimeout(endLoading, 500 - (Date.now() - time));
-          time = null;
-        }
-      }
-    }
-    window.addEventListener('DOMContentLoaded', endLoading);
-    document.getElementById('loader').addEventListener('click', endLoading);
-  </script>
-
-<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+<div id="banner" class=" is_home ">
+  <img src="/images/tiankong.jpg" itemprop="image">
+  <div id="banner-dim"></div>
 </div>
-
-
-    <div id="container">
-      <div id="wrap">
-        <div id="header-nav">
+ 
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=" is_home ">
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>何琪旺的小库 </div>
+    </a>
+  </nav>
   <nav id="main-nav">
     
-      <span class="main-nav-link-wrap">
-        <div class="main-nav-icon icon-taichi"></div>
-        <a class="main-nav-link" href="/">首页</a>
-      </span>
+      <a class="main-nav-link" href="/">Home</a>
     
-      <span class="main-nav-link-wrap">
-        <div class="main-nav-icon icon-taichi"></div>
-        <a class="main-nav-link" href="/archives">归档</a>
-      </span>
+      <a class="main-nav-link" href="/archives">Archives</a>
     
-      <span class="main-nav-link-wrap">
-        <div class="main-nav-icon icon-taichi"></div>
-        <a class="main-nav-link" href="/about">关于</a>
-      </span>
+      <a class="main-nav-link" href="/about">About</a>
     
-      <span class="main-nav-link-wrap">
-        <div class="main-nav-icon icon-taichi"></div>
-        <a class="main-nav-link" href="/friend">友链</a>
-      </span>
-    
-    <a id="main-nav-toggle" class="nav-icon"></a>
   </nav>
   <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"></path></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"></path></svg></span>
+    </a>
     
-      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" target="_blank"></a>
+      <a id="nav-rss-link" class="nav-icon mobile-hide" href="/atom.xml" title="RSS 订阅">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M198-120q-25.846 0-44.23-18.384-18.384-18.385-18.384-44.23 0-25.846 18.384-44.23 18.384-18.385 44.23-18.385 25.846 0 44.23 18.385 18.384 18.384 18.384 44.23 0 25.845-18.384 44.23Q223.846-120 198-120Zm538.385 0q-18.846 0-32.923-13.769-14.076-13.769-15.922-33.23-8.692-100.616-51.077-188.654-42.385-88.039-109.885-155.539-67.5-67.501-155.539-109.885Q283-663.462 182.385-672.154q-19.461-1.846-33.23-16.23-13.769-14.385-13.769-33.846t14.076-32.922q14.077-13.461 32.923-12.23 120.076 8.692 226.038 58.768 105.961 50.077 185.73 129.846 79.769 79.769 129.846 185.731 50.077 105.961 58.769 226.038 1.231 18.846-12.538 32.922Q756.461-120 736.385-120Zm-252 0q-18.231 0-32.423-13.461t-18.653-33.538Q418.155-264.23 348.886-333.5q-69.27-69.27-166.501-84.423-20.077-4.462-33.538-18.961-13.461-14.5-13.461-33.346 0-19.076 13.884-33.23 13.884-14.153 33.115-10.922 136.769 15.384 234.384 112.999 97.615 97.615 112.999 234.384 3.231 19.23-10.538 33.115Q505.461-120 484.385-120Z"></path></svg>
+      </a>
     
-    
-    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"></path></svg>
+    </div>
   </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">Home</a>
+    
+      <a class="nav-dropdown-link" href="/archives">Archives</a>
+    
+      <a class="nav-dropdown-link" href="/about">About</a>
+    
+    
+      <a class="nav-dropdown-link" href="/atom.xml" title="RSS 订阅">RSS</a>
+     
+    </div>
 </div>
-<header id="header">
+
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
   
-    
-      <img fetchpriority="high" src="/images/banner.webp" alt="">
-    
-  
-  <div id="header-outer">
-    <div id="header-title">
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
       
+        <img src="/images/2.png">
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">何琪旺 </div>
+      <div class="dot"></div>
+      <div class="subtitle">北岛-瞳 </div>
+      <div class="link-list">
         
+          <a class="link-btn" target="_blank" rel="noopener" href="https://twitter.com" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
         
-          <a href="/" id="logo">
-            <h1 data-aos="slide-up">何琪旺的小库</h1>
+          <a class="link-btn" target="_blank" rel="noopener" href="https://store.steampowered.com" title="Steam"><i class="fa-brands fa-steam"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/11111-beep" title="GitHub"><i class="fa-brands fa-github"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://gitee.com/he-qw" title="Gitee"><i class="fa-brands fa-git"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://11111-beep.github.io" title="便便"><i class="fa-solid fa-poo"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">最新文章</h3>
+      <ul>
+        
+          <a class="recent-link" href="/2024/11/11/%E4%B8%89%E9%9D%A2%E9%94%99%E9%A2%98%E4%B8%8E%E5%8F%8D%E6%80%9D/" title="三面错题与反思">
+            <div class="recent-link-text">
+              三面错题与反思
+            </div>
           </a>
         
-      
-      
+          <a class="recent-link" href="/2024/11/10/%E9%9D%92%E5%AA%92%E6%97%A5%E5%B8%B8-%E4%B8%80/" title="青媒日常(一)">
+            <div class="recent-link-text">
+              青媒日常(一)
+            </div>
+          </a>
         
-        <h2 id="subtitle-wrap" data-aos="slide-down">
-          
-            <a href="/" id="subtitle">Lucky forever</a>
-          
-        </h2>
-      
+          <a class="recent-link" href="/2024/11/04/%E5%B8%85%E7%85%A7/" title="帅照">
+            <div class="recent-link-text">
+              帅照
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/" title="军训场V题-双指针（Codeforces Round">
+            <div class="recent-link-text">
+              军训场V题-双指针（Codeforces Round
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2024/11/03/Markdown%E7%AE%80%E8%A6%81%E8%AF%AD%E6%B3%95/" title="Markdown基本语法">
+            <div class="recent-link-text">
+              Markdown基本语法
+            </div>
+          </a>
+        
+      </ul>
     </div>
   </div>
-</header>
 
-        <div id="content">
-          
-          <section id="main">
   
-    <div class="post-wrapper">
-  <div class="post-wrap-left" data-aos="fade-up">
+  <div class="sticky">
     
-      <a class="post-link" href="/2024/11/11/%E4%B8%89%E9%9D%A2%E9%94%99%E9%A2%98%E4%B8%8E%E5%8F%8D%E6%80%9D/" aria-label="三面错题与反思"></a>
-    
-    
-    <div class="post-cover-left">
       
-        
-        
-          <img data-src="/images/banner.webp" data-sizes="auto" alt="三面错题与反思" class="lazyload">
-        
+
+
+
+    
       
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2024-11-11</span>
-        <span><span class="icon-pencil"></span>560 字</span>
-        <span><span class="icon-clock"></span>3 分钟</span>
-      </div>
-      <h2 class="post-title">三面错题与反思</h2>
-      <article class="post-article">
-        
-          1.dp的运用题目链接：E-四叠半的电影_2024HUT实验室三面 (nowcoder.com)
-12345678910111213141516171819202122232425#include &amp;lt;bits/stdc++.h&amp;gt;#define IOS ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)using namespace std;typedef pair&amp;lt;int,int&amp;gt;PII;typedef long long ll;const int N=2e5+10;int a[N];bool mark[N];int main(
-        
-      </article>
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">归档</h3>
+      
+      
+        <a class="archive-link" href="/archives/2024/11 ">
+          十一月 2024 
+          <div class="archive-count">7 </div>
+        </a>
+      
     </div>
   </div>
-</div>
-  
-    <div class="post-wrapper">
-  <div class="post-wrap-right" data-aos="fade-up">
+
+
     
-      <a class="post-link" href="/2024/11/10/%E9%9D%92%E5%AA%92%E6%97%A5%E5%B8%B8-%E4%B8%80/" aria-label="青媒日常(一)"></a>
+      <form class="search-form" action="/search" method="get">
+  <input type="text" name="q" class="search-input" placeholder="搜索..." required="">
+  <button type="submit" class="search-button">
+    <i class="fa fa-search"></i>
+  </button>
+</form>
+
     
-    
-    <div class="post-cover-right">
-      
-        
-        
-          <img data-src="/images/banner.webp" data-sizes="auto" alt="青媒日常(一)" class="lazyload">
-        
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2024-11-10</span>
-        <span><span class="icon-pencil"></span>1.1k 字</span>
-        <span><span class="icon-clock"></span>3 分钟</span>
-      </div>
-      <h2 class="post-title">青媒日常(一)</h2>
-      <article class="post-article">
-        
-          ​     进入青少年媒体中心的这些天让我体验到了充实而独特的生活。作为刚进入大学的新生，我决定加入青媒，是希望能在这里学习到一些新的技能、提升自己的表达能力，同时也能更好地记录和传播校园中的故事。青媒的工作涵盖了摄影、写作和编辑等多种内容，让我能够在短时间内全面接触到媒体工作的方方面面。
-​     尽管自己之前对摄影了解不多，甚至没有专业的设备，只能依靠手机拍摄，但在马学长和谭学姐的帮助下，我逐渐学到了一些拍摄的技巧。他们教会了我，摄影并不仅仅是拍下一张照片那么简单，而是一门用镜头讲故事的艺术。通过他们的讲解，我了解到手机拍摄其实也能拍出很好的效果，关键在于如何去观察、构图和捕捉光线。比如
-        
-      </article>
-    </div>
   </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+      
+   
+
+
+<article id="post-三面错题与反思" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2024/11/11/%E4%B8%89%E9%9D%A2%E9%94%99%E9%A2%98%E4%B8%8E%E5%8F%8D%E6%80%9D/">三面错题与反思</a>
+      </h1>
+    
+  
+</div>
+
+        <div class="meta-info-bar">
+          <div class="meta-info">
+  <time class="dt-published" datetime="2024-11-11T13:33:28.000Z" itemprop="datePublished">2024-11-11</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    未分类 
+   
 </div>
   
-    <div class="post-wrapper">
-  <div class="post-wrap-left" data-aos="fade-up">
-    
-      <a class="post-link" href="/2024/11/04/%E5%B8%85%E7%85%A7/" aria-label="帅照"></a>
-    
-    
-    <div class="post-cover-left">
-      
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            1.9k 词 
+          </div>
+        </div>
         
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
         
-          <img data-src="/images/banner.webp" data-sizes="auto" alt="帅照" class="lazyload">
+          <div class="truncate-text">
+            
+              1.dp的运用题目链接：E-四叠半的电影_2024HUT实验室三面 (nowcoder.com)
+12345678910111213141516171819202122232425#include &lt;bits/stdc++.h&gt;#define IOS ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)using namespace std;typedef pair&lt;int,int&gt;PII;typedef long long ll;const int N=2e5+10;int a[N];bool mark[N];int main(){	IOS;	int n,k;	cin&gt;&gt;n&gt;&gt;k;	for(int i=1;i&lt;=n;i++)cin&gt;&gt;a[i];	int dp[n+1][k+1];	memset(dp,0x7f,sizeof(dp));	for(int i=0;i&lt;=n;i++)dp[i][0]=0;	for(int i=2;i&lt;=n-1;i++)...
+            
+          </div>
         
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2024-11-04</span>
-        <span><span class="icon-pencil"></span>28 字</span>
-        <span><span class="icon-clock"></span>1 分钟</span>
       </div>
-      <h2 class="post-title">帅照</h2>
-      <article class="post-article">
+
+         
+    </div>
+    
+     
+    <a class="right-panel  non-pic  " href="/2024/11/11/%E4%B8%89%E9%9D%A2%E9%94%99%E9%A2%98%E4%B8%8E%E5%8F%8D%E6%80%9D/">
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
+
+   
+
+
+<article id="post-青媒日常-一" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
         
-          
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2024/11/10/%E9%9D%92%E5%AA%92%E6%97%A5%E5%B8%B8-%E4%B8%80/">青媒日常(一)</a>
+      </h1>
+    
+  
+</div>
+
+        <div class="meta-info-bar">
+          <div class="meta-info">
+  <time class="dt-published" datetime="2024-11-10T03:28:22.000Z" itemprop="datePublished">2024-11-10</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    未分类 
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            1.4k 词 
+          </div>
+        </div>
+        
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              ​     进入青少年媒体中心的这些天让我体验到了充实而独特的生活。作为刚进入大学的新生，我决定加入青媒，是希望能在这里学习到一些新的技能、提升自己的表达能力，同时也能更好地记录和传播校园中的故事。青媒的工作涵盖了摄影、写作和编辑等多种内容，让我能够在短时间内全面接触到媒体工作的方方面面。
+​     尽管自己之前对摄影了解不多，甚至没有专业的设备，只能依靠手机拍摄，但在马学长和谭学姐的帮助下，我逐渐学到了一些拍摄的技巧。他们教会了我，摄影并不仅仅是拍下一张照片那么简单，而是一门用镜头讲故事的艺术。通过他们的讲解，我了解到手机拍摄其实也能拍出很好的效果，关键在于如何去观察、构图和捕捉光线。比如拍摄时要学会寻找自然光源，用光影来增强画面的层次感；有时还可以选择低角度拍摄，以突出主题的视觉效果。记得有一次我在活动中尝试学长学姐教的方法，最终拍出了一张自己很满意的照片。这种成就感让我对摄影产生了浓厚的兴趣，感觉手机镜头可以捕捉到很多平时不曾注意的细节。
+​      除了摄影，我的主要任务是撰写推文。和拍摄一样，写推文也需要一定的技巧。推文的内容通常简洁明了，但要做到既能准确传达信息，...
+            
+          </div>
+        
+      </div>
+
+         
+    </div>
+    
+     
+    <a class="right-panel  non-pic  " href="/2024/11/10/%E9%9D%92%E5%AA%92%E6%97%A5%E5%B8%B8-%E4%B8%80/">
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
+
+   
+
+
+<article id="post-帅照" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2024/11/04/%E5%B8%85%E7%85%A7/">帅照</a>
+      </h1>
+    
+  
+</div>
+
+        <div class="meta-info-bar">
+          <div class="meta-info">
+  <time class="dt-published" datetime="2024-11-04T02:04:18.000Z" itemprop="datePublished">2024-11-04</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    未分类 
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            32 词 
+          </div>
+        </div>
+        
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              
 我下辈子长这样
 
 儿子
@@ -273,79 +402,155 @@
 彭少
 
 古希腊掌管c++算法的神——左鸿中
+            
+          </div>
         
-      </article>
+      </div>
+
+         
     </div>
+    
+     
+    <a class="right-panel  non-pic  " href="/2024/11/04/%E5%B8%85%E7%85%A7/">
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
   </div>
+  
+</article>
+
+
+
+
+
+
+   
+
+
+<article id="post-军训场V题-双指针（Codeforces-Round-898-Div-4-F-Money-Trees-题解）" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/">军训场V题-双指针（Codeforces Round</a>
+      </h1>
+    
+  
+</div>
+
+        <div class="meta-info-bar">
+          <div class="meta-info">
+  <time class="dt-published" datetime="2024-11-04T00:37:50.000Z" itemprop="datePublished">2024-11-04</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    未分类 
+   
 </div>
   
-    <div class="post-wrapper">
-  <div class="post-wrap-right" data-aos="fade-up">
-    
-      <a class="post-link" href="/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/" aria-label="军训场V题-双指针（Codeforces Round"></a>
-    
-    
-    <div class="post-cover-right">
-      
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            3.4k 词 
+          </div>
+        </div>
         
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
         
-          <img data-src="/images/banner.webp" data-sizes="auto" alt="军训场V题-双指针（Codeforces Round" class="lazyload">
-        
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2024-11-04</span>
-        <span><span class="icon-pencil"></span>1.8k 字</span>
-        <span><span class="icon-clock"></span>7 分钟</span>
-      </div>
-      <h2 class="post-title">军训场V题-双指针（Codeforces Round</h2>
-      <article class="post-article">
-        
-          1.自我介绍作为一个刚敲代码没有多久的的&amp;#x3D;&amp;#x3D;小蒟蒻&amp;#x3D;&amp;#x3D;，也是第一次发博客:joy:,有一些没说好的地方希望各位大佬谅解，如果存在错误的地方也希望大家可以指出，那么话不多说，&amp;#x3D;&amp;#x3D;action!&amp;#x3D;&amp;#x3D;:star2:
+          <div class="truncate-text">
+            
+              1.自我介绍作为一个刚敲代码没有多久的的==小蒟蒻==，也是第一次发博客:joy:,有一些没说好的地方希望各位大佬谅解，如果存在错误的地方也希望大家可以指出，那么话不多说，==action!==:star2:
 
 2.题目军训训练场 - Virtual Judge 原题目
 
 
-3.分析题目根据观察题目我们不难发现Luca所能得到的子数组的数得满足&amp;#x3D;&amp;#x3D;两个条件&amp;#x3D;&amp;#x3D;：
+3.分析题目根据观察题目我们不难发现Luca所能得到的子数组的数得满足==两个条件==：
 1.高度h[i]能被下一个高度h[i]整除（最后一个数因为后面没有数了，得舍弃）。
-2.子数组里的所有a[i]相加
+2.子数组里的所有a[i]相加不能超过k。
+这思路不就来了吗，对数组里的数进行两个条件的判断，如果满足条件子数组个数每次加一，否则子数组个数固定，下一个数返回循环重新判断，直接暴力做。(==代码乱写的，但大概意思就是这样==)
+1234567891011if(h[j]%h[j+1]==0){ //第一个条件    for(int k=i;k&lt;=j;k++){...
+            
+          </div>
         
-      </article>
+      </div>
+
+         
     </div>
+    
+     
+    <a class="right-panel  non-pic  " href="/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/">
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
   </div>
+  
+</article>
+
+
+
+
+
+
+   
+
+
+<article id="post-Markdown简要语法" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2024/11/03/Markdown%E7%AE%80%E8%A6%81%E8%AF%AD%E6%B3%95/">Markdown基本语法</a>
+      </h1>
+    
+  
+</div>
+
+        <div class="meta-info-bar">
+          <div class="meta-info">
+  <time class="dt-published" datetime="2024-11-03T15:49:18.000Z" itemprop="datePublished">2024-11-03</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    未分类 
+   
 </div>
   
-    <div class="post-wrapper">
-  <div class="post-wrap-left" data-aos="fade-up">
-    
-      <a class="post-link" href="/2024/11/03/Markdown%E7%AE%80%E8%A6%81%E8%AF%AD%E6%B3%95/" aria-label="Markdown基本语法"></a>
-    
-    
-    <div class="post-cover-left">
-      
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            790 词 
+          </div>
+        </div>
         
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
         
-          <img data-src="/images/banner.webp" data-sizes="auto" alt="Markdown基本语法" class="lazyload">
-        
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2024-11-03</span>
-        <span><span class="icon-pencil"></span>346 字</span>
-        <span><span class="icon-clock"></span>1 分钟</span>
-      </div>
-      <h2 class="post-title">Markdown基本语法</h2>
-      <article class="post-article">
-        
-          Markdown基本语法标题## 二级标题
+          <div class="truncate-text">
+            
+              Markdown基本语法标题## 二级标题
 ### 三级标题
 #### 四级标题
 ##### 五级标题
 ###### 六级标题
-引用&amp;gt; 这是一段引用
-&amp;gt; https://www.bilibili.com/video/BV1JA411h7Gw/?spm_id_from=333.337.search-card.all.click&amp;amp;vd_source=1db826af20ac643dce96190fd8c9f0e3 bilibili net
+引用&gt; 这是一段引用
+&gt; https://www.bilibili.com/video/BV1JA411h7Gw/?spm_id_from=333.337.search-card.all.click&amp;vd_source=1db826af20ac643dce96190fd8c9f0e3 bilibili net
 有序列表：把大象关进冰箱需要3步：
 
 打开冰箱
@@ -357,412 +562,237 @@
 
 无序列表把大象关进冰箱需要3步：
 - 打开冰箱
-- 把大象
+- 把大象放进冰箱
+- 关上冰箱
+任务列表今天学习任务列表:
+- [ ] 今天
+- [x] 今天
+- [x] 今天
+代码块```c
+int main(){
+​    return 0;
+}
+```
+数学公式$$\frac{\partial f}{\partial x} = 2\sqrt{a}x$$
+行内数学公式$\lceil \frac{n}{2} \rcei...
+            
+          </div>
         
-      </article>
-    </div>
-  </div>
-</div>
-  
-    <div class="post-wrapper">
-  <div class="post-wrap-right" data-aos="fade-up">
-    
-      <a class="post-link" href="/2024/11/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" aria-label="我的第一篇博客"></a>
-    
-    
-    <div class="post-cover-right">
-      
-        
-        
-          <img data-src="/images/banner.webp" data-sizes="auto" alt="我的第一篇博客" class="lazyload">
-        
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2024-11-03</span>
-        <span><span class="icon-pencil"></span>2 字</span>
-        <span><span class="icon-clock"></span>1 分钟</span>
       </div>
-      <h2 class="post-title">我的第一篇博客</h2>
-      <article class="post-article">
-        
-          你好！
 
-        
-      </article>
+         
     </div>
+    
+     
+    <a class="right-panel  non-pic  " href="/2024/11/03/Markdown%E7%AE%80%E8%A6%81%E8%AF%AD%E6%B3%95/">
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
   </div>
+  
+</article>
+
+
+
+
+
+
+   
+
+
+<article id="post-我的第一篇博客" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2024/11/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">我的第一篇博客</a>
+      </h1>
+    
+  
+</div>
+
+        <div class="meta-info-bar">
+          <div class="meta-info">
+  <time class="dt-published" datetime="2024-11-03T14:32:04.000Z" itemprop="datePublished">2024-11-03</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    未分类 
+   
 </div>
   
-    <div class="post-wrapper">
-  <div class="post-wrap-left" data-aos="fade-up">
-    
-      <a class="post-link" href="/2024/11/02/hello-world/" aria-label="Hello World"></a>
-    
-    
-    <div class="post-cover-left">
-      
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            3 词 
+          </div>
+        </div>
         
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
         
-          <img data-src="/images/banner.webp" data-sizes="auto" alt="Hello World" class="lazyload">
+          <div class="truncate-text">
+            
+              你好！
+
+            
+          </div>
         
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2024-11-02</span>
-        <span><span class="icon-pencil"></span>75 字</span>
-        <span><span class="icon-clock"></span>1 分钟</span>
       </div>
-      <h2 class="post-title">Hello World</h2>
-      <article class="post-article">
+
+         
+    </div>
+    
+     
+    <a class="right-panel  non-pic  " href="/2024/11/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
+
+   
+
+
+<article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
         
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick StartCreate a new post1$ hexo new &amp;quot;My New Post&amp;quot;
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2024/11/02/hello-world/">Hello World</a>
+      </h1>
+    
+  
+</div>
+
+        <div class="meta-info-bar">
+          <div class="meta-info">
+  <time class="dt-published" datetime="2024-11-02T02:55:10.386Z" itemprop="datePublished">2024-11-02</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    未分类 
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            367 词 
+          </div>
+        </div>
+        
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick StartCreate a new post1$ hexo new "My New Post"
 
 More info: Writing
-Run server1$ hexo ser
+Run server1$ hexo server
+
+More info: Server
+Generate static files1$ hexo generate
+
+More info: Generating
+Deploy to remote sites1$ hexo deploy
+
+More info: Deployment
+
+            
+          </div>
         
-      </article>
-    </div>
-  </div>
-</div>
-  
-
-
-
-</section>
-          
-            <aside id="sidebar">
-  <div class="sidebar-wrapper ">
-    <div class="sidebar-wrap" data-aos="fade-up">
-      
-        <div class="sidebar-author">
-  <img data-src="/avatar/images/2.png" data-sizes="auto" alt="何琪旺" class="lazyload">
-  <div class="sidebar-author-name">何琪旺</div>
-  <div class="sidebar-description">我想一直游到海水变蓝</div>
-</div>
-<div class="sidebar-state">
-  <div class="sidebar-state-article">
-    <div>文章</div>
-    <div class="sidebar-state-number">7</div>
-  </div>
-  <div class="sidebar-state-category">
-    <div>分类</div>
-    <div class="sidebar-state-number">0</div>
-  </div>
-  <div class="sidebar-state-tag">
-    <div>标签</div>
-    <div class="sidebar-state-number">0</div>
-  </div>
-</div>
-<div class="sidebar-social">
-  
-</div>
-<div class="sidebar-menu">
-  
-    <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
-      <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">首页</div>
-    </div>
-  
-    <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
-      <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">归档</div>
-    </div>
-  
-    <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
-      <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">关于</div>
-    </div>
-  
-    <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
-      <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">友链</div>
-    </div>
-  
-</div>
-
-      
-      
-    </div>
-  </div>
-
-  
-    
-      
-
-    
-      
-
-    
-      
-
-    
-      
-  <div class="widget-wrapper">
-    <div class="widget-wrap" data-aos="fade-up">
-      <h3 class="widget-title">归档</h3>
-      <div class="widget">
-        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">十一月 2024</a></li></ul>
       </div>
+
+         
     </div>
-  </div>
-
-
     
-      
-  <div class="widget-wrapper">
-    <div class="widget-wrap" data-aos="fade-up">
-      <h3 class="widget-title">最新文章</h3>
-      <div class="widget">
-        <ul>
-          
-            <li>
-              <a href="/2024/11/11/%E4%B8%89%E9%9D%A2%E9%94%99%E9%A2%98%E4%B8%8E%E5%8F%8D%E6%80%9D/">三面错题与反思</a>
-            </li>
-          
-            <li>
-              <a href="/2024/11/10/%E9%9D%92%E5%AA%92%E6%97%A5%E5%B8%B8-%E4%B8%80/">青媒日常(一)</a>
-            </li>
-          
-            <li>
-              <a href="/2024/11/04/%E5%B8%85%E7%85%A7/">帅照</a>
-            </li>
-          
-            <li>
-              <a href="/2024/11/04/%E5%86%9B%E8%AE%AD%E5%9C%BAV%E9%A2%98-%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88Codeforces-Round-898-Div-4-F-Money-Trees-%E9%A2%98%E8%A7%A3%EF%BC%89/">军训场V题-双指针（Codeforces Round</a>
-            </li>
-          
-            <li>
-              <a href="/2024/11/03/Markdown%E7%AE%80%E8%A6%81%E8%AF%AD%E6%B3%95/">Markdown基本语法</a>
-            </li>
-          
-        </ul>
-      </div>
-    </div>
+     
+    <a class="right-panel  non-pic  " href="/2024/11/02/hello-world/">
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
   </div>
-
-
-    
   
-</aside>
+</article>
 
-          
-        </div>
-        <footer id="footer">
-  <div style="width: 100%; overflow: hidden">
-    <div class="footer-line"></div>
-  </div>
-  <div id="footer-info">
-    
-    <div>
-      <span class="icon-copyright"></span>
-      2024-2024
-      <span class="footer-info-sep"></span>
-      何琪旺
+
+
+
+
+
+
+
     </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
     
-      <div>
-        基于&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
-        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
-      </div>
-    
-    
-      <div>
-        <span class="icon-brush"></span>
-        3.9k
-        &nbsp;|&nbsp;
-        <span class="icon-coffee"></span>
-        00:17
-      </div>
-    
-    
-    
-    
-      <div>
-        <span class="icon-eye"></span>
-        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
-        &nbsp;|&nbsp;
-        <span class="icon-user"></span>
-        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
-      </div>
-    
+    © 2024 何琪旺<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> &amp; Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
   </div>
 </footer>
 
-        <div class="sidebar-top">
-          <img src="/images/taichi.png" height="50" width="50" alt="backtop">
-          <div class="arrow-up"></div>
-        </div>
-        <div id="mask"></div>
-      </div>
-      <nav id="mobile-nav">
-  <div class="sidebar-wrap">
-    
-      <div class="sidebar-author">
-  <img data-src="/avatar/images/2.png" data-sizes="auto" alt="何琪旺" class="lazyload">
-  <div class="sidebar-author-name">何琪旺</div>
-  <div class="sidebar-description">我想一直游到海水变蓝</div>
-</div>
-<div class="sidebar-state">
-  <div class="sidebar-state-article">
-    <div>文章</div>
-    <div class="sidebar-state-number">7</div>
-  </div>
-  <div class="sidebar-state-category">
-    <div>分类</div>
-    <div class="sidebar-state-number">0</div>
-  </div>
-  <div class="sidebar-state-tag">
-    <div>标签</div>
-    <div class="sidebar-state-number">0</div>
-  </div>
-</div>
-<div class="sidebar-social">
-  
-</div>
-<div class="sidebar-menu">
-  
-    <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
-      <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">首页</div>
     </div>
-  
-    <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
-      <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">归档</div>
-    </div>
-  
-    <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
-      <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">关于</div>
-    </div>
-  
-    <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
-      <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">友链</div>
-    </div>
-  
-</div>
-
-    
-  </div>
-  
-</nav>
-
-    </div>
-    
-    
-<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
-
-
-<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
-
-
-
-
-
-
-
-  
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-  
-<script src="https://npm.webcache.cn/mouse-firework@0.0.6/dist/index.umd.js" integrity="sha384-vkGvf25gm1C1PbcoD5dNfc137HzNL/hr1RKA5HniJOaawtvUmH5lTVFgFAruE9Ge" crossorigin="anonymous"></script>
-
-  
-
-
-
-
-
-
-
-
-<div id="lazy-script">
-  <div>
-    
-    
-      
-    
-    
-  </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
 </div>
 
 
+
+  </div>
   
-  
 
-
-
-  
-<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async=""></script>
-
-
-
-
-
-
-  
-  
 
 <script src="/bundle.js"></script><script>
-    var aosInit = () => {
-      AOS.init({
-        duration: 1000,
-        easing: "ease",
-        once: true,
-        offset: 50,
-      });
-    };
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', aosInit);
-    } else {
-      aosInit();
-    }
-  ;
-
-    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
-  ;
-
-    console.log(String.raw`%c 
- ______     ______     __     __    __     __  __    
-/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
-\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
- \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
-  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
-                                                  
-`,'color: #ff5252;')
-    console.log('%c Theme.Reimu v' + '0.3.4' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
-  ;
-
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then((registrations) => {
-      for (let registration of registrations) {
-        registration.unregister();
-      }
-    });
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
   }
+;
+
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
 </script></body></html>
