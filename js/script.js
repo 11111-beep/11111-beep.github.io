@@ -1,158 +1,138 @@
-(function () {
-  // A Simple EventListener
-  [Element, Document, Window].forEach((target) => {
-    target.prototype._addEventListener = target.prototype.addEventListener;
-    target.prototype._removeEventListener =
-      target.prototype.removeEventListener;
-    target.prototype.addEventListener = target.prototype.on = function (
-      name,
-      listener,
-      options
-    ) {
-      if (!this.__listeners__) {
-        this.__listeners__ = {};
-      }
-      if (!this.__listeners__[name]) {
-        this.__listeners__[name] = [];
-      }
-      // Check if the listener is already added
-      for (let [l, o] of this.__listeners__[name]) {
-        if (l === listener && JSON.stringify(o) === JSON.stringify(options)) {
-          return this; // Listener is already added, do nothing
-        }
-      }
-      this.__listeners__[name].push([listener, options]);
-      this._addEventListener(name, listener, options);
-      return this;
-    };
-    target.prototype.removeEventListener = target.prototype.off = function (
-      name,
-      listener,
-      options
-    ) {
-      if (!this.__listeners__ || !this.__listeners__[name]) {
-        return this;
-      }
-      if (!listener) {
-        // remove all event listeners
-        this.__listeners__[name].forEach(([listener, options]) => {
-          this.removeEventListener(name, listener, options);
-        });
-        delete this.__listeners__[name];
-        return this;
-      }
-      this._removeEventListener(name, listener, options);
-      this.__listeners__[name] = this.__listeners__[name].filter(
-        ([l, o]) =>
-          l !== listener || JSON.stringify(o) !== JSON.stringify(options)
-      );
-      if (this.__listeners__[name].length === 0) {
-        delete this.__listeners__[name];
-      }
-      return this;
-    };
-  });
-  // Simple Selector
-  window._$ = (selector) => {
-    if (
-      selector.startsWith("#") &&
-      !selector.includes(" ") &&
-      !selector.includes(".")
-    ) {
-      return document.getElementById(selector.slice(1));
-    }
-    return document.querySelector(selector);
-  };
-  window._$$ = (selector) => document.querySelectorAll(selector);
+(function($){
+  // Search
+  var $searchWrap = $('#search-form-wrap'),
+    isSearchAnim = false,
+    searchAnimDuration = 200;
 
-  // dark_mode
-  let mode = window.localStorage.getItem("dark_mode");
-  const setDarkMode = (isDark) => {
-    if (isDark) {
-      document.documentElement.setAttribute("data-theme", "dark");
-    } else {
-      document.documentElement.removeAttribute("data-theme");
-    }
-    const iconHtml = `<a id="nav-${
-      isDark ? "sun" : "moon"
-    }-btn" class="nav-icon dark-mode-btn"></a>`;
-    document
-      .getElementById("sub-nav")
-      .insertAdjacentHTML("beforeend", iconHtml);
-    document.body.dispatchEvent(
-      new CustomEvent(isDark ? "dark-theme-set" : "light-theme-set")
-    );
+  var startSearchAnim = function(){
+    isSearchAnim = true;
   };
-  if (mode === null) {
-    const domMode = document.documentElement.getAttribute("data-theme");
-    mode = domMode === "dark" ? "true" : "false";
-    window.localStorage.setItem("dark_mode", mode);
-  }
-  setDarkMode(mode === "true");
 
-  document
-    .querySelector(".dark-mode-btn")
-    .addEventListener("click", function () {
-      const id = this.id;
-      if (id == "nav-sun-btn") {
-        window.localStorage.setItem("dark_mode", "false");
-        document.body.dispatchEvent(new CustomEvent("light-theme-set"));
-        document.documentElement.removeAttribute("data-theme");
-        this.id = "nav-moon-btn";
-      } else {
-        window.localStorage.setItem("dark_mode", "true");
-        document.body.dispatchEvent(new CustomEvent("dark-theme-set"));
-        document.documentElement.setAttribute("data-theme", "dark");
-        this.id = "nav-sun-btn";
-      }
+  var stopSearchAnim = function(callback){
+    setTimeout(function(){
+      isSearchAnim = false;
+      callback && callback();
+    }, searchAnimDuration);
+  };
+
+  $('#nav-search-btn').on('click', function(){
+    if (isSearchAnim) return;
+
+    startSearchAnim();
+    $searchWrap.addClass('on');
+    stopSearchAnim(function(){
+      $('.search-form-input').focus();
     });
-
-  let oldScrollTop = 0;
-  document.addEventListener("scroll", () => {
-    let scrollTop =
-      document.documentElement.scrollTop || document.body.scrollTop;
-    const diffY = scrollTop - oldScrollTop;
-    window.diffY = diffY;
-    oldScrollTop = scrollTop;
-    if (diffY < 0) {
-      document
-        .getElementById("header-nav")
-        .classList.remove("header-nav-hidden");
-    } else {
-      _$("#header-nav").classList.add("header-nav-hidden");
-    }
   });
 
-  if (window.Pace) {
-    Pace.on('done', function () {
-      Pace.sources[0].elements = [];
+  $('.search-form-input').on('blur', function(){
+    startSearchAnim();
+    $searchWrap.removeClass('on');
+    stopSearchAnim();
+  });
+
+  // Share
+  $('body').on('click', function(){
+    $('.article-share-box.on').removeClass('on');
+  }).on('click', '.article-share-link', function(e){
+    e.stopPropagation();
+
+    var $this = $(this),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      id = 'article-share-box-' + $this.attr('data-id'),
+      title = $this.attr('data-title'),
+      offset = $this.offset();
+
+    if ($('#' + id).length){
+      var box = $('#' + id);
+
+      if (box.hasClass('on')){
+        box.removeClass('on');
+        return;
+      }
+    } else {
+      var html = [
+        '<div id="' + id + '" class="article-share-box">',
+          '<input class="article-share-input" value="' + url + '">',
+          '<div class="article-share-links">',
+            '<a href="https://twitter.com/intent/tweet?text=' + encodeURIComponent(title) + '&url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+            '<a href="https://www.linkedin.com/shareArticle?mini=true&url=' + encodedUrl + '" class="article-share-linkedin" target="_blank" title="LinkedIn"></a>',
+          '</div>',
+        '</div>'
+      ].join('');
+
+      var box = $(html);
+
+      $('body').append(box);
+    }
+
+    $('.article-share-box.on').hide();
+
+    box.css({
+      top: offset.top + 25,
+      left: offset.left
+    }).addClass('on');
+  }).on('click', '.article-share-box', function(e){
+    e.stopPropagation();
+  }).on('click', '.article-share-box-input', function(){
+    $(this).select();
+  }).on('click', '.article-share-box-link', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+
+    window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+  });
+
+  // Caption
+  $('.article-entry').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
+
+      var alt = this.alt;
+
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+
+      $(this).wrap('<a href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
     });
-  }
-})();
 
-var safeImport = async function(url, integrity) {
-  if (!integrity) {
-    return import(url);
-  }
-  const response = await fetch(url);
-  const moduleContent = await response.text();
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
 
-  const actualHash = await crypto.subtle.digest(
-    'SHA-384',
-    new TextEncoder().encode(moduleContent)
-  );
-  const hashBase64 = 'sha384-' + btoa(
-    String.fromCharCode(...new Uint8Array(actualHash))
-  );
-
-  if (hashBase64 !== integrity) {
-    throw new Error(`Integrity check failed for ${url}`);
+  if ($.fancybox){
+    $('.fancybox').fancybox();
   }
 
-  const blob = new Blob([moduleContent], { type: 'application/javascript' });
-  const blobUrl = URL.createObjectURL(blob);
-  const module = await import(blobUrl);
-  URL.revokeObjectURL(blobUrl);
+  // Mobile nav
+  var $container = $('#container'),
+    isMobileNavAnim = false,
+    mobileNavAnimDuration = 200;
 
-  return module;
-};
+  var startMobileNavAnim = function(){
+    isMobileNavAnim = true;
+  };
+
+  var stopMobileNavAnim = function(){
+    setTimeout(function(){
+      isMobileNavAnim = false;
+    }, mobileNavAnimDuration);
+  }
+
+  $('#main-nav-toggle').on('click', function(){
+    if (isMobileNavAnim) return;
+
+    startMobileNavAnim();
+    $container.toggleClass('mobile-nav-on');
+    stopMobileNavAnim();
+  });
+
+  $('#wrap').on('click', function(){
+    if (isMobileNavAnim || !$container.hasClass('mobile-nav-on')) return;
+
+    $container.removeClass('mobile-nav-on');
+  });
+})(jQuery);
