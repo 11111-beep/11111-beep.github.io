@@ -49,7 +49,7 @@
     <link rel="alternate" href="/atom.xml" title="何琪旺的小库" type="application/atom+xml">
   
   
-    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.png">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -156,7 +156,7 @@
 <header id="header">
   
     
-      <img fetchpriority="high" src="/images/banner.webp" alt="无了">
+      <img fetchpriority="high" src="/images/tiankong.jpg" alt="无了">
     
   
   <div id="header-outer">
@@ -207,6 +207,11 @@
       
       
       
+        <a data-aos="zoom-in" href="/2024/12/04/%E6%97%A0%E4%BA%86/#comments" class="article-comment-link">
+          <span class="post-comments-count valine-comment-count" data-xid="/2024/12/04/%E6%97%A0%E4%BA%86/" itemprop="commentCount"></span>
+          留言
+        </a>
+      
       
       
       
@@ -240,6 +245,8 @@
 
 </article>
 
+  <section id="comments" class="vcomment" data-aos="fade-up"></section>
+
 
 
 
@@ -261,7 +268,7 @@
 </div>
 </div>
         <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
-  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="何琪旺" class="lazyload">
+  <img data-src="/avatar/images/2.png" data-sizes="auto" alt="何琪旺" class="lazyload">
   <div class="sidebar-author-name">何琪旺</div>
   <div class="sidebar-description">一个个人博客，记录技术与生活点滴。</div>
 </div>
@@ -280,6 +287,14 @@
   </div>
 </div>
 <div class="sidebar-social">
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener external nofollow noreferrer"></a>
+    </div>
+  
+    <div class="icon-twitter sidebar-social-icon">
+      <a href=https://twitter.com itemprop="url" target="_blank" aria-label="twitter" rel="noopener external nofollow noreferrer"></a>
+    </div>
   
 </div>
 <div class="sidebar-menu">
@@ -385,7 +400,7 @@
 </div>
 </div>
       <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
-  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="何琪旺" class="lazyload">
+  <img data-src="/avatar/images/2.png" data-sizes="auto" alt="何琪旺" class="lazyload">
   <div class="sidebar-author-name">何琪旺</div>
   <div class="sidebar-description">一个个人博客，记录技术与生活点滴。</div>
 </div>
@@ -404,6 +419,14 @@
   </div>
 </div>
 <div class="sidebar-social">
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener external nofollow noreferrer"></a>
+    </div>
+  
+    <div class="icon-twitter sidebar-social-icon">
+      <a href=https://twitter.com itemprop="url" target="_blank" aria-label="twitter" rel="noopener external nofollow noreferrer"></a>
+    </div>
   
 </div>
 <div class="sidebar-menu">
@@ -560,6 +583,34 @@
         }
       </script>
       
+  
+<script src="https://npm.webcache.cn/valine@1.5.1/dist/Valine.min.js" integrity="sha384-3ma91AExDeMAZ1rjTjaP8V2A2obQE+s5ltKRwYlwdpArz9xVbp0tF3b0VV2ACNPn" crossorigin="anonymous" data-pjax></script>
+
+  <script data-pjax>
+    var GUEST_INFO = ['nick', 'mail', 'link'];
+    var guest_info = 'nick,mail,link'.split(',').filter((item) => {
+      return GUEST_INFO.indexOf(item) > -1
+    });
+    var recordIP = JSON.parse('false');
+    var highlight = JSON.parse('true');
+    var visitor = JSON.parse('false');
+
+    new Valine({
+      el: '.vcomment',
+      appId: "b7Uv4NXRiVPmsu7Tec7FIJDW-gzGzoHsz",
+      appKey: "u4aNkh761cZAuwwlF1oOpbqN",
+      placeholder: "Just go go",
+      pageSize: '10',
+      avatar: 'mm',
+      lang: 'zh-CN',
+      recordIP: recordIP,
+      highlight: highlight,
+      visitor: visitor,
+      requiredFields: guest_info,
+      path: window.location.pathname
+    });
+  </script>
+
 
 
 
