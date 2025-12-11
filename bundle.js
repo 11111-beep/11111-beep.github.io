@@ -1,21 +1,3 @@
-window.throttle = (func, limit) => {
-  let lastFunc, lastRan;
-
-  return (...args) => {
-    const context = this;
-    if (!lastRan || Date.now() - lastRan >= limit) {
-      func.apply(context, args);
-      lastRan = Date.now();
-    } else {
-      clearTimeout(lastFunc);
-      lastFunc = setTimeout(() => {
-        func.apply(context, args);
-        lastRan = Date.now();
-      }, limit - (Date.now() - lastRan));
-    }
-  };
-};
-
 (function () {
   // A Simple EventListener
   [Element, Document, Window].forEach((target) => {
@@ -27,9 +9,12 @@ window.throttle = (func, limit) => {
       listener,
       options
     ) {
-      this.__listeners__ = this.__listeners__ || {};
-      this.__listeners__[name] = this.__listeners__[name] || [];
-
+      if (!this.__listeners__) {
+        this.__listeners__ = {};
+      }
+      if (!this.__listeners__[name]) {
+        this.__listeners__[name] = [];
+      }
       // Check if the listener is already added
       for (let [l, o] of this.__listeners__[name]) {
         if (l === listener && JSON.stringify(o) === JSON.stringify(options)) {
@@ -68,49 +53,59 @@ window.throttle = (func, limit) => {
     };
   });
   // Simple Selector
-  window._$ = (selector) => document.querySelector(selector);
+  window._$ = (selector) => {
+    if (
+      selector.startsWith("#") &&
+      !selector.includes(" ") &&
+      !selector.includes(".")
+    ) {
+      return document.getElementById(selector.slice(1));
+    }
+    return document.querySelector(selector);
+  };
   window._$$ = (selector) => document.querySelectorAll(selector);
 
   // dark_mode
-  const themeButton = document.createElement("a");
-  themeButton.className = "nav-icon dark-mode-btn";
-  _$("#sub-nav").append(themeButton);
-
-  const osMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  function setTheme(config) {
-    const isAuto = config === "auto";
-    const isDark = config === "true" || (isAuto && osMode);
-
-    document.documentElement.setAttribute("data-theme", isDark ? "dark" : null);
-    localStorage.setItem("dark_mode", config);
-
-    themeButton.id = `nav-${
-      config === "true"
-        ? "moon"
-        : config === "false"
-        ? "sun"
-        : "circle-half-stroke"
-    }-btn`;
-
+  let mode = window.localStorage.getItem("dark_mode");
+  const setDarkMode = (isDark) => {
+    if (isDark) {
+      document.documentElement.setAttribute("data-theme", "dark");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+    }
+    const iconHtml = `<a id="nav-${
+      isDark ? "sun" : "moon"
+    }-btn" class="nav-icon dark-mode-btn"></a>`;
+    document
+      .getElementById("sub-nav")
+      .insertAdjacentHTML("beforeend", iconHtml);
     document.body.dispatchEvent(
-      new CustomEvent(`${isDark ? "dark" : "light"}-theme-set`)
+      new CustomEvent(isDark ? "dark-theme-set" : "light-theme-set")
     );
+  };
+  if (mode === null) {
+    const domMode = document.documentElement.getAttribute("data-theme");
+    mode = domMode === "dark" ? "true" : "false";
+    window.localStorage.setItem("dark_mode", mode);
   }
-  const savedMode =
-    localStorage.getItem("dark_mode") ||
-    document.documentElement.getAttribute("data-theme-mode") ||
-    "auto";
-  setTheme(savedMode);
+  setDarkMode(mode === "true");
 
-  themeButton.addEventListener(
-    "click",
-    throttle(() => {
-      const modes = ["auto", "false", "true"];
-      const nextMode =
-        modes[(modes.indexOf(localStorage.getItem("dark_mode")) + 1) % 3];
-      setTheme(nextMode);
-    }, 1000)
-  );
+  document
+    .querySelector(".dark-mode-btn")
+    .addEventListener("click", function () {
+      const id = this.id;
+      if (id == "nav-sun-btn") {
+        window.localStorage.setItem("dark_mode", "false");
+        document.body.dispatchEvent(new CustomEvent("light-theme-set"));
+        document.documentElement.removeAttribute("data-theme");
+        this.id = "nav-moon-btn";
+      } else {
+        window.localStorage.setItem("dark_mode", "true");
+        document.body.dispatchEvent(new CustomEvent("dark-theme-set"));
+        document.documentElement.setAttribute("data-theme", "dark");
+        this.id = "nav-sun-btn";
+      }
+    });
 
   let oldScrollTop = 0;
   document.addEventListener("scroll", () => {
@@ -120,119 +115,22 @@ window.throttle = (func, limit) => {
     window.diffY = diffY;
     oldScrollTop = scrollTop;
     if (diffY < 0) {
-      _$("#header-nav").classList.remove("header-nav-hidden");
+      document
+        .getElementById("header-nav")
+        .classList.remove("header-nav-hidden");
     } else {
       _$("#header-nav").classList.add("header-nav-hidden");
     }
   });
 
   if (window.Pace) {
-    Pace.on("done", () => {
+    Pace.on('done', function () {
       Pace.sources[0].elements = [];
     });
   }
-
-  // generateScheme
-  if (window.materialTheme) {
-    const extractor = new materialTheme.ColorThemeExtractor({
-      needTransition: false,
-    });
-    function appendStylesheet() {
-      const existingStyle = _$("#reimu-generated-theme-style");
-      if (existingStyle) {
-        return;
-      }
-      const css = `
-    :root {
-      --red-0: var(--md-sys-color-primary-light);
-      --red-1: color-mix(in srgb, var(--md-sys-color-primary-light) 90%, white);
-      --red-2: color-mix(in srgb, var(--md-sys-color-primary-light) 75%, white);
-      --red-3: color-mix(in srgb, var(--md-sys-color-primary-light) 55%, white);
-      --red-4: color-mix(in srgb, var(--md-sys-color-primary-light) 40%, white);
-      --red-5: color-mix(in srgb, var(--md-sys-color-primary-light) 15%, white);
-      --red-5-5: color-mix(in srgb, var(--md-sys-color-primary-light) 10%, white);
-      --red-6: color-mix(in srgb, var(--md-sys-color-primary-light) 5%, white);
-    
-      --color-border: var(--red-3);
-      --color-link: var(--red-1);
-      --color-meta-shadow: var(--red-6);
-      --color-h2-after: var(--red-1);
-      --color-red-6-shadow: var(--red-2);
-      --color-red-3-shadow: var(--red-3);
-    }
-    
-    [data-theme="dark"]:root {
-      --red-0: var(--red-1);
-      --red-1: color-mix(in srgb, var(--md-sys-color-primary-dark) 90%, white);
-      --red-2: color-mix(in srgb, var(--md-sys-color-primary-dark) 80%, white);
-      --red-3: color-mix(in srgb, var(--md-sys-color-primary-dark) 75%, white);
-      --red-4: color-mix(in srgb, var(--md-sys-color-primary-dark) 30%, transparent);
-      --red-5: color-mix(in srgb, var(--md-sys-color-primary-dark) 20%, transparent);
-      --red-5-5: color-mix(in srgb, var(--md-sys-color-primary-dark) 10%, transparent);
-      --red-6: color-mix(in srgb, var(--md-sys-color-primary-dark) 5%, transparent);
-      
-      --color-border: var(--red-5);
-    }
-    `;
-
-      const style = document.createElement("style");
-      style.id = "reimu-generated-theme-style";
-      style.textContent = css;
-      document.body.appendChild(style);
-    }
-    async function generateScheme(imageFile) {
-      const scheme = await extractor.generateThemeSchemeFromImage(imageFile);
-      document.documentElement.style.setProperty(
-        "--md-sys-color-primary-light",
-        extractor.hexFromArgb(scheme.schemes.light.props.primary)
-      );
-      document.documentElement.style.setProperty(
-        "--md-sys-color-primary-dark",
-        extractor.hexFromArgb(scheme.schemes.dark.props.primary)
-      );
-
-      const existingStyle = _$("#reimu-generated-theme-style");
-      if (existingStyle) {
-        return;
-      }
-      appendStylesheet();
-    }
-
-    window.generateSchemeHandler = () => {
-      if (window.bannerElement?.src) {
-        if (window.bannerElement.complete) {
-          generateScheme(bannerElement);
-        } else {
-          window.bannerElement.addEventListener(
-            "load",
-            () => {
-              generateScheme(bannerElement);
-            },
-            { once: true }
-          );
-        }
-      } else if (window.bannerElement?.style.background) {
-        const rgba = window.bannerElement.style.background.match(/\d+/g);
-        const scheme = extractor.generateThemeScheme({
-          r: parseInt(rgba[0]),
-          g: parseInt(rgba[1]),
-          b: parseInt(rgba[2]),
-        });
-        document.documentElement.style.setProperty(
-          "--md-sys-color-primary-light",
-          extractor.hexFromArgb(scheme.schemes.light.props.primary)
-        );
-        document.documentElement.style.setProperty(
-          "--md-sys-color-primary-dark",
-          extractor.hexFromArgb(scheme.schemes.dark.props.primary)
-        );
-        appendStylesheet();
-      }
-    };
-  }
 })();
 
-var safeImport = async (url, integrity) => {
+var safeImport = async function(url, integrity) {
   if (!integrity) {
     return import(url);
   }
@@ -240,17 +138,18 @@ var safeImport = async (url, integrity) => {
   const moduleContent = await response.text();
 
   const actualHash = await crypto.subtle.digest(
-    "SHA-384",
+    'SHA-384',
     new TextEncoder().encode(moduleContent)
   );
-  const hashBase64 =
-    "sha384-" + btoa(String.fromCharCode(...new Uint8Array(actualHash)));
+  const hashBase64 = 'sha384-' + btoa(
+    String.fromCharCode(...new Uint8Array(actualHash))
+  );
 
   if (hashBase64 !== integrity) {
     throw new Error(`Integrity check failed for ${url}`);
   }
 
-  const blob = new Blob([moduleContent], { type: "application/javascript" });
+  const blob = new Blob([moduleContent], { type: 'application/javascript' });
   const blobUrl = URL.createObjectURL(blob);
   const module = await import(blobUrl);
   URL.revokeObjectURL(blobUrl);
@@ -271,10 +170,27 @@ var debounce = (func, delay) => {
   };
 };
 
+var throttle = (func, limit) => {
+  let lastFunc, lastRan;
+
+  return (...args) => {
+    const context = this;
+    if (!lastRan || Date.now() - lastRan >= limit) {
+      func.apply(context, args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(lastFunc);
+      lastFunc = setTimeout(() => {
+        func.apply(context, args);
+        lastRan = Date.now();
+      }, limit - (Date.now() - lastRan));
+    }
+  };
+};
+
 var __aosScrollHandler;
 var __aosResizeHandler;
 var __observer;
-var __aosBodyResizeObserver;
 
 (() => {
   let options = {
@@ -483,14 +399,6 @@ var __aosBodyResizeObserver;
 
     observe(refreshHard);
 
-    if (window.ResizeObserver && _$("#main")) {
-      __aosBodyResizeObserver?.disconnect?.();
-      __aosBodyResizeObserver = new ResizeObserver(
-        debounce(() => refresh(), options.debounceDelay)
-      );
-      __aosBodyResizeObserver.observe(_$("#main"));
-    }
-
     return $aosElements;
   };
 
@@ -531,22 +439,14 @@ var scrollIntoViewAndWait = (element) => {
 
 // anchor
 _$$(
-  ".article-entry h1>a:first-of-type, .article-entry h2>a:first-of-type, .article-entry h3>a:first-of-type, .article-entry h4>a:first-of-type, .article-entry h5>a:first-of-type, .article-entry h6>a:first-of-type"
+  ".article-entry h1>a, .article-entry h2>a, .article-entry h3>a, .article-entry h4>a, .article-entry h5>a, .article-entry h6>a"
 ).forEach((element) => {
-  if (window.REIMU_CONFIG.icon_font) {
+  if (window.icon_font) {
     // iconfont
-    element.innerHTML = window.REIMU_CONFIG.anchor_icon
-      ? `&#x${window.REIMU_CONFIG.anchor_icon};`
-      : window.REIMU_CONFIG.anchor_icon === false
-      ? ""
-      : "&#xe635;";
+    element.innerHTML = "&#xe635;";
   } else {
     // fontawesome
-    element.innerHTML = window.REIMU_CONFIG.anchor_icon
-      ? `&#x${window.REIMU_CONFIG.anchor_icon};`
-      : window.REIMU_CONFIG.anchor_icon === false
-      ? ""
-      : "&#xf292;";
+    element.innerHTML = "&#xf292;";
   }
 });
 
@@ -560,75 +460,43 @@ _$$(".article-entry img").forEach((element) => {
     return;
   const a = document.createElement("a");
   a.href ? (a.href = element.src) : a.setAttribute("href", element.src);
-  if (element.naturalWidth || element.naturalHeight) {
-    a.dataset.pswpWidth = element.naturalWidth;
-    a.dataset.pswpHeight = element.naturalHeight;
-  } else {
-    console.warn(
-      "Image naturalWidth and naturalHeight cannot be obtained right now, fallback to onload."
-    );
-    element.onload = () => {
-      a.dataset.pswpWidth = element.naturalWidth;
-      a.dataset.pswpHeight = element.naturalHeight;
-    };
-  }
+  a.dataset.pswpWidth = element.naturalWidth;
+  a.dataset.pswpHeight = element.naturalHeight;
   a.target = "_blank";
   a.classList.add("article-gallery-item");
   element.parentNode.insertBefore(a, element);
   element.parentNode.removeChild(element);
   a.appendChild(element);
 });
+_$$(".article-gallery a.article-gallery-img").forEach((a) => {
+  a.dataset.pswpWidth = a.children[0].naturalWidth;
+  a.dataset.pswpHeight = a.children[0].naturalHeight;
+});
 window.lightboxStatus = "ready";
 window.dispatchEvent(new Event("lightbox:ready"));
-
-// table wrap
-_$$(".article-entry table").forEach((element) => {
-  if (element.closest("figure.highlight")) return;
-  const wrapper = document.createElement("div");
-  wrapper.classList.add("table-wrapper");
-  element.parentNode?.insertBefore(wrapper, element);
-  element.parentNode?.removeChild(element);
-  wrapper.appendChild(element);
-});
-
-// wrap details content for old @reimujs/hexo-renderer-markdown-it-plus
-_$$(".article-entry details.custom-block").forEach((element) => {
-  if (element.querySelector(".detail-content")) return;
-  const summary = element.querySelector("summary");
-  if (!summary) return;
-  const detailContent = document.createElement("div");
-  detailContent.classList.add("detail-content");
-  
-  const range = document.createRange();
-  range.setStartAfter(summary);
-  range.setEndAfter(element.lastChild);
-  detailContent.appendChild(range.extractContents());
-  
-  element.appendChild(detailContent);
-});
 
 // Mobile nav
 var isMobileNavAnim = false;
 
-_$("#main-nav-toggle")
+document
+  .getElementById("main-nav-toggle")
   .off("click")
-  .on("click", () => {
+  .on("click", function () {
     if (isMobileNavAnim) return;
     isMobileNavAnim = true;
     document.body.classList.toggle("mobile-nav-on");
-    _$("#mask").classList.remove("hide");
     setTimeout(() => {
       isMobileNavAnim = false;
-    }, 300);
+    }, 200);
   });
 
-_$("#mask")
+document
+  .getElementById("mask")
   ?.off("click")
-  .on("click", () => {
+  .on("click", function () {
     if (isMobileNavAnim || !document.body.classList.contains("mobile-nav-on"))
       return;
     document.body.classList.remove("mobile-nav-on");
-    _$("#mask").classList.add("hide");
   });
 
 _$$(".sidebar-toc-btn").forEach((element) => {
@@ -689,7 +557,7 @@ _$$(".article-entry img").forEach((element) => {
 // to top
 var sidebarTop = _$(".sidebar-top");
 if (sidebarTop) {
-  sidebarTop.style.transition = "all .3s";
+  sidebarTop.style.transition = "opacity 1s";
   sidebarTop.off("click").on("click", () => {
     window.scrollTo({
       top: 0,
@@ -698,7 +566,7 @@ if (sidebarTop) {
   });
   if (document.documentElement.scrollTop < 10) {
     sidebarTop.style.opacity = 0;
-  }
+  }  
 }
 
 var __sidebarTopScrollHandler;
@@ -719,22 +587,20 @@ __sidebarTopScrollHandler = () => {
 window.on("scroll", __sidebarTopScrollHandler);
 
 // toc
-_$$("#mobile-nav .toc li").forEach((element) => {
+_$$(".toc li").forEach((element) => {
   element.off("click").on("click", () => {
     if (isMobileNavAnim || !document.body.classList.contains("mobile-nav-on"))
       return;
     document.body.classList.remove("mobile-nav-on");
-    _$("#mask").classList.add("hide");
   });
 });
 
-_$$("#mobile-nav .sidebar-menu-link-dummy").forEach((element) => {
+_$$(".sidebar-menu-link-dummy").forEach((element) => {
   element.off("click").on("click", () => {
     if (isMobileNavAnim || !document.body.classList.contains("mobile-nav-on"))
       return;
     setTimeout(() => {
       document.body.classList.remove("mobile-nav-on");
-      _$("#mask").classList.add("hide");
     }, 200);
   });
 });
@@ -751,9 +617,7 @@ function tocInit() {
 
   const anchorScroll = (event, index) => {
     event.preventDefault();
-    const target = document.getElementById(
-      decodeURI(event.currentTarget.getAttribute("href")).slice(1)
-    );
+    const target = _$(decodeURI(event.currentTarget.getAttribute("href")));
     activeLock = index;
     scrollIntoViewAndWait(target).then(() => {
       activateNavByIndex(index);
@@ -764,9 +628,7 @@ function tocInit() {
   const sections = [...navItems].map((element, index) => {
     const link = element.querySelector("a.toc-link");
     link.off("click").on("click", (e) => anchorScroll(e, index));
-    const anchor = document.getElementById(
-      decodeURI(link.getAttribute("href")).slice(1)
-    );
+    const anchor = _$(decodeURI(link.getAttribute("href")));
     if (!anchor) return null;
     const alink = anchor.querySelector("a");
     alink?.off("click").on("click", (e) => anchorScroll(e, index));
@@ -791,13 +653,11 @@ function tocInit() {
 
     let parent = target.parentNode;
 
-    while (!parent.matches(".sidebar-toc-sidebar")) {
+    while (!parent.matches(".sidebar-toc")) {
       if (parent.matches("li")) {
         parent.classList.add("active");
-        const t = document.getElementById(
-          decodeURI(
-            parent.querySelector("a.toc-link").getAttribute("href").slice(1)
-          )
+        const t = _$(
+          decodeURI(parent.querySelector("a.toc-link").getAttribute("href"))
         );
         if (t) {
           t.classList.add("active");
@@ -806,7 +666,11 @@ function tocInit() {
       parent = parent.parentNode;
     }
     // Scrolling to center active TOC element if TOC content is taller than viewport.
-    if (!_$(".sidebar-toc-sidebar").classList.contains("hidden")) {
+    if (
+      !document
+        .querySelector(".sidebar-toc-sidebar")
+        .classList.contains("hidden")
+    ) {
       const tocWrapper = _$(".sidebar-toc-wrapper");
       tocWrapper.scrollTo({
         top:
@@ -864,119 +728,17 @@ window
   });
 tocInit();
 
-_$(".sponsor-button")
-  ?.off("click")
-  .on("click", () => {
-    _$(".sponsor-button")?.classList.toggle("active");
-    _$(".sponsor-tip")?.classList.toggle("active");
-    _$(".sponsor-qr")?.classList.toggle("active");
-  });
-
-var shareWeixinHandler;
-if (shareWeixinHandler) {
-  document.off("click", shareWeixinHandler);
-}
-shareWeixinHandler = (e) => {
-  if (e.target.closest(".share-icon.icon-weixin")) return;
-  const sw = _$("#share-weixin");
-  if (sw && sw.classList.contains("active")) {
-    sw.classList.remove("active");
-    sw.addEventListener(
-      "transitionend",
-      function handler() {
-        sw.style.display = "none";
-        sw.removeEventListener("transitionend", handler);
-      },
-      { once: true },
-    );
-  }
-};
-document.on("click", shareWeixinHandler);
-
-_$(".share-icon.icon-weixin")
-  ?.off("click")
-  .on("click", function (e) {
-    const iconPosition = this.getBoundingClientRect();
-    const shareWeixin = this.querySelector("#share-weixin");
-
-    if (iconPosition.x - 148 < 0) {
-      shareWeixin.style.left = `-${iconPosition.x - 10}px`;
-    } else if (iconPosition.x + 172 > window.innerWidth) {
-      shareWeixin.style.left = `-${310 - window.innerWidth + iconPosition.x}px`;
-    } else {
-      shareWeixin.style.left = "-138px";
-    }
-    if (e.target === this) {
-      const el = shareWeixin;
-      if (!el) return;
-      if (!el.classList.contains("active")) {
-        el.style.display = "block";
-        requestAnimationFrame(() => {
-          el.classList.add("active");
-        });
-      } else {
-        el.classList.remove("active");
-        const onEnd = (ev) => {
-          if (ev.propertyName === "opacity") {
-            el.style.display = "none";
-            el.removeEventListener("transitionend", onEnd);
-          }
-        };
-        el.addEventListener("transitionend", onEnd);
-      }
-    }
-    // if contains img return
-    if (_$(".share-weixin-canvas").children.length) {
-      return;
-    }
-    const { cover, excerpt, description, title, stripContent, author } =
-      window.REIMU_POST;
-    _$("#share-weixin-banner").src = cover;
-    _$("#share-weixin-title").innerText = title;
-    _$("#share-weixin-desc").innerText = excerpt || description || stripContent;
-    _$("#share-weixin-author").innerText = "By: " + author;
-    QRCode.toDataURL(window.REIMU_POST.url, function (error, dataUrl) {
-      if (error) {
-        console.error(error);
-        return;
-      }
-      _$("#share-weixin-qr").src = dataUrl;
-      snapdom
-        .toPng(_$(".share-weixin-dom"))
-        .then((img) => {
-          _$(".share-weixin-canvas").appendChild(img);
-        })
-        .catch(() => {
-          // we assume that the error is caused by the browser's security policy
-          // so we will remove the banner and try again
-          _$("#share-weixin-banner").remove();
-          snapdom
-            .toPng(_$(".share-weixin-dom"))
-            .then((img) => {
-              _$(".share-weixin-canvas").appendChild(img);
-            })
-            .catch(() => {
-              console.error("Failed to generate weixin share image.");
-            });
-        });
-    });
-  });
-
-var imgElement = _$("#header > img");
-if (imgElement.src || imgElement.style.background) {
-  window.bannerElement = imgElement;
-} else {
-  window.bannerElement = _$("#header > picture img");
-}
-
-window.generateSchemeHandler?.();
-;
+_$('.sponsor-button-wrapper')?.off('click').on('click', () => {
+  _$('.sponsor-button-wrapper')?.classList.toggle('active');
+  _$('.sponsor-tip')?.classList.toggle('active');
+  _$('.sponsor-qr')?.classList.toggle('active');
+});;
 (() => {
   _$$("pre").forEach((element) => {
     const parent = element.parentNode;
     if (!parent.classList.contains("gutter")) {
       const div = document.createElement("div");
-      div.className = "code-area";
+      div.classList.add("code-area");
       parent.insertBefore(div, element);
       parent.removeChild(element);
       div.appendChild(element);
@@ -994,32 +756,20 @@ window.generateSchemeHandler?.();
       <div class="icon-chevron-down code-expand"></div>
     </div>
   </div>`;
-  const reimuConfig = window.REIMU_CONFIG?.code_block || {};
-  const expandThreshold = reimuConfig.expand;
-
   _$$("figure.highlight").forEach((element) => {
     if (!element.querySelector(".code-figcaption")) {
       element.insertAdjacentHTML("afterbegin", codeFigcaption);
     }
-    if (expandThreshold !== undefined) {
-      if (
-        expandThreshold === false ||
-        (typeof expandThreshold === "number" &&
-          element.querySelectorAll("td.code .line").length > expandThreshold)
-      ) {
-        element.classList.add("code-closed");
-        // force rerender element to refresh AOS
-        element.style.display = "none";
-        void element.offsetWidth;
-        element.style.display = "";
-      }
-    }
   });
   // 代码收缩
   _$$(".code-expand").forEach((element) => {
-    element.off("click").on("click", () => {
+    element.off("click").on("click", function () {
       const figure = element.closest("figure");
-      figure.classList.toggle("code-closed");
+      if (figure.classList.contains("code-closed")) {
+        figure.classList.remove("code-closed");
+      } else {
+        figure.classList.add("code-closed");
+      }
     });
   });
 
@@ -1047,41 +797,29 @@ window.generateSchemeHandler?.();
     return;
   }
 
-  const tips = window.REIMU_CONFIG?.clipboard_tips || {};
-
   // 代码复制
   const clipboard = new ClipboardJS(".code-copy", {
     text: (trigger) => {
-      const codeElement =
-        trigger.parentNode.parentNode.parentNode.querySelector("td.code");
-      let selectedText = codeElement ? codeElement.innerText : "";
+      const selection = window.getSelection();
+      const range = document.createRange();
 
-      if (
-        tips.copyright?.enable &&
-        selectedText.length >= tips.copyright?.count
-      ) {
-        selectedText = selectedText + "\n\n" + (tips.copyright?.content ?? "");
+      range.selectNodeContents(trigger.parentNode.parentNode.nextElementSibling.querySelector("td.code"));
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      let selectedText = selection.toString();
+      if (window.clipboard_tips.copyright?.enable) {
+        if (selectedText.length >= window.clipboard_tips.copyright?.count) {
+          selectedText = selectedText + "\n\n" + window.clipboard_tips.copyright?.content ?? '';
+        }
       }
       return selectedText;
     },
   });
-  clipboard.on("success", (e) => {
+  clipboard.on("success", function (e) {
     e.trigger.classList.add("icon-check");
     e.trigger.classList.remove("icon-copy");
-    const successConfig = tips.success;
-    let successText = "Copy successfully (*^▽^*)";
-    if (typeof successConfig === "string") {
-      successText = successConfig;
-    } else if (typeof successConfig === "object") {
-      const lang = document.documentElement.lang;
-      const key = Object.keys(successConfig).find(
-        (key) => key.toLowerCase() === lang.toLowerCase()
-      );
-      if (key && successConfig[key]) {
-        successText = successConfig[key];
-      }
-    }
-    _$("#copy-tooltip").innerText = successText;
+    _$("#copy-tooltip").innerText = window.clipboard_tips.success;
     _$("#copy-tooltip").style.opacity = 1;
     setTimeout(() => {
       _$("#copy-tooltip").style.opacity = 0;
@@ -1091,23 +829,10 @@ window.generateSchemeHandler?.();
     e.clearSelection();
   });
 
-  clipboard.on("error", (e) => {
+  clipboard.on("error", function (e) {
     e.trigger.classList.add("icon-times");
     e.trigger.classList.remove("icon-copy");
-    const failConfig = tips.fail;
-    let failText = "Copy failed (ﾟ⊿ﾟ)ﾂ";
-    if (typeof failConfig === "string") {
-      failText = failConfig;
-    } else if (typeof failConfig === "object") {
-      const lang = document.documentElement.lang;
-      const key = Object.keys(failConfig).find(
-        (key) => key.toLowerCase() === lang.toLowerCase()
-      );
-      if (key && failConfig[key]) {
-        failText = failConfig[key];
-      }
-    }
-    _$("#copy-tooltip").innerText = failText;
+    _$("#copy-tooltip").innerText = window.clipboard_tips.fail;
     _$("#copy-tooltip").style.opacity = 1;
     setTimeout(() => {
       _$("#copy-tooltip").style.opacity = 0;
@@ -1116,59 +841,10 @@ window.generateSchemeHandler?.();
     }, 1000);
   });
 
-  // Clean up on PJAX
+  // clear clipboard when pjax:send
   if (window.Pjax) {
-    window.addEventListener(
-      "pjax:send",
-      () => {
-        clipboard.destroy();
-      },
-      { once: true }
-    );
-  }
-
-  // Since we add code-closed class to the figure element, we need to refresh AOS
-  if (window.AOS) {
-    AOS.refresh();
+    window.addEventListener("pjax:send", () => {
+      clipboard.destroy();
+    }, { once: true });
   }
 })();
-;
-var tabsEls = _$$(".nav-tabs li.tab a");
-tabsEls.forEach((tab) => {
-  tab.off("click").on("click", function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    const targetId = this.getAttribute("class").substring(1);
-    const tabsContainer = this.closest(".tabs");
-    const tabContent = tabsContainer.querySelector(".tab-content");
-    const panes = tabContent.querySelectorAll(".tab-pane");
-    panes.forEach((pane) => pane.classList.remove("active"));
-    document.getElementById(targetId).classList.add("active");
-    const navTabs = tabsContainer.querySelector(".nav-tabs");
-    const tabLinks = navTabs.querySelectorAll("li.tab");
-    tabLinks.forEach((li) => li.classList.remove("active"));
-    this.parentElement.classList.add("active");
-
-    const indicator = navTabs.querySelector(".tab-indicator");
-    const activeTab = this.parentElement;
-    const activeRect = activeTab.getBoundingClientRect();
-    const navRect = navTabs.getBoundingClientRect();
-    indicator.style.left = activeRect.left - navRect.left + "px";
-    indicator.style.width = activeRect.width + "px";
-
-    return false;
-  });
-});
-
-var tabsContainers = _$$(".tabs");
-tabsContainers.forEach((container) => {
-  const navTabs = container.querySelector(".nav-tabs");
-  const activeTab = navTabs.querySelector("li.tab.active");
-  if (activeTab) {
-    const indicator = navTabs.querySelector(".tab-indicator");
-    const activeRect = activeTab.getBoundingClientRect();
-    const navRect = navTabs.getBoundingClientRect();
-    indicator.style.left = activeRect.left - navRect.left + "px";
-    indicator.style.width = activeRect.width + "px";
-  }
-});
