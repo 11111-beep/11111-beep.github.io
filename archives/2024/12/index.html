@@ -29,17 +29,17 @@
 
   
   
-    <meta name="description" content="一个个人博客，记录技术与生活点滴。">
+    <meta name="description" content="Lucky Forever~~">
 <meta property="og:type" content="website">
 <meta property="og:title" content="何琪旺的小库">
 <meta property="og:url" content="https://11111-beep.github.io/archives/2024/12/index.html">
 <meta property="og:site_name" content="何琪旺的小库">
-<meta property="og:description" content="一个个人博客，记录技术与生活点滴。">
+<meta property="og:description" content="Lucky Forever~~">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://11111-beep.github.io/images/banner.webp">
 <meta property="article:author" content="何琪旺">
 <meta property="article:tag" content="编程">
-<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Android">
 <meta property="article:tag" content="技术">
 <meta property="article:tag" content="生活">
 <meta name="twitter:card" content="summary">
@@ -250,7 +250,7 @@
         <div class="sidebar-author">
   <img data-src="/avatar/1.jpg" data-sizes="auto" alt="何琪旺" class="lazyload">
   <div class="sidebar-author-name">何琪旺</div>
-  <div class="sidebar-description">一个个人博客，记录技术与生活点滴。</div>
+  <div class="sidebar-description">Lucky Forever~~</div>
 </div>
 <div class="sidebar-state">
   <div class="sidebar-state-article">
@@ -267,6 +267,10 @@
   </div>
 </div>
 <div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:hqw1554799@gmail.com itemprop="url" target="_blank" aria-label="email" rel="noopener external nofollow noreferrer"></a>
+    </div>
   
     <div class="icon-github sidebar-social-icon">
       <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener external nofollow noreferrer"></a>
@@ -443,7 +447,7 @@
       <div class="sidebar-author">
   <img data-src="/avatar/1.jpg" data-sizes="auto" alt="何琪旺" class="lazyload">
   <div class="sidebar-author-name">何琪旺</div>
-  <div class="sidebar-description">一个个人博客，记录技术与生活点滴。</div>
+  <div class="sidebar-description">Lucky Forever~~</div>
 </div>
 <div class="sidebar-state">
   <div class="sidebar-state-article">
@@ -460,6 +464,10 @@
   </div>
 </div>
 <div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:hqw1554799@gmail.com itemprop="url" target="_blank" aria-label="email" rel="noopener external nofollow noreferrer"></a>
+    </div>
   
     <div class="icon-github sidebar-social-icon">
       <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener external nofollow noreferrer"></a>
@@ -575,6 +583,87 @@
 
 
 
+  
+<script src="https://npm.webcache.cn/theme-shokax-pjax@0.0.3/dist/index.umd.js" integrity="sha384-xneY1WY8hOfUzswrE4CrYq35N4BdVcxqxwHPr9zawE&#x2F;jMSCxD+jAPU55x&#x2F;jj3wlf" crossorigin="anonymous"></script>
+
+  <script>
+    function loadScripts(scripts, index) {
+      if (index < scripts.length) {
+        const script = scripts[index];
+        const src = script.getAttribute('src');
+
+        const loadScript = (scriptContent) => {
+          const scriptElement = document.createElement('script');
+          if (script.type) {
+            scriptElement.type = script.type;
+          }
+          scriptElement.text = scriptContent;
+          document.head.appendChild(scriptElement);
+          loadScripts(scripts, index + 1);
+        }
+
+        if (src) {
+          fetch(src)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+              }
+              return response.text();
+            })
+            .then(scriptContent => {
+              loadScript(scriptContent);
+            })
+            .catch(error => {
+              console.error('Failed to load script:', src, error);
+            });
+        } else {
+          loadScript(script.text);
+        }
+      }
+    }
+    window.Pjax && new window.Pjax({
+      selectors: [
+        "#header img",
+        "head title",
+        "#header-title",
+        "#subtitle-wrap",
+        "#content",
+        '#mobile-nav',
+        '#lazy-script'
+      ],
+      switches: {
+        "#header-title": Pjax.switches.outerHTML,
+        "#subtitle-wrap": Pjax.switches.outerHTML,
+        "#content": function(oldEl, newEl) {
+          const scripts = [...newEl.querySelectorAll('script')];
+          loadScripts(scripts, 0);
+          oldEl.outerHTML = newEl.outerHTML
+          this.onSwitch()
+        },
+        "#mobile-nav": Pjax.switches.outerHTML,
+        '#lazy-script': function(oldEl, newEl) {
+          const scripts = [...newEl.querySelectorAll('script')];
+          loadScripts(scripts, 0);
+          oldEl.innerHTML = newEl.innerHTML
+          this.onSwitch()
+        },
+      },
+      cacheBust: false
+    })
+  </script>
+  
+<script src="/js/pjax.js"></script>
+
+
+
+
+  <script>
+    function initLive2d() {
+      live2d.init("https://fastly.jsdelivr.net/gh/D-Sketon/plugin-live2d/", {themeTipsPath: ""});
+    }
+  </script>
+  
+<script src="https://fastly.jsdelivr.net/gh/D-Sketon/plugin-live2d/js/live2d-autoload.js" onload="initLive2d &amp;&amp; initLive2d()" async></script>
 
 
 
