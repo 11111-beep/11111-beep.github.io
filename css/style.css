@@ -947,6 +947,32 @@ button {
   background: var(--red-1);
   color: #fff;
 }
+.triangle-badge {
+  position: absolute;
+  top: -6px;
+  right: -26px;
+  transform: rotate(45deg);
+  width: 0;
+  height: 0;
+  border-left: 40px solid transparent;
+  border-right: 40px solid transparent;
+  border-bottom: 40px solid var(--red-2);
+  display: inline-block;
+  transition: 0.3s;
+}
+@media screen and (max-width: 959px) {
+  .triangle-badge {
+    display: none;
+  }
+}
+.triangle-badge-icon {
+  position: absolute;
+  top: 12px;
+  left: -13px;
+  color: var(--color-header-background) !important;
+  font-size: 28px;
+  transition: 0.3s;
+}
 .hr-line {
   margin: 12px 36px;
   opacity: 0.3;
@@ -1510,6 +1536,36 @@ button {
 @media screen and (max-width: 767px) {
   .post-meta span {
     margin: 0 8px;
+  }
+}
+@media screen and (max-width: 1241px) {
+  .post-meta > span {
+    margin: 0 8px;
+  }
+}
+@media screen and (max-width: 959px) {
+  .post-meta > span {
+    margin: 0 6px;
+  }
+}
+@media screen and (max-width: 479px) {
+  .post-meta > span {
+    margin: 0 2px;
+  }
+}
+@media screen and (max-width: 1241px) {
+  .post-meta > span span {
+    margin: 0 6px;
+  }
+}
+@media screen and (max-width: 959px) {
+  .post-meta > span span {
+    margin: 0 4px;
+  }
+}
+@media screen and (max-width: 479px) {
+  .post-meta > span span {
+    margin: 0 3px;
   }
 }
 .post-article {
