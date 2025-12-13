@@ -145,6 +145,9 @@
 .icon-reddit:before {
   content: '\e61c';
 }
+.icon-telegram:before {
+  content: '\e623';
+}
 .icon-email:before {
   content: '\e63c';
 }

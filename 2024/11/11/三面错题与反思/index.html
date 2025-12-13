@@ -7,7 +7,7 @@
   
   
   
-  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'https://11111-beep.github.io';</script>
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)","en":"Copy successfully (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","en":"Copy failed (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":20};window.REIMU_CONFIG.base = 'https://11111-beep.github.io';window.REIMU_CONFIG.i18n_languages = ["en"];</script>
   <title>
     三面错题与反思 | 何琪旺的小库
   </title>
@@ -17,20 +17,20 @@
     
 <link rel="stylesheet" href="/css/loader.css">
 
-    <meta name="description" content="1.dp的运用题目链接：E-四叠半的电影_2024HUT实验室三面 (nowcoder.com) 12345678910111213141516171819202122232425#include &lt;bits&#x2F;stdc++.h&gt;#define IOS ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)using namespace std;ty">
+    <meta name="description" content="1.dp的运用 题目链接：E-四叠半的电影_2024HUT实验室三面 (nowcoder.com) 12345678910111213141516171819202122232425#include &lt;bits&#x2F;stdc++.h&gt;#define IOS ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)using namespace std;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="三面错题与反思">
 <meta property="og:url" content="https://11111-beep.github.io/2024/11/11/%E4%B8%89%E9%9D%A2%E9%94%99%E9%A2%98%E4%B8%8E%E5%8F%8D%E6%80%9D/index.html">
 <meta property="og:site_name" content="何琪旺的小库">
-<meta property="og:description" content="1.dp的运用题目链接：E-四叠半的电影_2024HUT实验室三面 (nowcoder.com) 12345678910111213141516171819202122232425#include &lt;bits&#x2F;stdc++.h&gt;#define IOS ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)using namespace std;ty">
+<meta property="og:description" content="1.dp的运用 题目链接：E-四叠半的电影_2024HUT实验室三面 (nowcoder.com) 12345678910111213141516171819202122232425#include &lt;bits&#x2F;stdc++.h&gt;#define IOS ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)using namespace std;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://11111-beep.github.io/images/%E4%B8%89%E9%9D%A2/8485ac699d179adf2e49898d1d55b1d2.png">
+<meta property="og:image" content="https://11111-beep.github.io/2024/11/11/images/%E4%B8%89%E9%9D%A2/8485ac699d179adf2e49898d1d55b1d2.png">
 <meta property="article:published_time" content="2024-11-11T13:33:28.000Z">
-<meta property="article:modified_time" content="2025-12-11T11:40:09.697Z">
+<meta property="article:modified_time" content="2025-12-13T11:01:08.516Z">
 <meta property="article:author" content="何琪旺">
 <meta property="article:tag" content="Hexo">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://11111-beep.github.io/images/%E4%B8%89%E9%9D%A2/8485ac699d179adf2e49898d1d55b1d2.png">
+<meta name="twitter:image" content="https://11111-beep.github.io/2024/11/11/images/%E4%B8%89%E9%9D%A2/8485ac699d179adf2e49898d1d55b1d2.png">
       <meta name="keywords" content="编程, Android, 技术, 生活">
     <link rel="alternate" href="/atom.xml" title="何琪旺的小库" type="application/atom+xml">
     <link rel="shortcut icon" href="/images/favicon.ico">
@@ -38,6 +38,12 @@
 <link rel="stylesheet" href="/css/style.css">
 
   <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+        
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.24/dist/katex.min.css" integrity="sha384-tTgKLjMYmJr94v8qu2PE5MUGSMbyN2xiH266JUB3gpm8vnnJywd1dWSOEfrFz+YI" crossorigin="anonymous">
+
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/@waline/client@2.15.8/dist/waline.css" integrity="sha384-vltfZtesCdl6NYVcFVcjEaIi5RpNvZe9t7fXvq8twVtcoy+Ub9QgnxUYJmwOhYCK" crossorigin="anonymous">
+
     
 <script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
 
@@ -129,13 +135,56 @@
       <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" aria-label="RSS 订阅" target="_blank"></a>
       <a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索" aria-label="搜索"></a>
   </nav>
-  <a href="https://github.com/11111-beep" class="triangle-badge" title="github" target="_blank" rel="noopener nofollow noreferrer">
-    <div class="icon icon-github triangle-badge-icon"></div>
-  </a>
+    <nav id="i18n-nav" aria-label="Language selection">
+      <div class="custom-dropdown">
+        <div class="select-selected" id="select-selected" role="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Language menu">
+          <span id="nav-language-btn" class="nav-icon" style="padding: 0 20px 0 0"></span>
+          <span id="selected-lang">简体中文</span>
+        </div>
+        <ul class="select-items" id="select-items" role="listbox" aria-label="Languages">
+            <li data-value="zh-CN" role="option" class="selected" aria-selected="true">简体中文</li>
+            <li data-value="en" role="option" aria-selected="false">English</li>
+        </ul>
+      </div>
+      <script>
+        var selectSelected = document.getElementById("select-selected");
+        var selectedLang = document.getElementById("selected-lang");
+        var selectItems = document.getElementById("select-items");
+        var selectOptions = selectItems.querySelectorAll("li");
+
+        selectSelected.addEventListener("click", () => {
+          selectItems.classList.toggle("show");
+          var expanded = selectSelected.getAttribute("aria-expanded") === "true";
+          selectSelected.setAttribute("aria-expanded", (!expanded).toString());
+        });
+
+        selectOptions.forEach((item) => {
+          item.addEventListener("click", () => {
+            const langMap = {};
+              langMap['zh-CN'] = '/2024/11/11/三面错题与反思/';
+              langMap['en'] = '/en/2024/11/11/三面错题与反思/';
+            selectedLang.textContent = item.textContent;
+            selectItems.classList.remove("show");
+            selectOptions.forEach((option) => {
+              option.classList.remove("selected");
+            });
+            item.classList.add("selected");
+            window.location = langMap[item.dataset.value];
+          });
+        });
+
+        document.addEventListener("click", (event) => {
+          if (!event.target.closest(".custom-dropdown")) {
+            selectItems.classList.remove("show");
+            selectSelected.setAttribute("aria-expanded", "false");
+          }
+        });
+      </script>
+    </nav>
 </div>
 <header id="header" aria-label="Site header">
     <picture></picture>
-    <img  fetchpriority="high" src="/images/iii/5.jpg" alt="三面错题与反思">
+    <img  fetchpriority="high" src="/images/aaa/5.webp" alt="三面错题与反思">
   <div id="header-outer">
     <div id="header-title">
           <span id="logo">
@@ -170,7 +219,7 @@
     <div class="sidebar-wrap" data-aos="fade-up">
           <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
 <div class="sidebar-toc-wrapper toc-div-class" >
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-dp%E7%9A%84%E8%BF%90%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">1.dp的运用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">2.</span> <span class="toc-text">2.滑动窗口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-unordered-set-%E8%87%AA%E5%8A%A8%E6%8E%92%E5%BA%8F%E7%9A%84set%E8%BF%90%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">3.unordered_set(自动排序的set运用)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%8F%8D%E6%80%9D"><span class="toc-number">4.</span> <span class="toc-text">4.反思</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%99%E6%AC%A1%E6%AF%94%E8%B5%9B%E6%84%9F%E8%A7%89%E6%AF%94%E7%9A%84%E4%B8%8D%E5%A4%AA%E5%A5%BD%EF%BC%8C%E8%9B%AE%E5%A4%9A%E5%85%B6%E5%AE%9E%E4%B8%8D%E9%9A%BE%E7%9A%84%E9%A2%98%E7%9B%AE%E5%BD%93%E6%97%B6%E5%B9%B6%E6%B2%A1%E6%9C%89%E5%81%9A%E5%87%BA%E6%9D%A5%EF%BC%8C%E5%88%9A%E5%BC%80%E5%A7%8B%E5%B0%B1%E5%8E%BB%E7%A3%95%E9%9A%BE%E9%A2%98%E5%8E%BB%E4%BA%86%EF%BC%8C%E7%BB%93%E6%9E%9C%E5%88%B0%E6%9C%80%E5%90%8E%E4%B9%9F%E6%B2%A1%E5%81%9A%E5%87%BA%E6%9D%A5%E3%80%82%E4%B9%9F%E6%98%AF%E5%AF%BC%E8%87%B4%E6%88%91%E5%81%9A%E9%A2%98%E5%81%9A%E5%BE%97%E6%85%A2%EF%BC%8C%E7%BD%9A%E6%97%B6%E9%AB%98%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8E%9F%E5%9B%A0%EF%BC%8C%E6%80%8E%E4%B9%88%E8%AF%B4%E5%91%A2%EF%BC%8C%E8%BF%98%E5%BE%97%E6%85%A2%E6%85%A2%E6%8F%90%E5%8D%87%E8%87%AA%E5%B7%B1%EF%BC%8C%E5%AD%A6%E4%BC%9A%E6%B2%89%E4%B8%8B%E5%BF%83%E6%9D%A5%EF%BC%8C%E7%A8%B3%E4%BD%8F%E5%BF%83%E6%80%81%EF%BC%8C%E6%96%B0%E7%94%9F%E8%B5%9B%E7%BB%A7%E7%BB%AD%E5%8A%A0%E6%B2%B9%E5%90%A7%EF%BC%81-%E4%B8%80%E5%AE%9A%E8%A6%81%E8%BF%9B%E7%A7%BB%E5%8A%A8%E7%BB%84%E5%95%8A"><span class="toc-number">4.0.1.</span> <span class="toc-text">这次比赛感觉比的不太好，蛮多其实不难的题目当时并没有做出来，刚开始就去磕难题去了，结果到最后也没做出来。也是导致我做题做得慢，罚时高的主要原因，怎么说呢，还得慢慢提升自己，学会沉下心来，稳住心态，新生赛继续加油吧！(一定要进移动组啊)</span></a></li></ol></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1dp%E7%9A%84%E8%BF%90%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text"> 1.dp的运用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">2.</span> <span class="toc-text"> 2.滑动窗口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3unordered_set%E8%87%AA%E5%8A%A8%E6%8E%92%E5%BA%8F%E7%9A%84set%E8%BF%90%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text"> 3.unordered_set(自动排序的set运用)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E5%8F%8D%E6%80%9D"><span class="toc-number">4.</span> <span class="toc-text"> 4.反思</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%99%E6%AC%A1%E6%AF%94%E8%B5%9B%E6%84%9F%E8%A7%89%E6%AF%94%E7%9A%84%E4%B8%8D%E5%A4%AA%E5%A5%BD%E8%9B%AE%E5%A4%9A%E5%85%B6%E5%AE%9E%E4%B8%8D%E9%9A%BE%E7%9A%84%E9%A2%98%E7%9B%AE%E5%BD%93%E6%97%B6%E5%B9%B6%E6%B2%A1%E6%9C%89%E5%81%9A%E5%87%BA%E6%9D%A5%E5%88%9A%E5%BC%80%E5%A7%8B%E5%B0%B1%E5%8E%BB%E7%A3%95%E9%9A%BE%E9%A2%98%E5%8E%BB%E4%BA%86%E7%BB%93%E6%9E%9C%E5%88%B0%E6%9C%80%E5%90%8E%E4%B9%9F%E6%B2%A1%E5%81%9A%E5%87%BA%E6%9D%A5-%E4%B9%9F%E6%98%AF%E5%AF%BC%E8%87%B4%E6%88%91%E5%81%9A%E9%A2%98%E5%81%9A%E5%BE%97%E6%85%A2%E7%BD%9A%E6%97%B6%E9%AB%98%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8E%9F%E5%9B%A0%E6%80%8E%E4%B9%88%E8%AF%B4%E5%91%A2%E8%BF%98%E5%BE%97%E6%85%A2%E6%85%A2%E6%8F%90%E5%8D%87%E8%87%AA%E5%B7%B1%E5%AD%A6%E4%BC%9A%E6%B2%89%E4%B8%8B%E5%BF%83%E6%9D%A5%E7%A8%B3%E4%BD%8F%E5%BF%83%E6%80%81%E6%96%B0%E7%94%9F%E8%B5%9B%E7%BB%A7%E7%BB%AD%E5%8A%A0%E6%B2%B9%E5%90%A7%E4%B8%80%E5%AE%9A%E8%A6%81%E8%BF%9B%E7%A7%BB%E5%8A%A8%E7%BB%84%E5%95%8A"><span class="toc-number">4.0.1.</span> <span class="toc-text"> 这次比赛感觉比的不太好，蛮多其实不难的题目当时并没有做出来，刚开始就去磕难题去了，结果到最后也没做出来。也是导致我做题做得慢，罚时高的主要原因，怎么说呢，还得慢慢提升自己，学会沉下心来，稳住心态，新生赛继续加油吧！(一定要进移动组啊)</span></a></li></ol></li></ol></li></ol>
 </div>
 </div>
           <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
@@ -198,6 +247,12 @@
     </div>
     <div class="icon-github sidebar-social-icon">
       <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-twitter sidebar-social-icon">
+      <a href=https://twitter.com/MoYu_Lucky itemprop="url" target="_blank" aria-label="twitter" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/lucky_hqw itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
     </div>
 </div>
 <div class="sidebar-menu">
@@ -248,11 +303,8 @@
       <div class="article-date">
   <span class="article-date-link icon-calendar" data-aos="zoom-in">
     <time datetime="2024-11-11T13:33:28.000Z" itemprop="datePublished">2024-11-11</time>
-    <time style="display: none;" id="post-update-time">2025-12-11</time>
+    <time style="display: none;" id="post-update-time">2025-12-13</time>
   </span>
-    <span class="article-date-link icon-calendar-plus" data-aos="zoom-in">
-      <time datetime="2025-12-11T11:40:09.697Z" itemprop="dateModified">2025-12-11</time>
-    </span>
 </div>
 
       
@@ -261,22 +313,33 @@
     <div class="hr-line"></div>
     
     <div class="e-content article-entry" itemprop="articleBody">
-        <h2 id="1-dp的运用"><a href="#1-dp的运用" class="headerlink" title="1.dp的运用"></a>1.dp的运用</h2><p>题目链接：<a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/93900/E">E-四叠半的电影_2024HUT实验室三面 (nowcoder.com)</a></p>
+        <h2 id="1dp的运用"><a class="markdownIt-Anchor" href="#1dp的运用"></a> 1.dp的运用</h2>
+<p>题目链接：<a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/93900/E">E-四叠半的电影_2024HUT实验室三面 (nowcoder.com)</a></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> IOS ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;PII;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N=<span class="number">2e5</span><span class="number">+10</span>;</span><br><span class="line"><span class="type">int</span> a[N];</span><br><span class="line"><span class="type">bool</span> mark[N];</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	IOS;</span><br><span class="line">	<span class="type">int</span> n,k;</span><br><span class="line">	cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)cin&gt;&gt;a[i];</span><br><span class="line">	<span class="type">int</span> dp[n<span class="number">+1</span>][k<span class="number">+1</span>];</span><br><span class="line">	<span class="built_in">memset</span>(dp,<span class="number">0x7f</span>,<span class="built_in">sizeof</span>(dp));</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=n;i++)dp[i][<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>;i&lt;=n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;k;j++)&#123;</span><br><span class="line">			dp[i][j]=<span class="built_in">min</span>(dp[i<span class="number">-1</span>][j],dp[i<span class="number">-2</span>][j<span class="number">-1</span>]+a[i]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout&lt;&lt;dp[n<span class="number">-1</span>][k<span class="number">-1</span>];</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="2-滑动窗口"><a href="#2-滑动窗口" class="headerlink" title="2.滑动窗口"></a>2.滑动窗口</h2><p>题目链接：<a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/93900/J">J-青青子衿悠悠我心_2024HUT实验室三面 (nowcoder.com)</a></p>
+<hr />
+<h2 id="2滑动窗口"><a class="markdownIt-Anchor" href="#2滑动窗口"></a> 2.滑动窗口</h2>
+<p>题目链接：<a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/93900/J">J-青青子衿悠悠我心_2024HUT实验室三面 (nowcoder.com)</a></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> IOS ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;PII;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N=<span class="number">2e5</span><span class="number">+10</span>;</span><br><span class="line"><span class="comment">//int a[N],s[N];</span></span><br><span class="line"><span class="type">bool</span> mark[N];</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	IOS;</span><br><span class="line">    <span class="type">int</span> t;</span><br><span class="line">    cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        <span class="type">int</span> n,m;</span><br><span class="line">        cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt;<span class="built_in">a</span>(n);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)cin&gt;&gt;a[i];</span><br><span class="line">        <span class="built_in">sort</span>(a.<span class="built_in">begin</span>(),a.<span class="built_in">end</span>());</span><br><span class="line">        <span class="type">int</span> maxx=<span class="number">-1</span>;</span><br><span class="line">        <span class="type">int</span> l=<span class="number">0</span>,sum=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> r=<span class="number">0</span>;r&lt;n;r++)&#123;</span><br><span class="line">            sum+=a[r];</span><br><span class="line">            <span class="keyword">while</span>(a[r]-a[l]&gt;<span class="number">1</span>||sum&gt;m)&#123;</span><br><span class="line">                sum-=a[l];</span><br><span class="line">                l++;</span><br><span class="line">            &#125;</span><br><span class="line">            maxx=<span class="built_in">max</span>(maxx,sum);</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;maxx&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="3-unordered-set-自动排序的set运用"><a href="#3-unordered-set-自动排序的set运用" class="headerlink" title="3.unordered_set(自动排序的set运用)"></a>3.unordered_set(自动排序的set运用)</h2><p>题目链接：<a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/93900/C">C-奶龙の考验_2024HUT实验室三面 (nowcoder.com)</a></p>
+<hr />
+<h2 id="3unordered_set自动排序的set运用"><a class="markdownIt-Anchor" href="#3unordered_set自动排序的set运用"></a> 3.unordered_set(自动排序的set运用)</h2>
+<p>题目链接：<a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/93900/C">C-奶龙の考验_2024HUT实验室三面 (nowcoder.com)</a></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> IOS ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;PII;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N=<span class="number">2e5</span><span class="number">+10</span>;</span><br><span class="line"><span class="type">bool</span> mark[N];</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	IOS;</span><br><span class="line">	unordered_set&lt;ll&gt;se;</span><br><span class="line">	ll n,a;</span><br><span class="line">	<span class="type">double</span> sum = <span class="number">0</span>;</span><br><span class="line">	cin&gt;&gt;n;</span><br><span class="line">	<span class="keyword">while</span>(n--)&#123;</span><br><span class="line">		cin&gt;&gt;a;</span><br><span class="line">		se.<span class="built_in">insert</span>(a);</span><br><span class="line">	&#125;</span><br><span class="line">	ll len=se.<span class="built_in">size</span>();</span><br><span class="line">	<span class="keyword">while</span>(len)</span><br><span class="line">	&#123;</span><br><span class="line">		sum+=<span class="number">1.0</span>/len;</span><br><span class="line">		len--;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%.8lf&quot;</span>,sum);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-反思"><a href="#4-反思" class="headerlink" title="4.反思"></a>4.反思</h2><h4 id="这次比赛感觉比的不太好，蛮多其实不难的题目当时并没有做出来，刚开始就去磕难题去了，结果到最后也没做出来。也是导致我做题做得慢，罚时高的主要原因，怎么说呢，还得慢慢提升自己，学会沉下心来，稳住心态，新生赛继续加油吧！-一定要进移动组啊"><a href="#这次比赛感觉比的不太好，蛮多其实不难的题目当时并没有做出来，刚开始就去磕难题去了，结果到最后也没做出来。也是导致我做题做得慢，罚时高的主要原因，怎么说呢，还得慢慢提升自己，学会沉下心来，稳住心态，新生赛继续加油吧！-一定要进移动组啊" class="headerlink" title="这次比赛感觉比的不太好，蛮多其实不难的题目当时并没有做出来，刚开始就去磕难题去了，结果到最后也没做出来。也是导致我做题做得慢，罚时高的主要原因，怎么说呢，还得慢慢提升自己，学会沉下心来，稳住心态，新生赛继续加油吧！(一定要进移动组啊)"></a>这次比赛感觉比的不太好，蛮多其实不难的题目当时并没有做出来，刚开始就去磕难题去了，结果到最后也没做出来。也是导致我做题做得慢，罚时高的主要原因，怎么说呢，还得慢慢提升自己，学会沉下心来，稳住心态，新生赛继续加油吧！(一定要进移动组啊)</h4><hr>
-<p><img src="/../images/%E4%B8%89%E9%9D%A2/8485ac699d179adf2e49898d1d55b1d2.png" alt="8485ac699d179adf2e49898d1d55b1d2"></p>
+<h2 id="4反思"><a class="markdownIt-Anchor" href="#4反思"></a> 4.反思</h2>
+<h4 id="这次比赛感觉比的不太好蛮多其实不难的题目当时并没有做出来刚开始就去磕难题去了结果到最后也没做出来-也是导致我做题做得慢罚时高的主要原因怎么说呢还得慢慢提升自己学会沉下心来稳住心态新生赛继续加油吧一定要进移动组啊"><a class="markdownIt-Anchor" href="#这次比赛感觉比的不太好蛮多其实不难的题目当时并没有做出来刚开始就去磕难题去了结果到最后也没做出来-也是导致我做题做得慢罚时高的主要原因怎么说呢还得慢慢提升自己学会沉下心来稳住心态新生赛继续加油吧一定要进移动组啊"></a> 这次比赛感觉比的不太好，蛮多其实不难的题目当时并没有做出来，刚开始就去磕难题去了，结果到最后也没做出来。也是导致我做题做得慢，罚时高的主要原因，怎么说呢，还得慢慢提升自己，学会沉下心来，稳住心态，新生赛继续加油吧！(一定要进移动组啊)</h4>
+<hr />
+<p><img src="../images/%E4%B8%89%E9%9D%A2/8485ac699d179adf2e49898d1d55b1d2.png" alt="8485ac699d179adf2e49898d1d55b1d2" /></p>
 
     </div>
     <footer class="article-footer">
+        <blockquote class="article-copyright">
+    <p><strong><span class="icon-user icon"></span>本文作者：</strong>何琪旺</p>
+    <p><strong><span class="icon-link icon"></span>本文链接：</strong><a href="https://11111-beep.github.io/2024/11/11/%E4%B8%89%E9%9D%A2%E9%94%99%E9%A2%98%E4%B8%8E%E5%8F%8D%E6%80%9D/">https://11111-beep.github.io/2024/11/11/%E4%B8%89%E9%9D%A2%E9%94%99%E9%A2%98%E4%B8%8E%E5%8F%8D%E6%80%9D/</a></p>
+    
+    <p><strong><span class="icon-calendar icon"></span>本文发布时间：</strong>2024-11-11 21:33:28</p>
+    
+    <p><strong><span class="icon-copyright icon"></span>本文版权：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener nofollow noreferrer" target="_blank"><span class="icon-creative-commons"></span>BY-NC-SA</a> 许可协议。转载请注明出处！</p>
+    <span class="icon-creative-commons article-copyright-bg"></span>
+  </blockquote>
         <div class="sponsor-wrapper">
   <div class="sponsor-button">
     <div class="sponsor-icon rotate"></div>
@@ -342,13 +405,21 @@
       </div>
     </a>
 </div>
+        <a data-aos="zoom-in" href="/2024/11/11/%E4%B8%89%E9%9D%A2%E9%94%99%E9%A2%98%E4%B8%8E%E5%8F%8D%E6%80%9D/#comments" class="article-comment-link">
+          <span class="post-comments-count waline-comment-count" data-path="/2024/11/11/%E4%B8%89%E9%9D%A2%E9%94%99%E9%A2%98%E4%B8%8E%E5%8F%8D%E6%80%9D/" itemprop="commentCount"></span>
+          留言
+        </a>
+        <span data-aos="zoom-in" class="article-visitor-link">
+          <span class="waline-pageview-count" data-path="/2024/11/11/%E4%B8%89%E9%9D%A2%E9%94%99%E9%A2%98%E4%B8%8E%E5%8F%8D%E6%80%9D/">0</span>
+          <em class="post-meta-item-text">阅读量</em>
+        </span>
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/Hexo/" rel="tag" title="Hexo">Hexo</a></li></ul>
 
     </footer>
   </div>
     <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
       <div class="article-nav-link-wrap left">
-          <img data-src="/images/iii/8.jpg" data-sizes="auto" alt="新生赛" class="lazyload">
+          <img data-src="/images/aaa/8.webp" data-sizes="auto" alt="新生赛" class="lazyload">
         <a href="/2024/12/03/%E6%96%B0%E7%94%9F%E8%B5%9B/" aria-label="前一篇: 新生赛" title="前一篇: 新生赛"></a>
         <div class="article-nav-caption">前一篇</div>
         <h3 class="article-nav-title">
@@ -356,7 +427,7 @@
         </h3>
       </div>
     <div class="article-nav-link-wrap right">
-        <img data-src="/images/iii/6.jpg" data-sizes="auto" alt="青媒日常(一)" class="lazyload">
+        <img data-src="/images/aaa/6.webp" data-sizes="auto" alt="青媒日常(一)" class="lazyload">
       <a href="/2024/11/10/%E9%9D%92%E5%AA%92%E6%97%A5%E5%B8%B8-%E4%B8%80/" aria-label="后一篇: 青媒日常(一)"  title="后一篇: 青媒日常(一)"></a>
       <div class="article-nav-caption">后一篇</div>
       <h3 class="article-nav-title">
@@ -367,6 +438,24 @@
 
 </article>
 
+  <section id="comments" data-aos="fade-up">
+    <div class="comment-header">
+        
+      <h2 class="comment-title">说些什么吧！</h2>
+      <div class="comment-selector">
+        <div class="comment-selector-wrap">
+            <div class="selector-item" data-selector="waline">
+              <span>waline</span>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="comment-content">
+          <div class="comment waline-comment" data-aos="fade-up"
+            id="waline-comment">
+          </div>
+    </div>
+  </section>
 
 </section>
         </div>
@@ -377,7 +466,7 @@
   <div id="footer-info">
     <div>
       <span class="icon-copyright"></span>
-        2020-2025
+        2024-2025
       <span class="footer-info-sep rotate"></span>
       何琪旺
     </div>
@@ -387,10 +476,20 @@
       </div>
       <div>
         <span class="icon-brush"></span>
-        4.2k
+        4.1k
         &nbsp;|&nbsp;
         <span class="icon-coffee"></span>
         00:24
+      </div>
+      <div class="footer-beian">
+        <img
+          style="object-fit: contain;margin-right: 2px;"
+          src="https://icp.gov.moe/images/ico64.png"
+          alt=""
+          width="24"
+          height="24"
+        />
+        <a target="_blank" rel="noopener nofollow noreferrer" href="https://icp.gov.moe/?keyword=20250560">萌ICP备20250560号</a>
       </div>
       <div>
         <span class="icon-eye"></span>
@@ -412,7 +511,7 @@
   <div class="sidebar-wrap">
         <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
 <div class="sidebar-toc-wrapper toc-div-class" >
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-dp%E7%9A%84%E8%BF%90%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">1.dp的运用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">2.</span> <span class="toc-text">2.滑动窗口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-unordered-set-%E8%87%AA%E5%8A%A8%E6%8E%92%E5%BA%8F%E7%9A%84set%E8%BF%90%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">3.unordered_set(自动排序的set运用)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%8F%8D%E6%80%9D"><span class="toc-number">4.</span> <span class="toc-text">4.反思</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%99%E6%AC%A1%E6%AF%94%E8%B5%9B%E6%84%9F%E8%A7%89%E6%AF%94%E7%9A%84%E4%B8%8D%E5%A4%AA%E5%A5%BD%EF%BC%8C%E8%9B%AE%E5%A4%9A%E5%85%B6%E5%AE%9E%E4%B8%8D%E9%9A%BE%E7%9A%84%E9%A2%98%E7%9B%AE%E5%BD%93%E6%97%B6%E5%B9%B6%E6%B2%A1%E6%9C%89%E5%81%9A%E5%87%BA%E6%9D%A5%EF%BC%8C%E5%88%9A%E5%BC%80%E5%A7%8B%E5%B0%B1%E5%8E%BB%E7%A3%95%E9%9A%BE%E9%A2%98%E5%8E%BB%E4%BA%86%EF%BC%8C%E7%BB%93%E6%9E%9C%E5%88%B0%E6%9C%80%E5%90%8E%E4%B9%9F%E6%B2%A1%E5%81%9A%E5%87%BA%E6%9D%A5%E3%80%82%E4%B9%9F%E6%98%AF%E5%AF%BC%E8%87%B4%E6%88%91%E5%81%9A%E9%A2%98%E5%81%9A%E5%BE%97%E6%85%A2%EF%BC%8C%E7%BD%9A%E6%97%B6%E9%AB%98%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8E%9F%E5%9B%A0%EF%BC%8C%E6%80%8E%E4%B9%88%E8%AF%B4%E5%91%A2%EF%BC%8C%E8%BF%98%E5%BE%97%E6%85%A2%E6%85%A2%E6%8F%90%E5%8D%87%E8%87%AA%E5%B7%B1%EF%BC%8C%E5%AD%A6%E4%BC%9A%E6%B2%89%E4%B8%8B%E5%BF%83%E6%9D%A5%EF%BC%8C%E7%A8%B3%E4%BD%8F%E5%BF%83%E6%80%81%EF%BC%8C%E6%96%B0%E7%94%9F%E8%B5%9B%E7%BB%A7%E7%BB%AD%E5%8A%A0%E6%B2%B9%E5%90%A7%EF%BC%81-%E4%B8%80%E5%AE%9A%E8%A6%81%E8%BF%9B%E7%A7%BB%E5%8A%A8%E7%BB%84%E5%95%8A"><span class="toc-number">4.0.1.</span> <span class="toc-text">这次比赛感觉比的不太好，蛮多其实不难的题目当时并没有做出来，刚开始就去磕难题去了，结果到最后也没做出来。也是导致我做题做得慢，罚时高的主要原因，怎么说呢，还得慢慢提升自己，学会沉下心来，稳住心态，新生赛继续加油吧！(一定要进移动组啊)</span></a></li></ol></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1dp%E7%9A%84%E8%BF%90%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text"> 1.dp的运用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">2.</span> <span class="toc-text"> 2.滑动窗口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3unordered_set%E8%87%AA%E5%8A%A8%E6%8E%92%E5%BA%8F%E7%9A%84set%E8%BF%90%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text"> 3.unordered_set(自动排序的set运用)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E5%8F%8D%E6%80%9D"><span class="toc-number">4.</span> <span class="toc-text"> 4.反思</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%99%E6%AC%A1%E6%AF%94%E8%B5%9B%E6%84%9F%E8%A7%89%E6%AF%94%E7%9A%84%E4%B8%8D%E5%A4%AA%E5%A5%BD%E8%9B%AE%E5%A4%9A%E5%85%B6%E5%AE%9E%E4%B8%8D%E9%9A%BE%E7%9A%84%E9%A2%98%E7%9B%AE%E5%BD%93%E6%97%B6%E5%B9%B6%E6%B2%A1%E6%9C%89%E5%81%9A%E5%87%BA%E6%9D%A5%E5%88%9A%E5%BC%80%E5%A7%8B%E5%B0%B1%E5%8E%BB%E7%A3%95%E9%9A%BE%E9%A2%98%E5%8E%BB%E4%BA%86%E7%BB%93%E6%9E%9C%E5%88%B0%E6%9C%80%E5%90%8E%E4%B9%9F%E6%B2%A1%E5%81%9A%E5%87%BA%E6%9D%A5-%E4%B9%9F%E6%98%AF%E5%AF%BC%E8%87%B4%E6%88%91%E5%81%9A%E9%A2%98%E5%81%9A%E5%BE%97%E6%85%A2%E7%BD%9A%E6%97%B6%E9%AB%98%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8E%9F%E5%9B%A0%E6%80%8E%E4%B9%88%E8%AF%B4%E5%91%A2%E8%BF%98%E5%BE%97%E6%85%A2%E6%85%A2%E6%8F%90%E5%8D%87%E8%87%AA%E5%B7%B1%E5%AD%A6%E4%BC%9A%E6%B2%89%E4%B8%8B%E5%BF%83%E6%9D%A5%E7%A8%B3%E4%BD%8F%E5%BF%83%E6%80%81%E6%96%B0%E7%94%9F%E8%B5%9B%E7%BB%A7%E7%BB%AD%E5%8A%A0%E6%B2%B9%E5%90%A7%E4%B8%80%E5%AE%9A%E8%A6%81%E8%BF%9B%E7%A7%BB%E5%8A%A8%E7%BB%84%E5%95%8A"><span class="toc-number">4.0.1.</span> <span class="toc-text"> 这次比赛感觉比的不太好，蛮多其实不难的题目当时并没有做出来，刚开始就去磕难题去了，结果到最后也没做出来。也是导致我做题做得慢，罚时高的主要原因，怎么说呢，还得慢慢提升自己，学会沉下心来，稳住心态，新生赛继续加油吧！(一定要进移动组啊)</span></a></li></ol></li></ol></li></ol>
 </div>
 </div>
         <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
@@ -440,6 +539,12 @@
     </div>
     <div class="icon-github sidebar-social-icon">
       <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-twitter sidebar-social-icon">
+      <a href=https://twitter.com/MoYu_Lucky itemprop="url" target="_blank" aria-label="twitter" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/lucky_hqw itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
     </div>
 </div>
 <div class="sidebar-menu">
@@ -579,10 +684,10 @@
           url: "https://11111-beep.github.io/2024/11/11/%E4%B8%89%E9%9D%A2%E9%94%99%E9%A2%98%E4%B8%8E%E5%8F%8D%E6%80%9D/",
           excerpt: "",
           description: "",
-          stripContent: "1.dp的运用题目链接：E-四叠半的电影_2024HUT实验室三面 (nowcoder.com) 12345678910111213141516171819202122232425#include &amp;lt;bits/stdc++.h&amp;gt;#define IOS ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)using namespace std;typedef pair&amp;lt;int,int&amp;gt;PII;typedef long long ll;",
+          stripContent: " 1.dp的运用 题目链接：E-四叠半的电影_2024HUT实验室三面 (nowcoder.com) 12345678910111213141516171819202122232425#include &amp;lt;bits/stdc++.h&amp;gt;#define IOS ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)using namespace std;typedef pair&amp;lt;int,int&amp;gt;PII;typedef long long l",
           date: "Mon Nov 11 2024 21:33:28 GMT+0800",
-          updated: "Thu Dec 11 2025 19:40:09 GMT+0800",
-          cover: "/images/iii/5.jpg",
+          updated: "Sat Dec 13 2025 19:01:08 GMT+0800",
+          cover: "/images/aaa/5.webp",
         };
       </script>
         
@@ -621,6 +726,155 @@
         }
       </script>
         
+<script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+
+  var commentConfigKeys = ["waline"];
+  var commentConfig = {
+    waline: {
+      enable: true,
+      load: async () => {
+        const container = document.querySelector('.waline-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        let walineInit;
+        const walineCdn = 'https://npm.webcache.cn/@waline/client@2.15.8/dist/waline.mjs';
+        const walineIntegrity = 'sha384-9sbqJjrfGjbkI6/PI4nU/MvBfEmkkPC4YK9I4zBeMIf1CVCZdCMH/KinBEAZII/5';
+
+        const module = await safeImport(walineCdn, walineIntegrity);
+        walineInit = module.init;
+
+        window.walineInstance = walineInit({
+          el: '.waline-comment',
+          serverURL: 'https://moyublog-4neem5e4d-11111-beeps-projects.vercel.app',
+          lang: document.documentElement.lang || 'en',
+          locale: {},
+          emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus","https://unpkg.com/@waline/emojis@1.2.0/bilibili","https://unpkg.com/@waline/emojis@1.2.0/qq","https://unpkg.com/@waline/emojis@1.2.0/tieba","https://unpkg.com/@waline/emojis@1.2.0/tw-emoji"],
+          meta: ["nick","mail","link"],
+          requiredMeta: ["nick","mail"],
+          wordLimit: JSON.parse('0'),
+          comment: true,
+          pageSize: JSON.parse('10'),
+          dark: 'html[data-theme="dark"]',
+          pageview: JSON.parse('true'),
+        });
+      }
+    },
+  }
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    // 1. 首先检查localStorage中是否有保存的评论类型
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    // 2. 如果localStorage中有值且对应的评论系统可用，就使用它
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    // 3. 如果localStorage无效，检查配置的默认评论系统
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    // 4. 如果前两项都无效，按指定顺序找到第一个可用的评论系统
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    // 隐藏所有评论容器
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    // 按需加载评论系统
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        // 如果已加载，只需显示对应容器
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      // 根据类型加载对应的脚本
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    // 评论组件选择器
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      // 获取要加载的评论系统类型
+      const commentType = item.getAttribute('data-selector');
+
+      // 隐藏所有评论系统
+      hideAllComments();
+
+      // 加载选中的评论系统
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      // 评论组件选择器点击事件
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          // 保存选择器状态
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          // 切换选中状态
+          changeActiveCommentItems(item);
+        });
+      }
+
+      // 检查是否需要加载默认评论系统
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script>
 
   </div>
 </div>
@@ -680,6 +934,18 @@
     }
   </script>
 
+  
+<script src="https://npm.webcache.cn/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha384-HeUHqi0nVsPUm&#x2F;E0ss7OfnIV&#x2F;yD96JWB8ehZvUuoVax9DpNHL17jj9pdfXHzqDxm" crossorigin="anonymous" defer></script>
+
+  <script data-pjax>
+    if (document.readyState === "loading") {
+      document.addEventListener('DOMContentLoaded', () => {
+        pangu?.spacingPage();
+      });
+    } else {
+      pangu?.spacingPage();
+    }
+  </script>
 
   </body>
   </html>
