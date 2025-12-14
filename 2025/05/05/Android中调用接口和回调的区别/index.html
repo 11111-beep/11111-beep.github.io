@@ -1,0 +1,1068 @@
+  <!DOCTYPE html>
+  <html lang="zh-CN"  
+      data-theme-mode="auto"
+  >
+  <head>
+  <meta charset="utf-8">
+  
+  
+  
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)","en":"Copy successfully (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","en":"Copy failed (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":20};window.REIMU_CONFIG.base = 'https://11111-beep.github.io';window.REIMU_CONFIG.i18n_languages = ["en"];</script>
+  <title>
+    Android中调用接口和回调的区别 | 为什么喜欢沫雨~
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+    <meta name="description" content="很多Android开发小白刚开始都不明白书上调用接口和回调的区别,简单来说“调用接口”是一个非常宽泛的术语，它可以指很多情况，而“回调”是一种特定类型的接口调用，它发生在特定的设计模式和场景下。 让我们来详细区分一下：  什么是&quot;调用接口&quot; 在Android开发中,&quot;调用接口&quot;通常包括两种情况:   调用某个类实现的接口方法:当一个类A实现了接口B时,你可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android中调用接口和回调的区别">
+<meta property="og:url" content="https://11111-beep.github.io/2025/05/05/Android%E4%B8%AD%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%9B%9E%E8%B0%83%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
+<meta property="og:site_name" content="为什么喜欢沫雨~">
+<meta property="og:description" content="很多Android开发小白刚开始都不明白书上调用接口和回调的区别,简单来说“调用接口”是一个非常宽泛的术语，它可以指很多情况，而“回调”是一种特定类型的接口调用，它发生在特定的设计模式和场景下。 让我们来详细区分一下：  什么是&quot;调用接口&quot; 在Android开发中,&quot;调用接口&quot;通常包括两种情况:   调用某个类实现的接口方法:当一个类A实现了接口B时,你可以">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-05-05T08:14:17.000Z">
+<meta property="article:modified_time" content="2025-12-14T08:17:19.569Z">
+<meta property="article:author" content="MoYu">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+      <meta name="keywords" content="编程, Android, 技术, 生活">
+    <link rel="alternate" href="/atom.xml" title="为什么喜欢沫雨~" type="application/atom+xml">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+        
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.24/dist/katex.min.css" integrity="sha384-tTgKLjMYmJr94v8qu2PE5MUGSMbyN2xiH266JUB3gpm8vnnJywd1dWSOEfrFz+YI" crossorigin="anonymous">
+
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/@waline/client@2.15.8/dist/waline.css" integrity="sha384-vltfZtesCdl6NYVcFVcjEaIi5RpNvZe9t7fXvq8twVtcoy+Ub9QgnxUYJmwOhYCK" crossorigin="anonymous">
+
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+    <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css" integrity="sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU&#x2F;voDBY5XE2lVh" crossorigin="anonymous">
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+      <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+      </div>
+      <div class="loading-word">少女祈祷中~~~</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var loaderEl = document.getElementById('loader');
+    var startLoading = () => {
+      time = Date.now();
+      loaderEl.classList.remove("loading");
+    }
+    var hideLoader = () => {
+      document.body.style.overflow = 'auto';
+      loader.classList.add('loading');
+    };
+
+    var endLoading = () => {
+      if (!time) {
+        hideLoader();
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          hideLoader();
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    loaderEl.addEventListener('click', endLoading);
+  </script>
+<div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+        <a class="main-nav-link-wrap" href="/">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">首页</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/archives">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">归档</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/about">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">关于</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/friend">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">友链</span>
+        </span>
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" aria-label="RSS 订阅" target="_blank"></a>
+      <a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索" aria-label="搜索"></a>
+  </nav>
+    <nav id="i18n-nav" aria-label="Language selection">
+      <div class="custom-dropdown">
+        <div class="select-selected" id="select-selected" role="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Language menu">
+          <span id="nav-language-btn" class="nav-icon" style="padding: 0 20px 0 0"></span>
+          <span id="selected-lang">简体中文</span>
+        </div>
+        <ul class="select-items" id="select-items" role="listbox" aria-label="Languages">
+            <li data-value="zh-CN" role="option" class="selected" aria-selected="true">简体中文</li>
+            <li data-value="en" role="option" aria-selected="false">English</li>
+        </ul>
+      </div>
+      <script>
+        var selectSelected = document.getElementById("select-selected");
+        var selectedLang = document.getElementById("selected-lang");
+        var selectItems = document.getElementById("select-items");
+        var selectOptions = selectItems.querySelectorAll("li");
+
+        selectSelected.addEventListener("click", () => {
+          selectItems.classList.toggle("show");
+          var expanded = selectSelected.getAttribute("aria-expanded") === "true";
+          selectSelected.setAttribute("aria-expanded", (!expanded).toString());
+        });
+
+        selectOptions.forEach((item) => {
+          item.addEventListener("click", () => {
+            const langMap = {};
+              langMap['zh-CN'] = '/2025/05/05/Android中调用接口和回调的区别/';
+              langMap['en'] = '/en/2025/05/05/Android中调用接口和回调的区别/';
+            selectedLang.textContent = item.textContent;
+            selectItems.classList.remove("show");
+            selectOptions.forEach((option) => {
+              option.classList.remove("selected");
+            });
+            item.classList.add("selected");
+            window.location = langMap[item.dataset.value];
+          });
+        });
+
+        document.addEventListener("click", (event) => {
+          if (!event.target.closest(".custom-dropdown")) {
+            selectItems.classList.remove("show");
+            selectSelected.setAttribute("aria-expanded", "false");
+          }
+        });
+      </script>
+    </nav>
+</div>
+<header id="header" aria-label="Site header">
+        <picture></picture>
+        <img  fetchpriority="high" src="/images/banner.webp" alt="Android中调用接口和回调的区别">
+  <div id="header-outer">
+    <div id="header-title">
+          <span id="logo">
+            <h1 data-aos="slide-up">Android中调用接口和回调的区别</h1>
+          </span>
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+        </h2>
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content"  class="sidebar-right" >
+          <aside id="sidebar" aria-label="Sidebar">
+  <div class="sidebar-wrapper-container sticky">
+      <meting-js
+        theme="var(--color-link)"
+        id="2265921590"
+        server="netease"
+        type="playlist"
+        auto="lrc"
+        fixed="false"
+        autoplay="true"
+        loop="all"
+        order="list"
+        preload="auto"
+        volume="0.7"
+        mutex="true"
+        list-folded="true"
+        lrc-type="3"
+      ></meting-js>
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.</span> <span class="toc-text"> 什么是&quot;调用接口&quot;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%9B%9E%E8%B0%83"><span class="toc-number">2.</span> <span class="toc-text"> 什么是&quot;回调&quot;?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E6%98%AF%E5%9B%9E%E8%B0%83"><span class="toc-number">3.</span> <span class="toc-text"> 什么时候&quot;调用接口&quot;是&quot;回调&quot;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83%E7%9A%84%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B%E5%9B%BE%E7%89%87%E4%B8%8B%E8%BD%BD%E5%AE%8C%E6%88%90%E6%97%B6%E7%9A%84%E9%80%9A%E7%9F%A5%E5%9B%9E%E8%B0%83"><span class="toc-number">4.</span> <span class="toc-text"> 回调的代码示例(图片下载完成时的通知回调)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E5%AE%9A%E4%B9%89%E5%9B%9E%E8%B0%83%E6%8E%A5%E5%8F%A3"><span class="toc-number">4.1.</span> <span class="toc-text"> 1.定义回调接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E4%B8%8B%E8%BD%BD%E5%99%A8%E5%90%8E%E5%8F%B0%E4%BB%BB%E5%8A%A1"><span class="toc-number">4.2.</span> <span class="toc-text"> 实现图片下载器(后台任务)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8activity%E4%B8%AD%E6%8E%A5%E6%94%B6%E5%9B%9E%E8%B0%83%E5%B9%B6%E6%9B%B4%E6%96%B0ui"><span class="toc-number">4.3.</span> <span class="toc-text"> 在Activity中接收回调并更新UI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83%E6%9C%BA%E5%88%B6%E7%A9%B6%E7%AB%9F%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%BF%A1%E4%BD%BF%E4%B8%8E%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E7%9A%84%E7%A7%98%E5%AF%86"><span class="toc-number">4.4.</span> <span class="toc-text"> 回调机制究竟如何实现？“信使”与“消息传递”的秘密</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text"> 总结</span></a></li></ol>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/1.jpg" data-sizes="auto" alt="MoYu" class="lazyload">
+  <div class="sidebar-author-name">MoYu</div>
+  <div class="sidebar-description">Lucky Forever~~</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">11</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">7</div>
+  </div>
+</div>
+<div class="sidebar-social">
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:hqw1554799@gmail.com itemprop="url" target="_blank" aria-label="email" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-twitter sidebar-social-icon">
+      <a href=https://twitter.com/MoYu_Lucky itemprop="url" target="_blank" aria-label="twitter" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/lucky_hqw itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
+    </div>
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+</div>
+</div>
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+    </div>
+  </div>
+  <div class="sidebar-widget">
+  </div>
+  </div>
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-Android中调用接口和回调的区别" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2025-05-05T08:14:17.000Z" itemprop="datePublished">2025-05-05</time>
+    <time style="display: none;" id="post-update-time">2025-12-14</time>
+  </span>
+</div>
+
+      
+    </div>
+    
+    <div class="hr-line"></div>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+        <p>很多Android开发小白刚开始都不明白书上调用接口和回调的区别,简单来说“调用接口”是一个非常宽泛的术语，它可以指很多情况，而“回调”是一种<strong>特定类型的</strong>接口调用，它发生在特定的设计模式和场景下。</p>
+<p>让我们来详细区分一下：</p>
+<h2 id="什么是调用接口"><a class="markdownIt-Anchor" href="#什么是调用接口"></a> 什么是&quot;调用接口&quot;</h2>
+<p>在Android开发中,&quot;调用接口&quot;通常包括<strong>两种情况</strong>:</p>
+<ol>
+<li>
+<p><strong>调用某个类实现的接口方法</strong>:当一个类A实现了接口B时,你可以通过接口B的引用来调用A中实现的方法.这也体现出了面向对象里面的多态的特点.<br />
+<strong>例子:</strong><br />
+<code>List</code>是一个接口,<code>ArrayList</code>实现了该<code>Llst</code>.当你写<code>List&lt;String&gt;myList = new ArrayList&lt;&gt;()</code>;然后调用<code>myList.add(&quot;item&quot;)</code>;时,你就是在通过<code>List</code>调用<code>ArrayList</code>的<code>add</code>方法.</p>
+</li>
+<li>
+<p><strong>调用某个API(Application Programming Interface)</strong>:这里的&quot;接口&quot;是指一套预定义的函数,方法或协议,允许不同软件组件之间进行交互.<br />
+<strong>例子</strong>:<br />
+调用Android SDK提供的<code>findViewById()</code>方法,调用某个Web API(<a target="_blank" rel="noopener" href="http://xn--api-eo8e.example.com/users">如api.example.com/users</a>).</p>
+</li>
+</ol>
+<hr />
+<h2 id="什么是回调"><a class="markdownIt-Anchor" href="#什么是回调"></a> 什么是&quot;回调&quot;?</h2>
+<p>回调是一种设计模式,它基于&quot;将一个函数或对象作为参数传递给另一个函数或方法,然后在某个特定事件发生时,被调用的函数或方法再回头来调用这个参数(即回调函数或回调对象中的方法)&quot;的原理.<br />
+<strong>简而言之类似于C++算法里面在main()函数外面定义的全局函数,我们可以在main()函数里面需要的地方对其进行调用</strong><br />
+回调的<strong>核心特征</strong>是:</p>
+<ul>
+<li>被动调用:回调的方法不是你主动在代码流中立即调用,而是由另一个组件(通常是异步操作的执行者,事件源或第三方库)在某个特定时机(比如任务完成,事件发生)&quot;回过头来&quot;调用.</li>
+<li>通知机制:它主要用于通知某个组件特定的状态或结果.</li>
+<li>控制反转:你把一部分控制权交给了另一个组件,让它在适当的时候调用你的代码.</li>
+</ul>
+<hr />
+<h2 id="什么时候调用接口是回调"><a class="markdownIt-Anchor" href="#什么时候调用接口是回调"></a> 什么时候&quot;调用接口&quot;是&quot;回调&quot;</h2>
+<p>当你通过接口引用,并且这个接口是专门设计用来<em>在异步操作完成或特定事件发生时通知你的</em>,那么这种调用就大概率是回调.<br />
+我列举三个回调的例子:</p>
+<ol>
+<li><strong>Fragment 与 Activity 通信的 <code>OnDataPassListener</code>：</strong>
+<ul>
+<li><code>MainActivity</code> 实现了 <code>MyFragment.OnDataPassListener</code> 接口.</li>
+<li><code>MyFragment</code> 持有 <code>listener</code> 引用（类型是 <code>OnDataPassListener</code>）.</li>
+<li>当 <code>MyFragment</code> 中的按钮被点击时，它调用 <code>listener.onDataPass(...)</code>.</li>
+<li><code>MyFragment</code> 在事件发生时，通过 <code>OnDataPassListener</code> 接口“回调”了 <code>MainActivity</code> 中的 <code>onDataPass</code> 方法.</li>
+</ul>
+</li>
+<li><strong>网络请求完成后的 <code>OnNetworkRequestListener</code>：</strong>
+<ul>
+<li>你定义了一个接口 <code>OnNetworkRequestListener</code>，其中有 <code>onSuccess</code> 和 <code>onFailure</code> 方法.</li>
+<li>你将这个接口的实现传递给 <code>NetworkManager</code>.</li>
+<li>当网络请求在后台线程完成（成功或失败）时，<code>NetworkManager</code> 会“回过头来”调用你实现的 <code>onSuccess</code> 或 <code>onFailure</code> 方法.</li>
+<li>它通知你在异步操作结束后发生了什么。</li>
+</ul>
+</li>
+<li><strong>UI 控件的监听器<code> Listeners</code>：</strong>
+<ul>
+<li><code>button.setOnClickListener &#123; ... &#125;</code>.</li>
+<li>你传递了一个匿名函数（实现了 <code>OnClickListener</code> 接口的方法）给 <code>Button</code>.</li>
+<li>当用户点击按钮时，<code>Button</code> 内部的代码会“回调”你提供的 <code>onClick</code> 方法.</li>
+<li>它通知你用户发生了什么交互.</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="回调的代码示例图片下载完成时的通知回调"><a class="markdownIt-Anchor" href="#回调的代码示例图片下载完成时的通知回调"></a> 回调的代码示例(图片下载完成时的通知回调)</h2>
+<h3 id="1定义回调接口"><a class="markdownIt-Anchor" href="#1定义回调接口"></a> 1.定义回调接口</h3>
+<p>首先,我们定义一个接口,用于在图片下载完成时通知我们.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">interfce ImageDownloadListener &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> imageUrl 下载的图片URL</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> imagePath 图片保存的本地路径</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">   <span class="function"><span class="keyword">fun</span> <span class="title">onImageDownloaded</span><span class="params">(imageUrl: <span class="type">String</span>, imagePath: <span class="type">String</span>)</span></span> <span class="comment">// 图片下载成功时调用</span></span><br><span class="line">  </span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> imageUrl 尝试下载的图片URL</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> errorMessage 错误信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">   <span class="function"><span class="keyword">fun</span> <span class="title">onDownloadFailed</span><span class="params">(imageUri: <span class="type">String</span>, errorMessage: <span class="type">String</span>)</span></span> <span class="comment">// 图片下载失败时调用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong><code>ImageDownloadListener</code></strong>：这是一个 Kotlin 接口.</li>
+<li><strong><code>onImageDownloaded</code></strong> 和 <strong><code>onDownloadFailed</code></strong>：这是接口中定义的两个方法。任何实现这个接口的类都需要提供这两个方法的具体实现。它们是“回调”方法.</li>
+</ul>
+<hr />
+<h3 id="实现图片下载器后台任务"><a class="markdownIt-Anchor" href="#实现图片下载器后台任务"></a> 实现图片下载器(后台任务)</h3>
+<p>接着,我们创建一个模拟的<code>ImageDownloader</code>类.他会在内部启动一个新线程来模拟耗时的下载操作,并在操作完成后通过回调通知结果.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ImageDownloader</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> listener: ImageDownloadListener? = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置下载监听器</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> listener 实现 ImageDownloadListener 接口的对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">setDownloadListener</span><span class="params">(listener: <span class="type">ImageDownloadListener</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.listener = listener</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 模拟下载图片</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> imageUrl 要下载的图片URL</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">downloadImage</span><span class="params">(imageUrl: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 在新的线程中执行下载操作，避免阻塞主线程</span></span><br><span class="line">        Thread &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// 模拟网络延迟和下载过程</span></span><br><span class="line">                Thread.sleep(<span class="number">3000</span>) <span class="comment">// 假设下载需要3秒</span></span><br><span class="line">                <span class="keyword">val</span> localPath = <span class="string">&quot;/data/data/your.package.name/files/downloaded_image.png&quot;</span> <span class="comment">// 模拟本地路径</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">// 模拟下载成功或失败的随机性</span></span><br><span class="line">                <span class="keyword">val</span> isSuccess = (<span class="number">0.</span><span class="number">.1</span>).random() == <span class="number">1</span> <span class="comment">// 50%的成功率</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">// 下载完成后，通过 Handler 切换回主线程，然后调用回调方法</span></span><br><span class="line">                Handler(Looper.getMainLooper()).post &#123;</span><br><span class="line">                    <span class="keyword">if</span> (isSuccess) &#123;</span><br><span class="line">                        listener?.onImageDownloaded(imageUrl, localPath)</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        listener?.onDownloadFailed(imageUrl, <span class="string">&quot;模拟：下载失败，服务器无响应&quot;</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (e: InterruptedException) &#123;</span><br><span class="line">                <span class="comment">// 线程中断异常处理</span></span><br><span class="line">                Handler(Looper.getMainLooper()).post &#123;</span><br><span class="line">                    listener?.onDownloadFailed(imageUrl, <span class="string">&quot;下载被中断: <span class="subst">$&#123;e.message&#125;</span>&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (e: Exception) &#123;</span><br><span class="line">                <span class="comment">// 其他异常处理</span></span><br><span class="line">                Handler(Looper.getMainLooper()).post &#123;</span><br><span class="line">                    listener?.onDownloadFailed(imageUrl, <span class="string">&quot;下载发生未知错误: <span class="subst">$&#123;e.message&#125;</span>&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.start() <span class="comment">// 启动新线程</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 在不再需要时，清除监听器引用，防止内存泄漏</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">clearListener</span><span class="params">()</span></span> &#123;</span><br><span class="line">        listener = <span class="literal">null</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong><code>private var listener: ImageDownloadListener? = null</code></strong>：这是下载器内部保存的一个可空引用：究竟“结果要发给谁”，就靠它。在任何时刻，下载器可以通过<code> listener</code> 调用回调方法。初始时，它为空（还没注册监听者），只有后面调用 <code>setDownloadListener(...) </code>后，才会持有一个真正实现了回调接口的对象引用.</li>
+<li><strong><code>setDownloadListener(listener: ImageDownloadListener)</code></strong>：这个方法允许我们“注册”一个实现了 <code>ImageDownloadListener</code> 接口的对象。<code>ImageDownloader</code> 会持有这个对象的引用.</li>
+<li><strong><code>downloadImage(imageUrl: String)</code></strong>：这个方法启动了一个新的 <code>Thread</code> 来模拟耗时的下载过程（<code>Thread.sleep(3000)</code>）.</li>
+<li><strong><code>Handler(Looper.getMainLooper()).post &#123; ... &#125;</code></strong>：因为 <code>onImageDownloaded</code> 和 <code>onDownloadFailed</code> 方法通常会用于更新 UI，而 UI 更新必须在主线程进行。后台线程不能直接更新 UI。<code>Handler</code> 负责将 Runnable发送到主线程的消息队列中执行.</li>
+<li><strong><code>listener?.onImageDownloaded(...)</code> 与 <code>listener?.onDownloadFailed(...)</code></strong>：在下载任务完成（或失败）后，<code>ImageDownloader</code> 通过之前设置的 <code>listener</code> 引用，<strong>回过头来调用</strong>了这些方法。这就是<strong>回调</strong>的发生点.</li>
+</ul>
+<hr />
+<h3 id="在activity中接收回调并更新ui"><a class="markdownIt-Anchor" href="#在activity中接收回调并更新ui"></a> 在Activity中接收回调并更新UI</h3>
+<p>最后,我们在<code>MainActivity</code>中使用<code>Imageloader</code>,并实现<code>ImageDownloadListener</code>接口来接收下载结果,然后更新UI.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MainActivity</span> : <span class="type">AppCompatActivity</span>(), ImageDownloadListener &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> downloadButton: Button</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> statusTextView: TextView</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> downloadedImageView: ImageView <span class="comment">// 假设是显示图片，这里只更新文本</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> imageDownloader = ImageDownloader() <span class="comment">// 创建下载器实例</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main) <span class="comment">// 你的布局文件</span></span><br><span class="line"></span><br><span class="line">        downloadButton = findViewById(R.id.downloadButton)</span><br><span class="line">        statusTextView = findViewById(R.id.statusTextView)</span><br><span class="line">        downloadedImageView = findViewById(R.id.downloadedImageView) <span class="comment">// 如果你真的要显示图片，需要图片加载库</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 关键一步：将 Activity 自己注册为 ImageDownloader 的回调监听器</span></span><br><span class="line">        imageDownloader.setDownloadListener(<span class="keyword">this</span>)</span><br><span class="line"></span><br><span class="line">        downloadButton.setOnClickListener &#123;</span><br><span class="line">            <span class="keyword">val</span> imageUrl = <span class="string">&quot;https://example.com/some_image.jpg&quot;</span> <span class="comment">// 模拟一个图片URL</span></span><br><span class="line">            statusTextView.text = <span class="string">&quot;正在下载图片：<span class="variable">$imageUrl</span> ...&quot;</span></span><br><span class="line">            downloadButton.isEnabled = <span class="literal">false</span> <span class="comment">// 下载中禁用按钮</span></span><br><span class="line">            imageDownloader.downloadImage(imageUrl) <span class="comment">// 开始下载</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// --- 实现 ImageDownloadListener 接口的回调方法 ---</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onImageDownloaded</span><span class="params">(imageUrl: <span class="type">String</span>, imagePath: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 下载成功回调：此方法在主线程执行，可以直接更新UI</span></span><br><span class="line">        statusTextView.text = <span class="string">&quot;图片下载成功！\nURL: <span class="variable">$imageUrl</span>\n路径: <span class="variable">$imagePath</span>&quot;</span></span><br><span class="line">        downloadButton.isEnabled = <span class="literal">true</span> <span class="comment">// 启用按钮</span></span><br><span class="line">        Toast.makeText(<span class="keyword">this</span>, <span class="string">&quot;图片下载成功！&quot;</span>, Toast.LENGTH_SHORT).show()</span><br><span class="line">        <span class="comment">// 实际应用中，你可能在这里加载图片到 downloadedImageView</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onDownloadFailed</span><span class="params">(imageUrl: <span class="type">String</span>, errorMessage: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 下载失败回调：此方法也在主线程执行，可以直接更新UI</span></span><br><span class="line">        statusTextView.text = <span class="string">&quot;图片下载失败！\nURL: <span class="variable">$imageUrl</span>\n错误: <span class="variable">$errorMessage</span>&quot;</span></span><br><span class="line">        downloadButton.isEnabled = <span class="literal">true</span> <span class="comment">// 启用按钮</span></span><br><span class="line">        Toast.makeText(<span class="keyword">this</span>, <span class="string">&quot;图片下载失败！&quot;</span>, Toast.LENGTH_LONG).show()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onDestroy</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy()</span><br><span class="line">        <span class="comment">// 在 Activity 销毁时，清除回调引用，防止内存泄漏</span></span><br><span class="line">        imageDownloader.clearListener()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong><code>class MainActivity : AppCompatActivity(), ImageDownloadListener&#123;&#125;</code></strong>：继承回调接口,用于实现<code>onImageDownloaded</code>与<code>onDownloadFailed</code>的方法重写.</li>
+<li><strong><code>private val imageDownloader = ImageDownloader()</code></strong>：创建了上面代码的下载器实例,使我们可以调用它的方法实现下载操作.</li>
+<li><strong><code>imageDownloader.setDownloadListener(this))</code></strong>：将 该Activity 自己注册为 <code>ImageDownloader</code> 的回调监听器,使其监听下载过程来进行UI变化.</li>
+</ul>
+<hr />
+<h3 id="回调机制究竟如何实现信使与消息传递的秘密"><a class="markdownIt-Anchor" href="#回调机制究竟如何实现信使与消息传递的秘密"></a> 回调机制究竟如何实现？“信使”与“消息传递”的秘密</h3>
+<p><strong>注册监听者：建立“信使”关系</strong></p>
+<ul>
+<li>当我们在 <code>MainActivity.onCreate()</code> 调用 <code>imageDownloader.setDownloadListener(this)</code> 时，其实是告诉下载器：“以后你要想把结果告诉我，就给我打电话（调用我的回调方法）”.</li>
+<li>本质上，<code>listener = this</code>，<code>listener</code> 保存了一个对 Activity 的引用（前提是 Activity 实现了 <code>ImageDownloadListener</code>）。这一步就像是“邮差把地址记牢了”.</li>
+</ul>
+<p><strong>后台线程完成任务：执笔写信</strong></p>
+<ul>
+<li>
+<p><code>downloadImage(imageUrl)</code> 会在新线程里模拟下载。当下载过程完成或因异常终止时，下载结果就像信被写好：它包含成功/失败标志、<code>imageUrl</code>、<code>localPath</code>（或错误信息）.</p>
+</li>
+<li>
+<p>但是，后台线程不能直接更新 UI；如果直接在后台线程里调用 <code>listener?.onImageDownloaded(...)</code>，会抛出 “只能在主线程更新 UI” 的异常。因此，我们借助：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Handler(Looper.getMainLooper()).post &#123; … &#125;</span><br></pre></td></tr></table></figure>
+<p>这行代码的作用是：</p>
+<ol>
+<li>拿到主线程的 <code>Looper</code>（消息循环）.</li>
+<li>创建一个 <code>Handler</code>，把想要执行的“回调逻辑”封装到一个 Runnable 里，丢到主线程的消息队列.</li>
+<li>什么时候？当主线程空闲时，就会从队列中取出这个 Runnable 执行。那时再调用 <code>listener?.onImageDownloaded(...)</code>、<code>listener?.onDownloadFailed(...)</code>，既是在主线程，就能安心更新 UI 了.</li>
+</ol>
+</li>
+</ul>
+<p><strong>回调方法真正被触发：Activity “接到信”</strong></p>
+<ul>
+<li>比如下载成功：<code>listener?.onImageDownloaded(imageUrl, localPath)</code> 被执行，此时 <code>listener</code> 指向 <code>MainActivity</code> 的一个实例，而且正好执行在主线程里。Android 会转身调用 <code>MainActivity.onImageDownloaded(...)</code>，然后我们在这个方法里优雅地更新 UI：
+<ul>
+<li>改写状态文本 <code>statusTextView.text = &quot;...下载成功...&quot;</code></li>
+<li>重新启用按钮，让用户开心点一下重试</li>
+<li>弹个 Toast，提醒喜讯</li>
+</ul>
+</li>
+<li>下载失败时则执行 <code>onDownloadFailed(imageUrl, errorMsg)</code>，带上了“为什么失败”的缘由，让用户不至于一脸茫然.</li>
+</ul>
+<p><strong>回调机制的魅力：解耦、可扩展、灵活</strong></p>
+<ul>
+<li><strong>解耦</strong>：<code>ImageDownloader</code> 只负责“模仿下载并返回结果”，而不关心“后续如何处理”。后续逻辑全交给实现回调接口的类.</li>
+<li><strong>可扩展</strong>：假设你今天有多个地方都要下载图片：Activity A、Activity B、甚至一个 Service、Fragment、或者自定义组件，只要实现了 <code>ImageDownloadListener</code>，就可以随时“接收”下载结果。下载器不需要为不同场景重写，只需“注册监听者”即可.</li>
+<li><strong>灵活</strong>：如果未来想要在下载失败时做更复杂的逻辑（比如上报日志、弹对话框、触发重试），只要在 <code>onDownloadFailed</code> 里添代码就行，不影响下载器本身。反之亦然.</li>
+</ul>
+<p><strong>实现过程</strong></p>
+<ul>
+<li><strong>定义接口</strong> → 设计“回调契约”，刻画出“成功”和“失败”两种信使内容.</li>
+<li><strong>创建下载器</strong> → 内部保存一个接口引用（<code>listener</code>），相当于暗暗握住“回报电话”.</li>
+<li><strong>注册监听者</strong> → 在 <code>Activity</code> 中通过 <code>imageDownloader.setDownloadListener(this)</code>，告诉下载器“以后请将结果拨打我的号码”.</li>
+<li><strong>后台线程执笔</strong> → 模拟网络延迟、抛出异常、决定成功/失败，写好“信件”。</li>
+<li><strong><code>Handler</code> 切回主线程</strong> → 将“回报信”放进主线程的消息队列，保证安全、合法地更新 UI。</li>
+<li><strong>触发回调</strong> → <code>listener?.onImageDownloaded(...)</code> 或 <code>listener?.onDownloadFailed(...)</code> 调用，最终被派发到 <code>MainActivity.onImageDownloaded</code> 或 <code>onDownloadFailed</code> 中；写下“下载成功”或“下载失败”，让用户在屏幕上读到结果.</li>
+<li><strong>生命周期清理</strong> → 当 Activity 销毁，“回报电话”要及时挂断，通过 <code>imageDownloader.clearListener()</code> 避免无效引用，防止内存泄漏.</li>
+</ul>
+<hr />
+<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
+<ul>
+<li><strong>调用接口</strong>是一个广义的概念，指执行接口中定义的方法。</li>
+<li><strong>回调</strong>是<strong>调用接口的一种特定形式</strong>，发生在当一个组件（通常是异步操作或事件源）在某个特定时刻回过头来执行你预先提供（作为参数传递）的代码时。它强调的是<strong>事件驱动和控制反转</strong>。</li>
+</ul>
+<p>所以，可以说“回调是调用接口的一种应用，但调用接口不总是回调”。</p>
+
+    </div>
+    <footer class="article-footer">
+        <blockquote class="article-copyright">
+    <p><strong><span class="icon-user icon"></span>本文作者：</strong>MoYu</p>
+    <p><strong><span class="icon-link icon"></span>本文链接：</strong><a href="https://11111-beep.github.io/2025/05/05/Android%E4%B8%AD%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%9B%9E%E8%B0%83%E7%9A%84%E5%8C%BA%E5%88%AB/">https://11111-beep.github.io/2025/05/05/Android%E4%B8%AD%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%9B%9E%E8%B0%83%E7%9A%84%E5%8C%BA%E5%88%AB/</a></p>
+    
+    <p><strong><span class="icon-calendar icon"></span>本文发布时间：</strong>2025-05-05 16:14:17</p>
+    
+    <p><strong><span class="icon-copyright icon"></span>本文版权：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener nofollow noreferrer" target="_blank"><span class="icon-creative-commons"></span>BY-NC-SA</a> 许可协议。转载请注明出处！</p>
+    <span class="icon-creative-commons article-copyright-bg"></span>
+  </blockquote>
+        <div class="sponsor-wrapper">
+  <div class="sponsor-button">
+    <div class="sponsor-icon rotate"></div>
+    <div class="sponsor-title">赞助</div>
+    <div class="sponsor-icon rotate"></div>
+  </div>
+  <div class="sponsor-tip">请作者喝杯咖啡吧</div>
+    <div class="sponsor-qr">
+        <div class="sponsor-qr-image-wrapper">
+          <img src="/sponsor/alipay.jpg" alt=支付宝 width="200" />
+          <p class="sponsor-qr-name">支付宝</p>
+        </div>
+        <div class="sponsor-qr-image-wrapper">
+          <img src="/sponsor/wechat.png" alt=微信 width="200" />
+          <p class="sponsor-qr-name">微信</p>
+        </div>
+    </div>
+</div>
+        <div class="share-wrapper">
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F11111-beep.github.io%2F2025%2F05%2F05%2FAndroid%25E4%25B8%25AD%25E8%25B0%2583%25E7%2594%25A8%25E6%258E%25A5%25E5%258F%25A3%25E5%2592%258C%25E5%259B%259E%25E8%25B0%2583%25E7%259A%2584%25E5%258C%25BA%25E5%2588%25AB%2F" target="_blank" rel="noopener noreferrer" title="Android中调用接口和回调的区别">
+      <div class="share-icon icon icon-facebook">
+      </div>
+    </a>
+    <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F05%2F05%2FAndroid%25E4%25B8%25AD%25E8%25B0%2583%25E7%2594%25A8%25E6%258E%25A5%25E5%258F%25A3%25E5%2592%258C%25E5%259B%259E%25E8%25B0%2583%25E7%259A%2584%25E5%258C%25BA%25E5%2588%25AB%2F&amp;text=Android%E4%B8%AD%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%9B%9E%E8%B0%83%E7%9A%84%E5%8C%BA%E5%88%AB&amp;via=https%3A%2F%2F11111-beep.github.io" target="_blank" rel="noopener noreferrer" title="Android中调用接口和回调的区别">
+      <div class="share-icon icon icon-twitter">
+      </div>
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F05%2F05%2FAndroid%25E4%25B8%25AD%25E8%25B0%2583%25E7%2594%25A8%25E6%258E%25A5%25E5%258F%25A3%25E5%2592%258C%25E5%259B%259E%25E8%25B0%2583%25E7%259A%2584%25E5%258C%25BA%25E5%2588%25AB%2F&amp;title=Android%E4%B8%AD%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%9B%9E%E8%B0%83%E7%9A%84%E5%8C%BA%E5%88%AB&amp;summary=Android%E4%B8%AD%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%9B%9E%E8%B0%83%E7%9A%84%E5%8C%BA%E5%88%AB&amp;mini=true&amp;ro=true" target="_blank" rel="noopener noreferrer" title="Android中调用接口和回调的区别">
+      <div class="share-icon icon icon-linkedin">
+      </div>
+    </a>
+    <a href="https://www.reddit.com/submit?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F05%2F05%2FAndroid%25E4%25B8%25AD%25E8%25B0%2583%25E7%2594%25A8%25E6%258E%25A5%25E5%258F%25A3%25E5%2592%258C%25E5%259B%259E%25E8%25B0%2583%25E7%259A%2584%25E5%258C%25BA%25E5%2588%25AB%2F&amp;title=Android%E4%B8%AD%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%9B%9E%E8%B0%83%E7%9A%84%E5%8C%BA%E5%88%AB" target="_blank" rel="noopener noreferrer" title="Android中调用接口和回调的区别">
+      <div class="share-icon icon icon-reddit">
+      </div>
+    </a>
+    <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F05%2F05%2FAndroid%25E4%25B8%25AD%25E8%25B0%2583%25E7%2594%25A8%25E6%258E%25A5%25E5%258F%25A3%25E5%2592%258C%25E5%259B%259E%25E8%25B0%2583%25E7%259A%2584%25E5%258C%25BA%25E5%2588%25AB%2F&amp;appkey=&amp;title=Android%E4%B8%AD%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%9B%9E%E8%B0%83%E7%9A%84%E5%8C%BA%E5%88%AB&amp;pic=&amp;ralateUid=" target="_blank" rel="noopener noreferrer" title="Android中调用接口和回调的区别">
+      <div class="share-icon icon icon-weibo">
+      </div>
+    </a>
+    <a href="https://connect.qq.com/widget/shareqq/index.html?url=www.baidu.com&amp;title=Android%E4%B8%AD%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%9B%9E%E8%B0%83%E7%9A%84%E5%8C%BA%E5%88%AB&amp;desc=Android%E4%B8%AD%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%9B%9E%E8%B0%83%E7%9A%84%E5%8C%BA%E5%88%AB&amp;source=https%3A%2F%2F11111-beep.github.io" target="_blank" rel="noopener noreferrer" title="Android中调用接口和回调的区别">
+      <div class="share-icon icon icon-qq">
+      </div>
+    </a>
+    <a href="javascript:;"  title="Android中调用接口和回调的区别">
+      <div class="share-icon icon icon-weixin">
+          <div id="share-weixin">
+            <div class="share-weixin-dom">
+              <div class="share-weixin-content">
+                <img id="share-weixin-banner"> 
+                <div id="share-weixin-title"></div>
+                <div id="share-weixin-desc"></div>
+              </div>
+              <div class="share-weixin-qrcode">
+                <div class="share-weixin-info">
+                  <div id="share-weixin-author"></div>
+                  <div id="share-weixin-theme">Powered By hexo-theme-reimu</div>
+                </div>
+                <img id="share-weixin-qr" >
+              </div>
+            </div>
+            <div class="share-weixin-canvas"></div>
+          </div>
+      </div>
+    </a>
+</div>
+        <a data-aos="zoom-in" href="/2025/05/05/Android%E4%B8%AD%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%9B%9E%E8%B0%83%E7%9A%84%E5%8C%BA%E5%88%AB/#comments" class="article-comment-link">
+          <span class="post-comments-count waline-comment-count" data-path="/2025/05/05/Android%E4%B8%AD%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%9B%9E%E8%B0%83%E7%9A%84%E5%8C%BA%E5%88%AB/" itemprop="commentCount"></span>
+          留言
+        </a>
+        <span data-aos="zoom-in" class="article-visitor-link">
+          <span class="waline-pageview-count" data-path="/2025/05/05/Android%E4%B8%AD%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%9B%9E%E8%B0%83%E7%9A%84%E5%8C%BA%E5%88%AB/">0</span>
+          <em class="post-meta-item-text">阅读量</em>
+        </span>
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/Android/" rel="tag" title="Android">Android</a></li></ul>
+
+    </footer>
+  </div>
+    <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+    <div class="article-nav-link-wrap right">
+          <img data-src="/images/banner.webp" data-sizes="auto" alt="利用 PermissionX 库来简化权限请求" class="lazyload">
+      <a href="/2025/04/14/%E5%88%A9%E7%94%A8-PermissionX-%E5%BA%93%E6%9D%A5%E7%AE%80%E5%8C%96%E6%9D%83%E9%99%90%E8%AF%B7%E6%B1%82/" aria-label="后一篇: 利用 PermissionX 库来简化权限请求"  title="后一篇: 利用 PermissionX 库来简化权限请求"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+          利用 PermissionX 库来简化权限请求
+      </h3>
+    </div>
+  </nav>
+
+</article>
+
+  <section id="comments" data-aos="fade-up">
+    <div class="comment-header">
+        
+      <h2 class="comment-title">说些什么吧！</h2>
+      <div class="comment-selector">
+        <div class="comment-selector-wrap">
+            <div class="selector-item" data-selector="waline">
+              <span>waline</span>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="comment-content">
+          <div class="comment waline-comment" data-aos="fade-up"
+            id="waline-comment">
+          </div>
+    </div>
+  </section>
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    <div>
+      <span class="icon-copyright"></span>
+        2024-2025
+      <span class="footer-info-sep rotate"></span>
+      MoYu
+    </div>
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+      <div>
+        <span class="icon-brush"></span>
+        8k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        00:40
+      </div>
+      <div class="footer-beian">
+        <img
+          style="object-fit: contain;margin-right: 2px;"
+          src="https://icp.gov.moe/images/ico64.png"
+          alt=""
+          width="24"
+          height="24"
+        />
+        <a target="_blank" rel="noopener nofollow noreferrer" href="https://icp.gov.moe/?keyword=20250560">萌ICP备20250560号</a>
+      </div>
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+  </div>
+</footer>
+
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.</span> <span class="toc-text"> 什么是&quot;调用接口&quot;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%9B%9E%E8%B0%83"><span class="toc-number">2.</span> <span class="toc-text"> 什么是&quot;回调&quot;?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E6%98%AF%E5%9B%9E%E8%B0%83"><span class="toc-number">3.</span> <span class="toc-text"> 什么时候&quot;调用接口&quot;是&quot;回调&quot;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83%E7%9A%84%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B%E5%9B%BE%E7%89%87%E4%B8%8B%E8%BD%BD%E5%AE%8C%E6%88%90%E6%97%B6%E7%9A%84%E9%80%9A%E7%9F%A5%E5%9B%9E%E8%B0%83"><span class="toc-number">4.</span> <span class="toc-text"> 回调的代码示例(图片下载完成时的通知回调)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E5%AE%9A%E4%B9%89%E5%9B%9E%E8%B0%83%E6%8E%A5%E5%8F%A3"><span class="toc-number">4.1.</span> <span class="toc-text"> 1.定义回调接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E4%B8%8B%E8%BD%BD%E5%99%A8%E5%90%8E%E5%8F%B0%E4%BB%BB%E5%8A%A1"><span class="toc-number">4.2.</span> <span class="toc-text"> 实现图片下载器(后台任务)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8activity%E4%B8%AD%E6%8E%A5%E6%94%B6%E5%9B%9E%E8%B0%83%E5%B9%B6%E6%9B%B4%E6%96%B0ui"><span class="toc-number">4.3.</span> <span class="toc-text"> 在Activity中接收回调并更新UI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83%E6%9C%BA%E5%88%B6%E7%A9%B6%E7%AB%9F%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%BF%A1%E4%BD%BF%E4%B8%8E%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E7%9A%84%E7%A7%98%E5%AF%86"><span class="toc-number">4.4.</span> <span class="toc-text"> 回调机制究竟如何实现？“信使”与“消息传递”的秘密</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text"> 总结</span></a></li></ol>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/1.jpg" data-sizes="auto" alt="MoYu" class="lazyload">
+  <div class="sidebar-author-name">MoYu</div>
+  <div class="sidebar-description">Lucky Forever~~</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">11</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">7</div>
+  </div>
+</div>
+<div class="sidebar-social">
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:hqw1554799@gmail.com itemprop="url" target="_blank" aria-label="email" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-twitter sidebar-social-icon">
+      <a href=https://twitter.com/MoYu_Lucky itemprop="url" target="_blank" aria-label="twitter" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/lucky_hqw itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
+    </div>
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+</div>
+</div>
+  </div>
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+</nav>
+
+    </div>
+      <div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png"/>
+        </div>
+      </div>
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+  
+<script src="/js/generator_search.js" defer></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    if (!false || !window.matchMedia('(max-width: 768px)').matches) {
+      window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'));
+    }
+  </script>
+
+  
+<script src="https://npm.webcache.cn/theme-shokax-pjax@0.0.3/dist/index.umd.js" integrity="sha384-xneY1WY8hOfUzswrE4CrYq35N4BdVcxqxwHPr9zawE&#x2F;jMSCxD+jAPU55x&#x2F;jj3wlf" crossorigin="anonymous"></script>
+
+  
+<script src="/js/pjax.js"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/live2d-widgets@0.9.0/autoload.js" integrity="sha384-poTN7wN&#x2F;SqNhQqo3jdFeX20ikddWeFGkUkDEzsKjgH&#x2F;ez8aQLn81oI0Cw6q5xNyB" crossorigin="anonymous"></script>
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@3.0.1/dist/quicklink.umd.js" integrity="sha384-caMDqvgav&#x2F;HWdEYQU1QRRHMLleigpL1YHAG0m371DhzfL8rRzUyOb+bEHtwlmYjD" crossorigin="anonymous"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+<div id="lazy-script">
+  <div>
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "MoYu",
+          title: "Android中调用接口和回调的区别",
+          url: "https://11111-beep.github.io/2025/05/05/Android%E4%B8%AD%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%9B%9E%E8%B0%83%E7%9A%84%E5%8C%BA%E5%88%AB/",
+          excerpt: "",
+          description: "",
+          stripContent: "很多Android开发小白刚开始都不明白书上调用接口和回调的区别,简单来说“调用接口”是一个非常宽泛的术语，它可以指很多情况，而“回调”是一种特定类型的接口调用，它发生在特定的设计模式和场景下。 让我们来详细区分一下：  什么是&amp;quot;调用接口&amp;quot; 在Android开发中,&amp;quot;调用接口&amp;quot;通常包括两种情况:   调用某个类实现的接口方法:当一个类A实现了接口B时,你可以通过接口B的引用来调用A中实现的方法.这也体现出了面向对象里面的多态的特点. 例子: List是一个",
+          date: "Mon May 05 2025 16:14:17 GMT+0800",
+          updated: "Sun Dec 14 2025 16:17:19 GMT+0800",
+          cover: "/images/banner.webp",
+        };
+      </script>
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+<script src="/js/tabs.js" data-pjax></script>
+
+          
+<script src="https://npm.webcache.cn/@zumer/snapdom@1.9.14/dist/snapdom.min.js" integrity="sha384-OEQ+fJp&#x2F;Mvi2uzBREXybtxryJvLytWapuHu4EE6LPwTKUwATYcc55tPPcZTzVcmx" crossorigin="anonymous" defer data-pjax></script>
+
+          
+<script src="https://npm.webcache.cn/qrcode@1.5.1/build/qrcode.js" integrity="sha384-VT1EeewTCEXgndcPMQ0PzV+uVFYjxFIjmAA7s5gcMX9t4Dt5TD+OVQIn7NJWIXn7" crossorigin="anonymous" defer data-pjax></script>
+
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+        
+<script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+
+  var commentConfigKeys = ["waline"];
+  var commentConfig = {
+    waline: {
+      enable: true,
+      load: async () => {
+        const container = document.querySelector('.waline-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        let walineInit;
+        const walineCdn = 'https://npm.webcache.cn/@waline/client@2.15.8/dist/waline.mjs';
+        const walineIntegrity = 'sha384-9sbqJjrfGjbkI6/PI4nU/MvBfEmkkPC4YK9I4zBeMIf1CVCZdCMH/KinBEAZII/5';
+
+        const module = await safeImport(walineCdn, walineIntegrity);
+        walineInit = module.init;
+
+        window.walineInstance = walineInit({
+          el: '.waline-comment',
+          serverURL: 'https://moyublog.vercel.app',
+          lang: document.documentElement.lang || 'en',
+          locale: {},
+          emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus","https://unpkg.com/@waline/emojis@1.2.0/bilibili","https://unpkg.com/@waline/emojis@1.2.0/qq","https://unpkg.com/@waline/emojis@1.2.0/tieba","https://unpkg.com/@waline/emojis@1.2.0/tw-emoji"],
+          meta: ["nick","mail","link"],
+          requiredMeta: ["nick","mail"],
+          wordLimit: JSON.parse('0'),
+          comment: true,
+          pageSize: JSON.parse('10'),
+          dark: 'html[data-theme="dark"]',
+          pageview: JSON.parse('true'),
+        });
+      }
+    },
+  }
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    // 1. 首先检查localStorage中是否有保存的评论类型
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    // 2. 如果localStorage中有值且对应的评论系统可用，就使用它
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    // 3. 如果localStorage无效，检查配置的默认评论系统
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    // 4. 如果前两项都无效，按指定顺序找到第一个可用的评论系统
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    // 隐藏所有评论容器
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    // 按需加载评论系统
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        // 如果已加载，只需显示对应容器
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      // 根据类型加载对应的脚本
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    // 评论组件选择器
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      // 获取要加载的评论系统类型
+      const commentType = item.getAttribute('data-selector');
+
+      // 隐藏所有评论系统
+      hideAllComments();
+
+      // 加载选中的评论系统
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      // 评论组件选择器点击事件
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          // 保存选择器状态
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          // 切换选中状态
+          changeActiveCommentItems(item);
+        });
+      }
+
+      // 检查是否需要加载默认评论系统
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script>
+
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.11.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js" integrity="sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL&#x2F;aORyw+5+HZoU6e" crossorigin="anonymous"></script>
+
+
+  <script>
+    if (!false || !window.matchMedia('(max-width: 768px)').matches) {
+      if (window.matchMedia('(max-width: 959px)').matches) {
+        const meting = _$('meting-js');
+        if (meting) {
+          meting.setAttribute('fixed', 'true');
+          const aside = meting.parentNode?.parentNode;
+          if (aside?.tagName === 'ASIDE') {
+            meting.parentNode.removeChild(meting);
+            document.body.appendChild(meting);
+          }
+        }
+      }
+      const script = document.createElement('script');
+      script.src = "https://npm.webcache.cn/meting@2.0.1/dist/Meting.min.js";
+      script.integrity = "sha384-ASVlpKF80A22OXTK3tfEjZm1EL6uFMKIC4p8+0maanw1S/IyB+Y4JG+ZDU7GpKE8";
+      script.crossOrigin = "anonymous";
+      document.body.appendChild(script);
+    }
+  </script>
+
+  
+<script src="https://npm.webcache.cn/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha384-HeUHqi0nVsPUm&#x2F;E0ss7OfnIV&#x2F;yD96JWB8ehZvUuoVax9DpNHL17jj9pdfXHzqDxm" crossorigin="anonymous" defer></script>
+
+  <script data-pjax>
+    if (document.readyState === "loading") {
+      document.addEventListener('DOMContentLoaded', () => {
+        pangu?.spacingPage();
+      });
+    } else {
+      pangu?.spacingPage();
+    }
+  </script>
+
+  </body>
+  </html>
