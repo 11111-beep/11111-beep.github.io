@@ -1,0 +1,1312 @@
+  <!DOCTYPE html>
+  <html lang="en"  
+      data-theme-mode="auto"
+  >
+  <head>
+  <meta charset="utf-8">
+  
+  
+  
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)","en":"Copy successfully (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","en":"Copy failed (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":20};window.REIMU_CONFIG.base = 'https://11111-beep.github.io';window.REIMU_CONFIG.i18n_languages = ["en"];</script>
+  <title>
+    自定义view | 为什么喜欢沫雨~
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+    <meta name="description" content="自定义View是一个综合的技术体系,他涉及View的层次结构,事件分发机制和View的工作原理等技术细节. 自定义View总体可以分为四类  继承View重写onDraw方法 继承ViewGroup派生特殊的Layout 继承特定的View(比如TextView) 继承特定的ViewGroup(比如LinearLayout)  注意事项  **让View支持wrap_content: **直接继承">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义view">
+<meta property="og:url" content="https://11111-beep.github.io/en/2025/10/20/%E8%87%AA%E5%AE%9A%E4%B9%89view/index.html">
+<meta property="og:site_name" content="为什么喜欢沫雨~">
+<meta property="og:description" content="自定义View是一个综合的技术体系,他涉及View的层次结构,事件分发机制和View的工作原理等技术细节. 自定义View总体可以分为四类  继承View重写onDraw方法 继承ViewGroup派生特殊的Layout 继承特定的View(比如TextView) 继承特定的ViewGroup(比如LinearLayout)  注意事项  **让View支持wrap_content: **直接继承">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-10-20T09:25:18.000Z">
+<meta property="article:modified_time" content="2025-12-14T09:29:38.734Z">
+<meta property="article:author" content="MoYu">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+      <meta name="keywords" content="编程, Android, 技术, 生活">
+    <link rel="alternate" href="/atom.xml" title="为什么喜欢沫雨~" type="application/atom+xml">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+        
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.24/dist/katex.min.css" integrity="sha384-tTgKLjMYmJr94v8qu2PE5MUGSMbyN2xiH266JUB3gpm8vnnJywd1dWSOEfrFz+YI" crossorigin="anonymous">
+
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/@waline/client@2.15.8/dist/waline.css" integrity="sha384-vltfZtesCdl6NYVcFVcjEaIi5RpNvZe9t7fXvq8twVtcoy+Ub9QgnxUYJmwOhYCK" crossorigin="anonymous">
+
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+    <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css" integrity="sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU&#x2F;voDBY5XE2lVh" crossorigin="anonymous">
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+      <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+      </div>
+      <div class="loading-word">Loading~~~</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var loaderEl = document.getElementById('loader');
+    var startLoading = () => {
+      time = Date.now();
+      loaderEl.classList.remove("loading");
+    }
+    var hideLoader = () => {
+      document.body.style.overflow = 'auto';
+      loader.classList.add('loading');
+    };
+
+    var endLoading = () => {
+      if (!time) {
+        hideLoader();
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          hideLoader();
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    loaderEl.addEventListener('click', endLoading);
+  </script>
+<div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+        <a class="main-nav-link-wrap" href="/en/">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">Home</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/en/archives">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">Archives</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/en/about">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">About</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/en/friend">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">Friend</span>
+        </span>
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" aria-label="RSS Feed" target="_blank"></a>
+      <a id="nav-search-btn" class="nav-icon popup-trigger" title="Search" aria-label="Search"></a>
+  </nav>
+    <nav id="i18n-nav" aria-label="Language selection">
+      <div class="custom-dropdown">
+        <div class="select-selected" id="select-selected" role="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Language menu">
+          <span id="nav-language-btn" class="nav-icon" style="padding: 0 20px 0 0"></span>
+          <span id="selected-lang">English</span>
+        </div>
+        <ul class="select-items" id="select-items" role="listbox" aria-label="Languages">
+            <li data-value="zh-CN" role="option" aria-selected="false">简体中文</li>
+            <li data-value="en" role="option" class="selected" aria-selected="true">English</li>
+        </ul>
+      </div>
+      <script>
+        var selectSelected = document.getElementById("select-selected");
+        var selectedLang = document.getElementById("selected-lang");
+        var selectItems = document.getElementById("select-items");
+        var selectOptions = selectItems.querySelectorAll("li");
+
+        selectSelected.addEventListener("click", () => {
+          selectItems.classList.toggle("show");
+          var expanded = selectSelected.getAttribute("aria-expanded") === "true";
+          selectSelected.setAttribute("aria-expanded", (!expanded).toString());
+        });
+
+        selectOptions.forEach((item) => {
+          item.addEventListener("click", () => {
+            const langMap = {};
+              langMap['zh-CN'] = '/2025/10/20/自定义view/';
+              langMap['en'] = '/en/2025/10/20/自定义view/';
+            selectedLang.textContent = item.textContent;
+            selectItems.classList.remove("show");
+            selectOptions.forEach((option) => {
+              option.classList.remove("selected");
+            });
+            item.classList.add("selected");
+            window.location = langMap[item.dataset.value];
+          });
+        });
+
+        document.addEventListener("click", (event) => {
+          if (!event.target.closest(".custom-dropdown")) {
+            selectItems.classList.remove("show");
+            selectSelected.setAttribute("aria-expanded", "false");
+          }
+        });
+      </script>
+    </nav>
+</div>
+<header id="header" aria-label="Site header">
+    <picture></picture>
+    <img  fetchpriority="high" src="/images/aaa/1.webp" alt="自定义view">
+  <div id="header-outer">
+    <div id="header-title">
+          <span id="logo">
+            <h1 data-aos="slide-up">自定义view</h1>
+          </span>
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+        </h2>
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content"  class="sidebar-right" >
+          <aside id="sidebar" aria-label="Sidebar">
+  <div class="sidebar-wrapper-container sticky">
+      <meting-js
+        theme="var(--color-link)"
+        id="2265921590"
+        server="netease"
+        type="playlist"
+        auto="lrc"
+        fixed="false"
+        autoplay="true"
+        loop="all"
+        order="list"
+        preload="auto"
+        volume="0.7"
+        mutex="true"
+        list-folded="true"
+        lrc-type="3"
+      ></meting-js>
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">Contents</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#measure%E8%BF%87%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text"> measure过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#onmeasure-%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.1.</span> <span class="toc-text"> onMeasure 的作用是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%90%86%E8%A7%A3%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5measurespec"><span class="toc-number">1.2.</span> <span class="toc-text"> 理解核心概念：MeasureSpec</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#measurespec-%E7%9A%84%E4%B8%89%E7%A7%8D%E6%A8%A1%E5%BC%8F-mode"><span class="toc-number">1.3.</span> <span class="toc-text"> MeasureSpec 的三种模式 (Mode)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-view%E7%9A%84-onmeasure"><span class="toc-number">1.4.</span> <span class="toc-text"> 自定义 View的 onMeasure</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%AD%A3%E6%96%B9%E5%BD%A2-view"><span class="toc-number">1.5.</span> <span class="toc-text"> 代码示例：一个简单的正方形 View</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-viewgroup-%E7%9A%84-onmeasure"><span class="toc-number">1.6.</span> <span class="toc-text"> 自定义 ViewGroup 的 onMeasure</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%9E%82%E7%9B%B4%E7%BA%BF%E6%80%A7%E5%B8%83%E5%B1%80"><span class="toc-number">1.7.</span> <span class="toc-text"> 代码示例：一个简单的垂直线性布局</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#wrap_content%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">1.8.</span> <span class="toc-text"> Wrap_content解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E9%BB%98%E8%AE%A4%E5%B0%BA%E5%AF%B8"><span class="toc-number">1.8.1.</span> <span class="toc-text"> 定义默认尺寸</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%87%8D%E5%86%99-onmeasure-%E6%96%B9%E6%B3%95"><span class="toc-number">1.8.2.</span> <span class="toc-text"> 重写 onMeasure() 方法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%8E%E5%85%B3%E9%94%AE%E7%82%B9"><span class="toc-number">1.9.</span> <span class="toc-text"> 总结与关键点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#layout%E8%BF%87%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text"> layout过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#onlayout%E7%9A%84%E4%BD%9C%E7%94%A8%E5%92%8C%E5%8F%82%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text"> onLayout的作用和参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%A7%A3%E9%87%8A"><span class="toc-number">2.2.</span> <span class="toc-text"> 参数解释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-view%E7%9A%84-onlayout"><span class="toc-number">2.3.</span> <span class="toc-text"> 自定义 View的 onLayout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-viewgroup%E7%9A%84-onlayout"><span class="toc-number">2.4.</span> <span class="toc-text"> 自定义 ViewGroup的 onLayout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B%E7%BB%A7%E7%BB%AD%E5%AE%8C%E5%96%84-customverticallayout"><span class="toc-number">2.5.</span> <span class="toc-text"> 代码示例：继续完善 CustomVerticalLayout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#onmeasurevsonlayout-%E6%A0%B8%E5%BF%83%E5%8C%BA%E5%88%AB%E5%AF%B9%E6%AF%94"><span class="toc-number">2.6.</span> <span class="toc-text"> onMeasurevsonLayout 核心区别对比</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%8E%E5%85%B3%E9%94%AE%E7%82%B9-2"><span class="toc-number">2.7.</span> <span class="toc-text"> 总结与关键点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#draw%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text"> draw过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ondraw-%E7%9A%84%E4%BD%9C%E7%94%A8%E5%92%8C%E6%A0%B8%E5%BF%83%E5%B7%A5%E5%85%B7"><span class="toc-number">3.1.</span> <span class="toc-text"> onDraw 的作用和核心工具</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%A5%E5%85%B7"><span class="toc-number">3.1.1.</span> <span class="toc-text"> 核心工具</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-view%E7%9A%84-ondraw"><span class="toc-number">3.2.</span> <span class="toc-text"> 自定义 View的 onDraw</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B%E4%B8%80%E4%B8%AA%E7%BB%98%E5%88%B6%E4%BA%86%E8%83%8C%E6%99%AF%E5%92%8C%E5%9C%86%E5%BD%A2%E7%9A%84-squareview"><span class="toc-number">3.2.1.</span> <span class="toc-text"> 代码示例：一个绘制了背景和圆形的 SquareView</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-viewgroup-%E7%9A%84-ondraw"><span class="toc-number">3.3.</span> <span class="toc-text"> 自定义 ViewGroup 的 onDraw</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#viewgroup-%E7%9A%84%E7%BB%98%E5%88%B6%E9%A1%BA%E5%BA%8F"><span class="toc-number">3.4.</span> <span class="toc-text"> ViewGroup 的绘制顺序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B%E7%BB%A7%E7%BB%AD%E5%AE%8C%E5%96%84-customverticallayout-2"><span class="toc-number">3.5.</span> <span class="toc-text"> 代码示例：继续完善 CustomVerticalLayout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A6%E5%8F%91%E9%87%8D%E7%BB%98"><span class="toc-number">3.6.</span> <span class="toc-text"> 如何触发重绘</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%8E%E5%85%B3%E9%94%AE%E7%82%B9-3"><span class="toc-number">3.7.</span> <span class="toc-text"> 总结与关键点</span></a></li></ol></li></ol>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/1.jpg" data-sizes="auto" alt="MoYu" class="lazyload">
+  <div class="sidebar-author-name">MoYu</div>
+  <div class="sidebar-description">Lucky Forever~~</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">19</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">10</div>
+  </div>
+</div>
+<div class="sidebar-social">
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:hqw1554799@gmail.com itemprop="url" target="_blank" aria-label="email" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-twitter sidebar-social-icon">
+      <a href=https://twitter.com/MoYu_Lucky itemprop="url" target="_blank" aria-label="twitter" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/lucky_hqw itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
+    </div>
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/" aria-label="Home"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Home</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/archives" aria-label="Archives"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Archives</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/about" aria-label="About"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">About</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/friend" aria-label="Friend"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Friend</div>
+      </div>
+</div>
+</div>
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+    </div>
+  </div>
+  <div class="sidebar-widget">
+  </div>
+  </div>
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-自定义view" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2025-10-20T09:25:18.000Z" itemprop="datePublished">2025-10-20</time>
+    <time style="display: none;" id="post-update-time">2025-12-14</time>
+  </span>
+</div>
+
+      
+    </div>
+    
+    <div class="hr-line"></div>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+        <p>自定义View是一个综合的技术体系,他涉及View的层次结构,事件分发机制和View的工作原理等技术细节.</p>
+<p><em>自定义View总体可以分为四类</em></p>
+<ol>
+<li>继承View重写onDraw方法</li>
+<li>继承ViewGroup派生特殊的Layout</li>
+<li>继承特定的View(比如TextView)</li>
+<li>继承特定的ViewGroup(比如LinearLayout)</li>
+</ol>
+<p><em>注意事项</em></p>
+<ol>
+<li>**让View支持wrap_content: **直接继承View或ViewGroup的控件要<code>在onMeasure</code>中对<code>wrap_content</code>做特殊处理.</li>
+<li><strong>如果有必要,让你的View支持padding:</strong> 继承View的控件在draw方法中处理<code>padding</code>,<code>padding</code>属性才能起作用.继承ViewGroup的控件要在<code>onMeasure</code>和<code>onLayout</code>中考虑<code>padding</code>和子元素的<code>margin</code>对其造成的影响( <code>Padding </code>是 View 内部的事情,而 <code>Margin</code> 是 View 外部由其父布局决定).</li>
+<li>**尽量不要在View中使用<code>Handler</code>: **View内部提供了<code>post</code>系列方法.</li>
+<li>**View中如果有线程或者动画,需要及时停止: **参考<code>View</code>#<code>onDetachedFromWindow</code>.</li>
+<li><strong>View带有滑动嵌套情形时,需要处理好滑动冲突: 重写<code>onInterceptTouchEvent</code>(外部拦截法) 或<code>dispatchTouchEvent</code>(内部拦截法)</strong></li>
+</ol>
+<h3 id="measure过程"><a class="markdownIt-Anchor" href="#measure过程"></a> measure过程</h3>
+<h4 id="onmeasure-的作用是什么"><a class="markdownIt-Anchor" href="#onmeasure-的作用是什么"></a> onMeasure 的作用是什么？</h4>
+<p>在 Android 的视图体系中，每个 View 和 ViewGroup 都需要知道自己应该占据多大的空间。这个确定大小的过程就发生在 <strong>Measure (测量)</strong> 阶段。</p>
+<p><code>onMeasure</code> 方法就是这个阶段的核心。它的职责是：</p>
+<ol>
+<li><strong>接收来自父容器的尺寸约束 (Constraints)。</strong></li>
+<li><strong>根据这些约束和自身的特性 (内容、背景等)，计算出自己期望的宽度和高度。</strong></li>
+<li><strong>通过调用 <code>setMeasuredDimension(width, height)</code> 方法，将最终计算出的尺寸保存起来。</strong></li>
+</ol>
+<p>整个视图树的绘制流程分为三个主要阶段：</p>
+<ol>
+<li><strong>Measure (测量)</strong>: 从根视图开始，递归地调用所有子视图的 <code>onMeasure</code>，确定每个视图的大小。</li>
+<li><strong>Layout (布局)</strong>: 从根视图开始，递归地调用所有子视图的 <code>onLayout</code>，确定每个视图在屏幕上的具体位置（左、上、右、下坐标）。</li>
+<li><strong>Draw (绘制)</strong>: 从根视图开始，递归地调用所有子视图的 <code>onDraw</code>，将它们的内容绘制到屏幕上。</li>
+</ol>
+<p><code>onMeasure</code> 是这三大流程的第一个，它为后续的布局和绘制奠定了基础。</p>
+<hr />
+<h4 id="理解核心概念measurespec"><a class="markdownIt-Anchor" href="#理解核心概念measurespec"></a> 理解核心概念：MeasureSpec</h4>
+<p>在深入 <code>onMeasure</code> 之前，必须先理解 <code>MeasureSpec</code>。<code>onMeasure</code> 方法接收两个参数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这两个 <code>int</code> 类型的参数并不是直接的像素值，而是 <code>MeasureSpec</code>。它是一个 32 位的整数，其中高 2 位代表 <strong>模式 (Mode)</strong>，低 30 位代表 <strong>尺寸 (Size)</strong>。</p>
+<p><code>MeasureSpec</code> 是父容器传递给子视图的“尺寸要求”或“约束条件”。它告诉子视图：“你应该在这个规则下测量自己”。</p>
+<h4 id="measurespec-的三种模式-mode"><a class="markdownIt-Anchor" href="#measurespec-的三种模式-mode"></a> MeasureSpec 的三种模式 (Mode)</h4>
+<ol>
+<li><strong><code>MeasureSpec.EXACTLY</code> (精确模式)</strong>
+<ul>
+<li><strong>含义</strong>: 父容器已经为子视图确定了切确的尺寸。子视图的最终尺寸就是 <code>MeasureSpec</code> 中指定的 <code>size</code> 值。</li>
+<li><strong>对应场景</strong>:
+<ul>
+<li>布局文件中设置了具体的尺寸，如 <code>android:layout_width=&quot;100dp&quot;</code>。</li>
+<li>布局文件中设置了 <code>android:layout_width=&quot;match_parent&quot;</code>，并且父容器的尺寸是确定的。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><code>MeasureSpec.AT_MOST</code> (最大模式)</strong>
+<ul>
+<li><strong>含义</strong>: 父容器为子视图指定了一个最大可用尺寸。子视图的尺寸不能超过这个 <code>size</code> 值，但可以根据自身内容调整为比它更小的值。</li>
+<li><strong>对应场景</strong>:
+<ul>
+<li>布局文件中设置了 <code>android:layout_width=&quot;wrap_content&quot;</code>。此时 <code>size</code> 就是父容器剩余的可用空间。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><code>MeasureSpec.UNSPECIFIED</code> (不指定模式)</strong>
+<ul>
+<li><strong>含义</strong>: 父容器对子视图的尺寸没有任何限制，子视图可以根据需要设置为任意大小。</li>
+<li><strong>对应场景</strong>:
+<ul>
+<li>通常用在可滚动的容器中，如 <code>ScrollView</code>、<code>RecyclerView</code>。因为这些容器可以在一个维度上无限延伸，所以它们在测量子视图时不会限制其高度（或宽度）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>我们可以使用 <code>MeasureSpec</code> 类的静态方法来解析这两个值：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">specMode</span> <span class="operator">=</span> MeasureSpec.getMode(measureSpec);</span><br><span class="line"><span class="type">int</span> <span class="variable">specSize</span> <span class="operator">=</span> MeasureSpec.getSize(measureSpec);</span><br></pre></td></tr></table></figure>
+<hr />
+<h4 id="自定义-view的-onmeasure"><a class="markdownIt-Anchor" href="#自定义-view的-onmeasure"></a> 自定义 View的 onMeasure</h4>
+<p>对于一个独立的、没有子视图的自定义 <code>View</code>（例如，继承自 <code>View</code>、<code>TextView</code>、<code>ImageView</code> 等），<code>onMeasure</code> 的实现相对简单。它的目标是根据父容器的 <code>MeasureSpec</code> 计算出自己的尺寸。</p>
+<p><strong>基本步骤：</strong></p>
+<ol>
+<li>重写 <code>onMeasure(int widthMeasureSpec, int heightMeasureSpec)</code> 方法。</li>
+<li>在方法内部，分别解析宽度和高度的 <code>mode</code> 和 <code>size</code>。</li>
+<li>针对不同的 <code>mode</code>，计算出最终的宽度和高度。
+<ul>
+<li><strong><code>EXACTLY</code></strong>: 直接使用 <code>specSize</code> 作为最终尺寸。</li>
+<li><strong><code>AT_MOST</code></strong>: 计算出自己内容所需的尺寸（比如文本的宽度、图片的高度等），然后与 <code>specSize</code> 比较，取较小值。<code>Math.min(contentSize, specSize)</code>。</li>
+<li><strong><code>UNSPECIFIED</code></strong>: 直接使用自己内容所需的尺寸。</li>
+</ul>
+</li>
+<li><strong>【最重要的一步】</strong> 调用 <code>setMeasuredDimension(measuredWidth, measuredHeight)</code> 保存计算结果。<strong>如果不调用这个方法，系统会抛出异常。</strong></li>
+</ol>
+<h4 id="代码示例一个简单的正方形-view"><a class="markdownIt-Anchor" href="#代码示例一个简单的正方形-view"></a> 代码示例：一个简单的正方形 View</h4>
+<p>假设我们要创建一个自定义 View，它总是尝试将自己渲染成一个正方形。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SquareView</span> <span class="keyword">extends</span> <span class="title class_">View</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">defaultSize</span> <span class="operator">=</span> <span class="number">200</span>; <span class="comment">// 默认尺寸，单位 px</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">SquareView</span><span class="params">(Context context, <span class="meta">@Nullable</span> AttributeSet attrs)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">        <span class="comment">// 直接调用父类 onMeasure 是一个好习惯，它会处理一些默认情况</span></span><br><span class="line">        <span class="comment">// super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span></span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">width</span> <span class="operator">=</span> getMySize(defaultSize, widthMeasureSpec);</span><br><span class="line">        <span class="type">int</span> <span class="variable">height</span> <span class="operator">=</span> getMySize(defaultSize, heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 为了保证是正方形，我们取宽高的最小值</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">finalSize</span> <span class="operator">=</span> Math.min(width, height);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 【关键】保存最终计算出的尺寸</span></span><br><span class="line">        setMeasuredDimension(finalSize, finalSize);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="title function_">getMySize</span><span class="params">(<span class="type">int</span> defaultSize, <span class="type">int</span> measureSpec)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mySize</span> <span class="operator">=</span> defaultSize;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">mode</span> <span class="operator">=</span> MeasureSpec.getMode(measureSpec);</span><br><span class="line">        <span class="type">int</span> <span class="variable">size</span> <span class="operator">=</span> MeasureSpec.getSize(measureSpec);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span> (mode) &#123;</span><br><span class="line">            <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">                <span class="comment">// match_parent 或具体 dp 值，父容器决定了大小，我们必须遵守</span></span><br><span class="line">                mySize = size;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">                <span class="comment">// wrap_content，我们不能超过父容器给的最大值</span></span><br><span class="line">                <span class="comment">// 在这里，我们的内容大小就是 defaultSize</span></span><br><span class="line">                mySize = Math.min(defaultSize, size);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">                <span class="comment">// 父容器不关心，我们用自己的默认值</span></span><br><span class="line">                mySize = defaultSize;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> mySize;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>小技巧</strong>: Android 提供了一个辅助方法 <code>resolveSize(size, measureSpec)</code>，它可以帮你简化 <code>AT_MOST</code> 和 <code>EXACTLY</code> 模式的处理。它等价于：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">resolveSize</span><span class="params">(<span class="type">int</span> size, <span class="type">int</span> measureSpec)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> size;</span><br><span class="line">    <span class="type">int</span> <span class="variable">specMode</span> <span class="operator">=</span> MeasureSpec.getMode(measureSpec);</span><br><span class="line">    <span class="type">int</span> <span class="variable">specSize</span> <span class="operator">=</span> MeasureSpec.getSize(measureSpec);</span><br><span class="line">    <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">        result = size;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">        result = Math.min(size, specSize);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">        result = specSize;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr />
+<h4 id="自定义-viewgroup-的-onmeasure"><a class="markdownIt-Anchor" href="#自定义-viewgroup-的-onmeasure"></a> 自定义 ViewGroup 的 onMeasure</h4>
+<p>自定义 <code>ViewGroup</code> 的 <code>onMeasure</code> 要复杂得多，因为它有双重职责：</p>
+<ol>
+<li><strong>测量所有子视图 (Children)</strong>: 它需要遍历自己的每一个子视图，调用它们的 <code>measure()</code> 方法，并为其生成合适的 <code>MeasureSpec</code>。</li>
+<li><strong>确定自身尺寸</strong>: 在测量完所有子视图后，它需要根据子视图的尺寸和自身的布局逻辑（例如，是线性排列还是层叠排列），计算出自己的总尺寸。</li>
+</ol>
+<p><strong>基本步骤:</strong></p>
+<ol>
+<li>重写 <code>onMeasure(int widthMeasureSpec, int heightMeasureSpec)</code> 方法。</li>
+<li><strong>遍历所有子视图</strong>：使用 <code>for</code> 循环和 <code>getChildCount()</code>。</li>
+<li><strong>为每个子视图生成 <code>MeasureSpec</code></strong>: 这是最复杂的一步。你需要结合父容器传给 <code>ViewGroup</code> 的 <code>MeasureSpec</code> 和子视图自身的 <code>LayoutParams</code> (例如 <code>layout_width=&quot;match_parent&quot;</code> 或 <code>layout_width=&quot;wrap_content&quot;</code>) 来为子视图创建一个新的 <code>MeasureSpec</code>。通常使用 <code>getChildMeasureSpec()</code> 这个静态辅助方法来完成。</li>
+<li><strong>测量子视图</strong>: 调用 <code>child.measure(childWidthMeasureSpec, childHeightMeasureSpec)</code>。这个调用会触发子视图的 <code>onMeasure</code> 方法。</li>
+<li><strong>计算自身尺寸</strong>: 测量完所有子视图后，通过 <code>child.getMeasuredWidth()</code> 和 <code>child.getMeasuredHeight()</code> 获取它们的尺寸。然后根据你的布局逻辑（例如，将所有子视图高度相加）计算出 <code>ViewGroup</code> 自身需要的总宽度和总高度。</li>
+<li><strong>合并尺寸和约束</strong>: 将计算出的自身所需尺寸与父容器传递的 <code>MeasureSpec</code> 进行协调（处理 <code>EXACTLY</code> 和 <code>AT_MOST</code> 模式）。</li>
+<li><strong>保存结果</strong>: 调用 <code>setMeasuredDimension()</code> 保存最终尺寸。</li>
+</ol>
+<h4 id="代码示例一个简单的垂直线性布局"><a class="markdownIt-Anchor" href="#代码示例一个简单的垂直线性布局"></a> 代码示例：一个简单的垂直线性布局</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomVerticalLayout</span> <span class="keyword">extends</span> <span class="title class_">ViewGroup</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CustomVerticalLayout</span><span class="params">(Context context, AttributeSet attrs)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">        <span class="comment">// 1. 获取自身的 MeasureSpec 约束</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">widthMode</span> <span class="operator">=</span> MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">        <span class="type">int</span> <span class="variable">widthSize</span> <span class="operator">=</span> MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">        <span class="type">int</span> <span class="variable">heightMode</span> <span class="operator">=</span> MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">        <span class="type">int</span> <span class="variable">heightSize</span> <span class="operator">=</span> MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 用于计算 ViewGroup 自身尺寸的变量</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">totalHeight</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 累计所有子 View 的高度</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">maxWidth</span> <span class="operator">=</span> <span class="number">0</span>;    <span class="comment">// 找出最宽的子 View 的宽度</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 遍历子 View</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; getChildCount(); i++) &#123;</span><br><span class="line">            <span class="type">View</span> <span class="variable">child</span> <span class="operator">=</span> getChildAt(i);</span><br><span class="line">            <span class="keyword">if</span> (child.getVisibility() == GONE) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 4. 为子 View 生成 MeasureSpec 并测量它</span></span><br><span class="line">            <span class="comment">// measureChild 会自动处理 getChildMeasureSpec 的逻辑</span></span><br><span class="line">            measureChild(child, widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 5. 累加尺寸</span></span><br><span class="line">            <span class="comment">// 获取子 View 测量后的尺寸（包含 margin）</span></span><br><span class="line">            <span class="type">MarginLayoutParams</span> <span class="variable">lp</span> <span class="operator">=</span> (MarginLayoutParams) child.getLayoutParams();</span><br><span class="line">            <span class="type">int</span> <span class="variable">childHeight</span> <span class="operator">=</span> child.getMeasuredHeight() + lp.topMargin + lp.bottomMargin;</span><br><span class="line">            <span class="type">int</span> <span class="variable">childWidth</span> <span class="operator">=</span> child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin;</span><br><span class="line"></span><br><span class="line">            totalHeight += childHeight;</span><br><span class="line">            maxWidth = Math.max(maxWidth, childWidth);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 6. 根据自身约束，确定最终尺寸</span></span><br><span class="line">        <span class="type">int</span> measuredWidth;</span><br><span class="line">        <span class="type">int</span> measuredHeight;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 宽度处理</span></span><br><span class="line">        <span class="keyword">if</span> (widthMode == MeasureSpec.EXACTLY) &#123;</span><br><span class="line">            measuredWidth = widthSize;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (widthMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            measuredWidth = Math.min(maxWidth, widthSize);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            measuredWidth = maxWidth;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 高度处理</span></span><br><span class="line">        <span class="keyword">if</span> (heightMode == MeasureSpec.EXACTLY) &#123;</span><br><span class="line">            measuredHeight = heightSize;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (heightMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            measuredHeight = Math.min(totalHeight, heightSize);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            measuredHeight = totalHeight;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 7. 保存最终尺寸</span></span><br><span class="line">        setMeasuredDimension(measuredWidth, measuredHeight);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 为了能正确处理 margin，需要重写以下方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> LayoutParams <span class="title function_">generateLayoutParams</span><span class="params">(AttributeSet attrs)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MarginLayoutParams</span>(getContext(), attrs);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>: 在 <code>ViewGroup</code> 中，通常会使用 <code>measureChild()</code> 或 <code>measureChildWithMargins()</code> 这两个辅助方法，它们内部封装了 <code>getChildMeasureSpec()</code> 和 <code>child.measure()</code> 的调用，能简化代码，特别是处理 <code>padding</code> 和 <code>margin</code> 时。</p>
+<hr />
+<h4 id="wrap_content解决方案"><a class="markdownIt-Anchor" href="#wrap_content解决方案"></a> Wrap_content解决方案</h4>
+<h5 id="定义默认尺寸"><a class="markdownIt-Anchor" href="#定义默认尺寸"></a> 定义默认尺寸</h5>
+<p>在你的 View 类中，最好将默认尺寸定义为成员变量，方便管理和转换。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CircleView</span> <span class="keyword">extends</span> <span class="title class_">View</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1. 定义默认尺寸 (以像素为单位)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> defaultWidth;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> defaultHeight;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ... 构造函数等 ...</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CircleView</span><span class="params">(Context context, <span class="meta">@Nullable</span> AttributeSet attrs)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context, attrs);</span><br><span class="line">        init(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">(Context context)</span> &#123;</span><br><span class="line">        <span class="comment">// 将 dp 转换为像素 (px)</span></span><br><span class="line">        <span class="type">float</span> <span class="variable">density</span> <span class="operator">=</span> context.getResources().getDisplayMetrics().density;</span><br><span class="line">        defaultWidth = (<span class="type">int</span>) (<span class="number">100</span> * density);</span><br><span class="line">        defaultHeight = (<span class="type">int</span>) (<span class="number">100</span> * density);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// ... 其他代码 ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>最佳实践</strong>: 将 <code>100</code> 这个硬编码的数值定义在 <code>res/values/dimens.xml</code> 中会是更好的做法，这样更容易维护。</li>
+</ul>
+<h5 id="重写-onmeasure-方法"><a class="markdownIt-Anchor" href="#重写-onmeasure-方法"></a> 重写 onMeasure() 方法</h5>
+<p>这是最关键的一步。你需要检查测量规格中的模式，并据此计算最终尺寸。</p>
+<p>在很多情况下，你不需要 <code>Math.min</code> 那么复杂的逻辑，可以直接在 <code>AT_MOST</code> 模式下设置默认值。很多人也会使用 <code>resolveSize()</code> 这个辅助方法来简化代码，它内部已经包含了类似的逻辑。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">    <span class="comment">// resolveSize() 会帮你处理 EXACTLY 和 AT_MOST 模式</span></span><br><span class="line">    <span class="comment">// 在 AT_MOST 模式下，它会返回 Math.min(defaultSize, specSize)</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">measuredWidth</span> <span class="operator">=</span> resolveSize(defaultWidth, widthMeasureSpec);</span><br><span class="line">    <span class="type">int</span> <span class="variable">measuredHeight</span> <span class="operator">=</span> resolveSize(defaultHeight, heightMeasureSpec);</span><br><span class="line">    </span><br><span class="line">    setMeasuredDimension(measuredWidth, measuredHeight);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意</strong>: <code>resolveSize()</code> 在处理 <code>UNSPECIFIED</code> 模式时，会直接返回你提供的默认尺寸。这在大多数情况下是符合预期的。</p>
+</blockquote>
+<h4 id="总结与关键点"><a class="markdownIt-Anchor" href="#总结与关键点"></a> 总结与关键点</h4>
+<ol>
+<li>
+<p><strong><code>onMeasure</code> 的目的是计算并设置 View 的尺寸。</strong></p>
+</li>
+<li>
+<p><strong><code>MeasureSpec</code> 是核心</strong>，它封装了父容器对子视图的尺寸约束（模式 + 尺寸）。</p>
+</li>
+<li>
+<p><strong>自定义 <code>View</code></strong>：根据 <code>MeasureSpec</code> 和自身内容计算尺寸，然后调用 <code>setMeasuredDimension()</code>。</p>
+</li>
+<li>
+<p><strong>自定义 <code>ViewGroup</code></strong>：</p>
+<ul>
+<li>先遍历并测量所有子视图 (<code>child.measure()</code>)。</li>
+<li>再根据子视图的尺寸和布局逻辑计算自身尺寸。</li>
+<li>最后调用 <code>setMeasuredDimension()</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>必须调用 <code>setMeasuredDimension()</code></strong>，否则程序会崩溃。</p>
+</li>
+<li>
+<p><code>onMeasure</code> 可能会被调用多次，所以其中的计算逻辑应该尽可能高效，避免重复或耗时的操作。</p>
+</li>
+<li>
+<p>当你需要重新触发布局流程时（例如，View 的内容变化导致尺寸可能改变），应该调用 <code>requestLayout()</code> 方法，它会使视图树重新执行 <code>onMeasure</code> 和 <code>onLayout</code>。</p>
+</li>
+</ol>
+<hr />
+<h3 id="layout过程"><a class="markdownIt-Anchor" href="#layout过程"></a> layout过程</h3>
+<p><code>onLayout</code> 是 View 绘制三大流程中的第二步（Measure -&gt; <strong>Layout</strong> -&gt; Draw）。在 <code>onMeasure</code> 确定了所有 View 的尺寸之后，<code>onLayout</code> 的职责就是确定这些 View 的 <strong>具体位置</strong>。</p>
+<hr />
+<h4 id="onlayout的作用和参数"><a class="markdownIt-Anchor" href="#onlayout的作用和参数"></a> onLayout的作用和参数</h4>
+<p><code>onLayout</code> 方法的签名如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onLayout</span><span class="params">(<span class="type">boolean</span> changed, <span class="type">int</span> left, <span class="type">int</span> top, <span class="type">int</span> right, <span class="type">int</span> bottom)</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它的作用是：<strong>父容器调用这个方法来确定其所有子视图（Children）在屏幕上的最终位置</strong>。</p>
+<h4 id="参数解释"><a class="markdownIt-Anchor" href="#参数解释"></a> 参数解释</h4>
+<ul>
+<li>
+<p><code>changed</code> (boolean): 表示 View 的尺寸或位置是否相较于上一次布局发生了变化。如果为 <code>true</code>，意味着需要重新布局。</p>
+</li>
+<li>
+<p><code>left</code>, <code>top</code>, <code>right</code>, <code>bottom</code> (int): 这四个参数定义了 <strong>当前 View 本身</strong> 在其父容器坐标系中的位置和区域。它们是由当前 View 的父容器在调用 <code>child.layout()</code> 时传递过来的。</p>
+<ul>
+<li><code>left</code>: View 左边缘相对于父容器左边缘的距离。</li>
+<li><code>top</code>: View 上边缘相对于父容器上边缘的距离。</li>
+<li><code>right</code>: View 右边缘相对于父容器左边缘的距离。</li>
+<li><code>bottom</code>: View 下边缘相对于父容器上边缘的距离。</li>
+</ul>
+<p>你可以通过 <code>getWidth()</code> (<code>right - left</code>) 和 <code>getHeight()</code> (<code>bottom - top</code>) 获取到 View 在 <code>onMeasure</code> 后并经过布局确定的最终尺寸。</p>
+</li>
+</ul>
+<hr />
+<h4 id="自定义-view的-onlayout"><a class="markdownIt-Anchor" href="#自定义-view的-onlayout"></a> 自定义 View的 onLayout</h4>
+<p>对于一个不包含任何子视图的自定义 <code>View</code> (继承自 <code>View</code> 或 <code>TextView</code> 等)，<strong>通常你不需要重写 <code>onLayout</code> 方法</strong>。</p>
+<p><strong>为什么？</strong></p>
+<p>因为 <code>onLayout</code> 的核心职责是 <strong>布局它的子视图</strong>。一个普通的 <code>View</code> 没有子视图，所以它没有东西需要布局。它的位置完全由它的父 <code>ViewGroup</code> 来决定。</p>
+<p>父 <code>ViewGroup</code> 在自己的 <code>onLayout</code> 方法中，会计算出这个 <code>View</code> 应该放在哪里，然后调用这个 <code>View</code> 的 <code>layout(l, t, r, b)</code> 方法。<code>View</code> 类中 <code>final</code> 的 <code>layout()</code> 方法会负责将这四个坐标值保存到 View 的内部变量中（<code>mLeft</code>, <code>mTop</code>, <code>mRight</code>, <code>mBottom</code>），然后它会调用 <code>onLayout()</code>。</p>
+<p><code>View.java</code> 中 <code>onLayout()</code> 的默认实现是空的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in View.java</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onLayout</span><span class="params">(<span class="type">boolean</span> changed, <span class="type">int</span> left, <span class="type">int</span> top, <span class="type">int</span> right, <span class="type">int</span> bottom)</span> &#123;</span><br><span class="line">    <span class="comment">// Empty by default</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以，对于一个简单的自定义 <code>View</code>，由于没有子 View 需要排列，我们让这个空方法被调用就可以了，无需重写。</p>
+<hr />
+<h4 id="自定义-viewgroup的-onlayout"><a class="markdownIt-Anchor" href="#自定义-viewgroup的-onlayout"></a> 自定义 ViewGroup的 onLayout</h4>
+<p><code>onLayout</code> 对于自定义 <code>ViewGroup</code> 来说是 <strong>必须实现的核心方法</strong>。这正是 <code>ViewGroup</code> 与普通 <code>View</code> 的本质区别所在——它需要管理和排列它的孩子们。</p>
+<p><strong>核心职责：</strong></p>
+<p>遍历所有的子视图，并为每一个子视图调用其 <code>layout(l, t, r, b)</code> 方法，从而将它们放置在 <code>ViewGroup</code> 内部的正确位置。</p>
+<p><strong>基本步骤：</strong></p>
+<ol>
+<li>重写 <code>onLayout(boolean changed, int left, int top, int right, int bottom)</code> 方法。</li>
+<li>在方法内部，通常需要先考虑自身的 <code>padding</code>。子视图的布局区域应该在 <code>ViewGroup</code> 的 <code>padding</code> 内部。</li>
+<li><strong>遍历所有子视图</strong>：使用 <code>for</code> 循环和 <code>getChildCount()</code>。</li>
+<li><strong>获取子视图的测量尺寸</strong>：在 <code>onMeasure</code> 阶段结束后，可以通过 <code>child.getMeasuredWidth()</code> 和 <code>child.getMeasuredHeight()</code> 来获取每个子视图希望的尺寸。</li>
+<li><strong>计算每个子视图的位置</strong>：根据你的布局逻辑（例如垂直线性排列、水平排列、或者像 <code>FrameLayout</code> 一样层叠），计算出每个子视图的 <code>left</code>, <code>top</code>, <code>right</code>, <code>bottom</code> 坐标。<strong>注意：这些坐标是相对于当前 <code>ViewGroup</code> 的，而不是相对于屏幕的。</strong></li>
+<li><strong>【最重要的一步】</strong> 为每个子视图调用 <code>child.layout(childLeft, childTop, childRight, childBottom)</code>，将计算出的位置应用到子视图上。这个调用会递归地触发子视图的布局流程。</li>
+</ol>
+<h4 id="代码示例继续完善-customverticallayout"><a class="markdownIt-Anchor" href="#代码示例继续完善-customverticallayout"></a> 代码示例：继续完善 CustomVerticalLayout</h4>
+<p>我们接着 <code>onMeasure</code> 的例子，为 <code>CustomVerticalLayout</code> 实现 <code>onLayout</code> 方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomVerticalLayout</span> <span class="keyword">extends</span> <span class="title class_">ViewGroup</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ... 构造函数和 onMeasure 方法 ...</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onLayout</span><span class="params">(<span class="type">boolean</span> changed, <span class="type">int</span> l, <span class="type">int</span> t, <span class="type">int</span> r, <span class="type">int</span> b)</span> &#123; <span class="comment">// 定义了 getWidth() 和 getHeight() 的值。</span></span><br><span class="line">        <span class="comment">// 1. 考虑自身的 padding作为初始坐标</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">currentTop</span> <span class="operator">=</span> getPaddingTop();</span><br><span class="line">        <span class="type">int</span> <span class="variable">currentLeft</span> <span class="operator">=</span> getPaddingLeft();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 遍历子 View</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; getChildCount(); i++) &#123;</span><br><span class="line">            <span class="type">View</span> <span class="variable">child</span> <span class="operator">=</span> getChildAt(i);</span><br><span class="line">            <span class="keyword">if</span> (child.getVisibility() == GONE) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 3. 获取子 View 的测量尺寸和 margin</span></span><br><span class="line">            <span class="type">MarginLayoutParams</span> <span class="variable">lp</span> <span class="operator">=</span> (MarginLayoutParams) child.getLayoutParams();</span><br><span class="line">            <span class="type">int</span> <span class="variable">childWidth</span> <span class="operator">=</span> child.getMeasuredWidth();</span><br><span class="line">            <span class="type">int</span> <span class="variable">childHeight</span> <span class="operator">=</span> child.getMeasuredHeight();</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 4. 计算子 View 的 left, top, right, bottom 坐标</span></span><br><span class="line">            <span class="comment">// 坐标系是相对于当前 ViewGroup 的,包括内边距</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> currentLeft + lp.leftMargin; <span class="comment">// 左坐标+左外边距</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">top</span> <span class="operator">=</span> currentTop + lp.topMargin;</span><br><span class="line">            <span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> left + childWidth;</span><br><span class="line">            <span class="type">int</span> <span class="variable">bottom</span> <span class="operator">=</span> top + childHeight;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 5. 【关键】调用 child.layout() 来放置子 View</span></span><br><span class="line">            child.layout(left, top, right, bottom);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 6. 更新下一个子 View 的起始 top 位置,包括外边距</span></span><br><span class="line">            currentTop += childHeight + lp.topMargin + lp.bottomMargin;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// ... generateLayoutParams 方法 ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个例子中：</p>
+<ul>
+<li>我们维护一个 <code>currentTop</code> 变量，用于记录当前应当放置子视图的纵向位置。</li>
+<li>对于每个子视图，我们从 <code>currentTop</code> 开始，加上它的 <code>topMargin</code>，确定它的 <code>top</code> 位置。</li>
+<li>它的 <code>bottom</code> 位置就是 <code>top + childHeight</code>。</li>
+<li>它的 <code>left</code> 和 <code>right</code> 位置则由 <code>ViewGroup</code> 的 <code>paddingLeft</code>、子视图的 <code>leftMargin</code> 和子视图的宽度共同决定。</li>
+<li>放置好一个子视图后，我们将 <code>currentTop</code> 增加这个子视图的总高度（测量高度 + 上下 margin），为下一个子视图的放置做准备。</li>
+</ul>
+<hr />
+<h4 id="onmeasurevsonlayout-核心区别对比"><a class="markdownIt-Anchor" href="#onmeasurevsonlayout-核心区别对比"></a> onMeasure<code>vs</code>onLayout 核心区别对比</h4>
+<p>为了更清晰地理解，我们将这两个方法进行对比：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th><code>onMeasure</code></th>
+<th><code>onLayout</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>核心职责</strong></td>
+<td>计算视图的 <strong>尺寸</strong> (Size)</td>
+<td>确定视图的 <strong>位置</strong> (Position)</td>
+</tr>
+<tr>
+<td><strong>工作对象</strong></td>
+<td><strong><code>View</code> 和 <code>ViewGroup</code> 都需要</strong>。<code>ViewGroup</code> 测量子视图，并基于此计算自身尺寸。</td>
+<td><strong>主要是 <code>ViewGroup</code> 的职责</strong>。<code>View</code> 通常不需要实现它。</td>
+</tr>
+<tr>
+<td><strong>关键调用</strong></td>
+<td>计算完尺寸后，必须调用 <code>setMeasuredDimension()</code> 来保存结果。</td>
+<td>遍历子视图，为每个子视图调用 <code>child.layout()</code> 来应用位置。</td>
+</tr>
+<tr>
+<td><strong>输入参数</strong></td>
+<td><code>widthMeasureSpec</code>, <code>heightMeasureSpec</code> (父容器的尺寸约束)</td>
+<td><code>changed</code>, <code>left</code>, <code>top</code>, <code>right</code>, <code>bottom</code> (自身在父容器中的位置)</td>
+</tr>
+<tr>
+<td><strong>数据来源</strong></td>
+<td>依赖父容器的约束和自身内容。</td>
+<td>依赖 <code>onMeasure</code> 的结果 (<code>getMeasuredWidth()</code>) 和自身的布局逻辑。</td>
+</tr>
+<tr>
+<td><strong>触发时机</strong></td>
+<td>在 <code>layout</code> 之前。</td>
+<td>在 <code>measure</code> 之后，<code>draw</code> 之前。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="总结与关键点-2"><a class="markdownIt-Anchor" href="#总结与关键点-2"></a> 总结与关键点</h4>
+<ol>
+<li><strong><code>onLayout</code> 的核心使命是“放位置”</strong>。它在 <code>onMeasure</code> 算出“有多大”之后，决定“放哪里”。</li>
+<li>对于<strong>自定义 <code>View</code></strong>，因为没有子视图，所以<strong>基本不用管 <code>onLayout</code></strong>。</li>
+<li>对于<strong>自定义 <code>ViewGroup</code></strong>，<code>onLayout</code> 是你实现<strong>自定义布局逻辑</strong>的地方，<strong>必须重写</strong>。</li>
+<li>在 <code>onLayout</code> 中，你需要遍历子视图，获取它们测量好的尺寸，然后调用 <code>child.layout()</code> 将它们一一安放。</li>
+<li><code>onLayout</code> 中计算的坐标是 <strong>相对于父容器（也就是当前这个 <code>ViewGroup</code>）的</strong>。</li>
+<li><code>requestLayout()</code> 会触发布局的重新计算，它会依次调用 <code>onMeasure</code> 和 <code>onLayout</code>。而 <code>invalidate()</code> 只会触发重绘，调用 <code>onDraw</code>。如果你的 View 只是内容变了但尺寸和位置不变（比如改变画笔颜色），调用 <code>invalidate()</code>；如果尺寸可能发生变化，调用 <code>requestLayout()</code>。</li>
+</ol>
+<hr />
+<h3 id="draw过程"><a class="markdownIt-Anchor" href="#draw过程"></a> draw过程</h3>
+<p><code>onDraw</code> 是 View 绘制三大流程中的最后一步（Measure -&gt; Layout -&gt; <strong>Draw</strong>）。在 <code>onMeasure</code> 确定了尺寸、<code>onLayout</code> 确定了位置之后，<code>onDraw</code> 的职责就是 <strong>将视图的内容实际绘制到屏幕上</strong>。</p>
+<hr />
+<h4 id="ondraw-的作用和核心工具"><a class="markdownIt-Anchor" href="#ondraw-的作用和核心工具"></a> onDraw 的作用和核心工具</h4>
+<p><code>onDraw</code> 方法的签名如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onDraw</span><span class="params">(Canvas canvas)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.onDraw(canvas);</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它的作用是：<strong>提供一个 <code>Canvas</code> (画布) 对象，让你可以在上面进行任意的 2D 绘制操作。</strong></p>
+<h5 id="核心工具"><a class="markdownIt-Anchor" href="#核心工具"></a> 核心工具</h5>
+<p>要进行绘制，通常需要两个核心类的配合：</p>
+<ol>
+<li><strong><code>Canvas</code> (画布)</strong>
+<ul>
+<li><code>onDraw</code> 方法会传给你一个 <code>Canvas</code> 对象。你可以把它想象成一块指定了尺寸和位置的画布。</li>
+<li>它提供了一系列 <code>draw...()</code> 方法，比如：
+<ul>
+<li><code>drawRect(float left, float top, float right, float bottom, Paint paint)</code>: 绘制矩形。</li>
+<li><code>drawCircle(float cx, float cy, float radius, Paint paint)</code>: 绘制圆形。</li>
+<li><code>drawLine(float startX, float startY, float stopX, float stopY, Paint paint)</code>: 绘制线条。</li>
+<li><code>drawText(String text, float x, float y, Paint paint)</code>: 绘制文本。</li>
+<li><code>drawBitmap(Bitmap bitmap, float left, float top, Paint paint)</code>: 绘制位图 (Bitmap)。</li>
+<li><code>drawPath(Path path, Paint paint)</code>: 绘制自定义路径。</li>
+</ul>
+</li>
+<li><code>Canvas</code> 定义了 <strong>“画什么”</strong> 和 <strong>“在哪里画”</strong>。</li>
+</ul>
+</li>
+<li><strong><code>Paint</code> (画笔)</strong>
+<ul>
+<li><code>Paint</code> 对象定义了绘制的样式和效果。你可以把它想象成一支画笔。</li>
+<li>它控制着各种属性，比如：
+<ul>
+<li><code>setColor(int color)</code>: 设置颜色。</li>
+<li><code>setStyle(Paint.Style style)</code>: 设置样式（<code>FILL</code> 填充、<code>STROKE</code> 描边、<code>FILL_AND_STROKE</code> 填充并描边）。</li>
+<li><code>setStrokeWidth(float width)</code>: 设置线条或描边的宽度。</li>
+<li><code>setTextSize(float textSize)</code>: 设置文本大小。</li>
+<li><code>setAntiAlias(boolean aa)</code>: 设置是否开启抗锯齿，能让图形边缘更平滑。</li>
+</ul>
+</li>
+<li><code>Paint</code> 定义了 <strong>“怎么画”</strong> (颜色、粗细、样式等)。</li>
+</ul>
+</li>
+</ol>
+<p><strong>坐标系</strong>：在 <code>onDraw</code> 方法中，画布 <code>Canvas</code> 的坐标系原点 <code>(0, 0)</code> 位于当前 <code>View</code> 的 <strong>左上角</strong>。</p>
+<hr />
+<h4 id="自定义-view的-ondraw"><a class="markdownIt-Anchor" href="#自定义-view的-ondraw"></a> 自定义 View的 onDraw</h4>
+<p>对于一个不包含子视图的自定义 <code>View</code>，<code>onDraw</code> 是它的灵魂。这是你将所有视觉元素呈现给用户的地方。</p>
+<p><strong>核心职责：</strong> 使用 <code>Canvas</code> 和 <code>Paint</code> 对象，在 <code>View</code> 的边界内绘制出你想要的任何内容。</p>
+<p><strong>基本步骤：</strong></p>
+<ol>
+<li><strong>初始化 <code>Paint</code> 对象</strong>：<strong>这是一个至关重要的性能优化点</strong>。<code>onDraw</code> 方法会被频繁调用（例如，在动画期间每秒调用 60 次）。如果在 <code>onDraw</code> 内部创建 <code>Paint</code> 等对象，会引发大量的内存分配和垃圾回收（GC），导致界面卡顿。因此，<strong>务必在构造函数或其他一次性初始化方法中创建 <code>Paint</code> 对象</strong>。</li>
+<li>重写 <code>onDraw(Canvas canvas)</code> 方法。</li>
+<li>在 <code>onDraw</code> 内部，你可以通过 <code>getWidth()</code> 和 <code>getHeight()</code> 获取当前 <code>View</code> 的最终宽高。</li>
+<li>使用 <code>canvas.draw...()</code> 方法和预先初始化好的 <code>Paint</code> 对象进行绘制。</li>
+</ol>
+<h5 id="代码示例一个绘制了背景和圆形的-squareview"><a class="markdownIt-Anchor" href="#代码示例一个绘制了背景和圆形的-squareview"></a> 代码示例：一个绘制了背景和圆形的 SquareView</h5>
+<p>我们继续之前的 <code>SquareView</code> 例子，让它不再是透明的，而是在内部绘制内容。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SquareView</span> <span class="keyword">extends</span> <span class="title class_">View</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Paint backgroundPaint;</span><br><span class="line">    <span class="keyword">private</span> Paint circlePaint;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">SquareView</span><span class="params">(Context context, <span class="meta">@Nullable</span> AttributeSet attrs)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context, attrs);</span><br><span class="line">        initPaints();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1. 在构造函数中初始化画笔</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">initPaints</span><span class="params">()</span> &#123;</span><br><span class="line">        backgroundPaint = <span class="keyword">new</span> <span class="title class_">Paint</span>();</span><br><span class="line">        backgroundPaint.setColor(Color.parseColor(<span class="string">&quot;#8888FF&quot;</span>)); <span class="comment">// 淡蓝色背景</span></span><br><span class="line">        backgroundPaint.setStyle(Paint.Style.FILL); <span class="comment">// 填充样式</span></span><br><span class="line"></span><br><span class="line">        circlePaint = <span class="keyword">new</span> <span class="title class_">Paint</span>(Paint.ANTI_ALIAS_FLAG); <span class="comment">// 创建时就开启抗锯齿</span></span><br><span class="line">        circlePaint.setColor(Color.RED);</span><br><span class="line">        circlePaint.setStyle(Paint.Style.FILL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">        <span class="comment">// ... onMeasure 逻辑保持不变 ...</span></span><br><span class="line">        <span class="comment">// 假设它最终测量自己为一个正方形</span></span><br><span class="line">        <span class="built_in">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec); <span class="comment">// 简化处理</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onDraw</span><span class="params">(Canvas canvas)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onDraw(canvas); <span class="comment">// 绘制 View 自身的背景等</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 获取 View 的尺寸</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">width</span> <span class="operator">=</span> getWidth();</span><br><span class="line">        <span class="type">int</span> <span class="variable">height</span> <span class="operator">=</span> getHeight();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3. 绘制背景</span></span><br><span class="line">        <span class="comment">// 绘制一个覆盖整个 View 的矩形</span></span><br><span class="line">        canvas.drawRect(<span class="number">0</span>, <span class="number">0</span>, width, height, backgroundPaint);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 在中心绘制一个红色的圆</span></span><br><span class="line">        <span class="type">float</span> <span class="variable">centerX</span> <span class="operator">=</span> width / <span class="number">2f</span>;</span><br><span class="line">        <span class="type">float</span> <span class="variable">centerY</span> <span class="operator">=</span> height / <span class="number">2f</span>;</span><br><span class="line">        <span class="type">float</span> <span class="variable">radius</span> <span class="operator">=</span> Math.min(width, height) / <span class="number">4f</span>; <span class="comment">// 半径为宽/高中较小值的 1/4</span></span><br><span class="line">        canvas.drawCircle(centerX, centerY, radius, circlePaint);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr />
+<h4 id="自定义-viewgroup-的-ondraw"><a class="markdownIt-Anchor" href="#自定义-viewgroup-的-ondraw"></a> 自定义 ViewGroup 的 onDraw</h4>
+<p>默认情况下，<code>ViewGroup</code> 是不会调用 <code>onDraw</code> 方法的。</p>
+<p><strong>为什么？</strong></p>
+<p>因为 <code>ViewGroup</code> 的主要职责是管理和布局子 <code>View</code>，它本身通常被认为是透明的、不可见的容器。为了进行性能优化，系统假设它不需要绘制任何内容，从而跳过它的 <code>onDraw</code> 流程。子 <code>View</code> 的绘制是由系统在 <code>dispatchDraw</code> 方法中管理的。</p>
+<p><strong>如何让 <code>ViewGroup</code> 调用 <code>onDraw</code>？</strong></p>
+<p>如果你希望 <code>ViewGroup</code> 也绘制一些内容（例如，一个特殊的背景、子 <code>View</code> 之间的分割线），你必须明确告诉系统。有两种常用方法：</p>
+<ol>
+<li>
+<p><strong>在构造函数中调用 <code>setWillNotDraw(false)</code></strong> <code>ViewGroup</code> 内部有一个标志位，默认为 <code>true</code>，表示“我不会绘制任何东西”。将其设置为 <code>false</code> 后，系统在绘制流程中就会调用该 <code>ViewGroup</code> 的 <code>onDraw</code> 方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">CustomVerticalLayout</span><span class="params">(Context context, AttributeSet attrs)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>(context, attrs);</span><br><span class="line">    <span class="comment">// 告诉系统，这个 ViewGroup 需要执行 onDraw</span></span><br><span class="line">    setWillNotDraw(<span class="literal">false</span>); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>在 XML 中设置 <code>android:background</code> 属性</strong> 只要你为 <code>ViewGroup</code> 设置了任何背景（无论是颜色还是 <code>Drawable</code>），系统会自动为你调用 <code>setWillNotDraw(false)</code>，因为绘制背景本身就需要 <code>onDraw</code> 流程的参与。</p>
+</li>
+</ol>
+<h4 id="viewgroup-的绘制顺序"><a class="markdownIt-Anchor" href="#viewgroup-的绘制顺序"></a> ViewGroup 的绘制顺序</h4>
+<p>当一个 <code>ViewGroup</code> 需要绘制时，其绘制层级如下：</p>
+<ol>
+<li><strong>绘制背景</strong>: 如果设置了 <code>background</code>，先绘制它。</li>
+<li><strong>绘制自身内容 (<code>onDraw</code>)</strong>: 调用 <code>onDraw</code> 方法，绘制你在其中指定的任何内容（例如分割线）。</li>
+<li><strong>绘制子视图 (<code>dispatchDraw</code>)</strong>: <code>onDraw</code> 执行完毕后，系统会调用 <code>dispatchDraw(Canvas canvas)</code> 方法。这个方法会遍历所有子 <code>View</code>，并调用每个子 <code>View</code> 的 <code>draw()</code> 方法，从而让子 <code>View</code> 绘制自己。</li>
+<li><strong>绘制前景和滚动条</strong>: 最后，绘制滑动边缘效果、滚动条和前景（<code>Foreground</code>）。</li>
+</ol>
+<p>这意味着，在 <code>onDraw</code> 中绘制的内容会被 **“压在”**所有子 <code>View</code> 的 <strong>下面</strong>。如果你想在子 <code>View</code> 的上面绘制内容，你需要重写 <code>dispatchDraw</code> 方法，并在调用 <code>super.dispatchDraw(canvas)</code> 之后进行绘制。</p>
+<hr />
+<h4 id="代码示例继续完善-customverticallayout-2"><a class="markdownIt-Anchor" href="#代码示例继续完善-customverticallayout-2"></a> 代码示例：继续完善 CustomVerticalLayout</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomVerticalLayout</span> <span class="keyword">extends</span> <span class="title class_">ViewGroup</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1. 定义一个画笔用于绘制分割线</span></span><br><span class="line">    <span class="keyword">private</span> Paint mDividerPaint;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CustomVerticalLayout</span><span class="params">(Context context, AttributeSet attrs)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context, attrs);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 2. 初始化画笔</span></span><br><span class="line">        mDividerPaint = <span class="keyword">new</span> <span class="title class_">Paint</span>(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        mDividerPaint.setColor(Color.RED);</span><br><span class="line">        mDividerPaint.setStyle(Paint.Style.STROKE);</span><br><span class="line">        mDividerPaint.setStrokeWidth(<span class="number">4</span>); <span class="comment">// 设置分割线厚度为 4px</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 【关键】告诉系统这个 ViewGroup 需要执行 onDraw 方法</span></span><br><span class="line">        setWillNotDraw(<span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// onMeasure 和 onLayout 方法与之前的例子完全相同...</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">        <span class="comment">// ... 此处省略 onMeasure 的完整代码 ...</span></span><br><span class="line">        <span class="comment">// 关键是调用 measureChildWithMargins() 或者类似逻辑</span></span><br><span class="line">        <span class="comment">// 并最终调用 setMeasuredDimension()</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onLayout</span><span class="params">(<span class="type">boolean</span> changed, <span class="type">int</span> l, <span class="type">int</span> t, <span class="type">int</span> r, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">        <span class="comment">// ... 此处省略 onLayout 的完整代码 ...</span></span><br><span class="line">        <span class="comment">// 关键是循环调用 child.layout()</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 实现 onDraw 方法来绘制内容</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onDraw</span><span class="params">(Canvas canvas)</span> &#123;</span><br><span class="line">        <span class="comment">// 先调用父类的方法，这是一个好习惯</span></span><br><span class="line">        <span class="built_in">super</span>.onDraw(canvas);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5. 遍历子视图，在它们之间画线</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; getChildCount() - <span class="number">1</span>; i++) &#123; <span class="comment">// 注意是 getChildCount() - 1</span></span><br><span class="line">            <span class="type">View</span> <span class="variable">child</span> <span class="operator">=</span> getChildAt(i);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 如果子视图是 GONE，则跳过</span></span><br><span class="line">            <span class="keyword">if</span> (child.getVisibility() == GONE) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 6. 计算分割线的 Y 坐标</span></span><br><span class="line">            <span class="type">MarginLayoutParams</span> <span class="variable">lp</span> <span class="operator">=</span> (MarginLayoutParams) child.getLayoutParams();</span><br><span class="line">            <span class="comment">// 将线画在子视图底部和其 bottomMargin 之间的区域</span></span><br><span class="line">            <span class="type">float</span> <span class="variable">dividerY</span> <span class="operator">=</span> child.getBottom() + lp.bottomMargin / <span class="number">2.0f</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 7. 计算分割线的 X 坐标范围</span></span><br><span class="line">            <span class="type">float</span> <span class="variable">startX</span> <span class="operator">=</span> getPaddingLeft();</span><br><span class="line">            <span class="type">float</span> <span class="variable">stopX</span> <span class="operator">=</span> getWidth() - getPaddingRight();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 8. 【关键】使用 canvas 画线</span></span><br><span class="line">            canvas.drawLine(startX, dividerY, stopX, dividerY, mDividerPaint);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">     <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">dispatchDraw</span><span class="params">(Canvas canvas)</span> &#123;</span><br><span class="line">        <span class="comment">// 首先，让系统完成所有子视图的绘制</span></span><br><span class="line">        <span class="built_in">super</span>.dispatchDraw(canvas);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 然后，在所有子视图都画完之后，我们再画上我们的顶层内容</span></span><br><span class="line">        <span class="keyword">if</span> (mSelectedIndex &gt;= <span class="number">0</span> &amp;&amp; mSelectedIndex &lt; getChildCount()) &#123;</span><br><span class="line">            <span class="type">View</span> <span class="variable">selectedChild</span> <span class="operator">=</span> getChildAt(mSelectedIndex);</span><br><span class="line">            <span class="keyword">if</span> (selectedChild != <span class="literal">null</span> &amp;&amp; selectedChild.getVisibility() != GONE) &#123;</span><br><span class="line">                <span class="comment">// 获取选中子视图的边界</span></span><br><span class="line">                <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> selectedChild.getLeft();</span><br><span class="line">                <span class="type">int</span> <span class="variable">top</span> <span class="operator">=</span> selectedChild.getTop();</span><br><span class="line">                <span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> selectedChild.getRight();</span><br><span class="line">                <span class="type">int</span> <span class="variable">bottom</span> <span class="operator">=</span> selectedChild.getBottom();</span><br><span class="line">                <span class="comment">// 在其上层绘制一个半透明的红色矩形作为遮罩</span></span><br><span class="line">                canvas.drawRect(left, top, right, bottom, mOverlayPaint);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ... generateLayoutParams 方法 ...</span></span><br><span class="line">    <span class="comment">// 为了能正确处理 margin，需要重写 generateLayoutParams 相关方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> LayoutParams <span class="title function_">generateLayoutParams</span><span class="params">(AttributeSet attrs)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MarginLayoutParams</span>(getContext(), attrs);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ... 其他 generateLayoutParams 重载 ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个例子中：</p>
+<ul>
+<li><strong><code>Paint mDividerPaint</code></strong>: 我们首先定义了一个 <code>Paint</code> 对象作为成员变量。这个“画笔”将专门用来绘制我们的分割线。</li>
+<li><strong><code>init()</code> 方法</strong>: 我们在构造函数中调用 <code>init()</code> 来进行初始化。将初始化逻辑集中在一起是个好习惯。在这里，我们创建了 <code>Paint</code> 对象并设置了它的颜色、样式（描边）和粗细。</li>
+<li><strong><code>setWillNotDraw(false)</code></strong>: 这是让 <code>ViewGroup</code> 能够绘制的关键一步。默认情况下，为了优化性能，<code>ViewGroup</code> 不会调用 <code>onDraw</code> 方法。我们通过这个调用来告诉系统：“这个 <code>ViewGroup</code> 有自己的内容需要绘制，请调用我的 <code>onDraw</code> 方法”。</li>
+<li><strong><code>onDraw(Canvas canvas)</code></strong>: 这是实际进行绘制的地方。系统会传入一个 <code>Canvas</code>（画布）对象，我们所有的绘制操作都在这个画布上进行。</li>
+<li><strong>遍历子视图</strong>: 我们使用一个 <code>for</code> 循环来遍历子视图。请注意循环条件是 <code>i &lt; getChildCount() - 1</code>，因为我们只需要在子视图“之间”画线，所以最后一个子视图下面不需要再画。</li>
+<li><strong>计算Y坐标</strong>: 我们需要确定水平分割线应该画在哪里。一个比较好的位置是在当前子视图的底部（<code>child.getBottom()</code>）与其下外边距（<code>lp.bottomMargin</code>）所构成的空间内。这里我们取其中点，使得视觉上更均衡。</li>
+<li><strong>计算X坐标</strong>: 我们希望分割线能横跨整个 <code>ViewGroup</code> 的内容区域，所以线的起点是 <code>ViewGroup</code> 的左内边距（<code>getPaddingLeft()</code>），终点是 <code>ViewGroup</code> 的宽度减去右内边距（<code>getWidth() - getPaddingRight()</code>）。</li>
+<li><strong><code>canvas.drawLine(...)</code></strong>: 最后，我们调用 <code>canvas</code> 的 <code>drawLine</code> 方法，传入计算好的起点和终点坐标，并指定使用我们预设好的 <code>mDividerPaint</code> 画笔，从而在屏幕上绘制出红色的分割线。</li>
+</ul>
+<h4 id="如何触发重绘"><a class="markdownIt-Anchor" href="#如何触发重绘"></a> 如何触发重绘</h4>
+<p>当你的 <code>View</code> 的外观需要更新时（例如，用户点击后改变颜色），你需要通知系统重新绘制它。这通过调用 <code>invalidate()</code> 方法来完成。</p>
+<ul>
+<li><code>invalidate()</code>: 请求重绘当前 <code>View</code>。它会使 <code>View</code> 的 <code>onDraw</code> 方法在未来的某个时间点（通常是下一帧）被UI线程调用。它只会触发绘制流程，不会触发布局和测量。</li>
+<li><code>postInvalidate()</code>: <code>invalidate()</code> 的线程安全版本。如果你在非 UI 线程想刷新 <code>View</code>，应调用此方法。</li>
+</ul>
+<p><strong>再次对比 <code>requestLayout()</code> 和 <code>invalidate()</code></strong></p>
+<ul>
+<li><strong><code>requestLayout()</code></strong>: 当 <code>View</code> 的 <strong>尺寸或位置</strong> 可能发生变化时调用。它会触发 <code>onMeasure</code>, <code>onLayout</code>, <code>onDraw</code> 的完整流程。这是一个重量级操作。</li>
+<li><strong><code>invalidate()</code></strong>: 当 <code>View</code> 的 <strong>外观</strong> 发生变化，但尺寸和位置不变时调用。它只触发 <code>onDraw</code>。这是一个相对轻量级的操作。</li>
+</ul>
+<h4 id="总结与关键点-3"><a class="markdownIt-Anchor" href="#总结与关键点-3"></a> 总结与关键点</h4>
+<ol>
+<li><strong><code>onDraw</code> 是绘制流程的最后一步，负责将视图渲染到屏幕上。</strong></li>
+<li><strong>自定义 <code>View</code></strong> 的核心就是实现 <code>onDraw</code>，使用 <code>Canvas</code>(画什么,在哪画) 和 <code>Paint</code>(怎么画) 来创造视觉内容。</li>
+<li><strong>自定义 <code>ViewGroup</code></strong> 默认不执行 <code>onDraw</code>。若要绘制，需调用 <code>setWillNotDraw(false)</code> 或设置背景。<code>ViewGroup</code> 的 <code>onDraw</code> 内容会显示在所有子 <code>View</code> 的下方。</li>
+<li><strong>性能至上</strong>: <strong>绝对不要</strong> 在 <code>onDraw</code> 方法中创建新对象（<code>new Paint()</code>, <code>new Path()</code> 等），应在构造函数中预先创建并复用。</li>
+<li><strong>触发重绘</strong>: 使用 <code>invalidate()</code> 或 <code>postInvalidate()</code> 来请求系统重新调用 <code>onDraw</code>。</li>
+</ol>
+
+    </div>
+    <footer class="article-footer">
+        <blockquote class="article-copyright">
+    <p><strong><span class="icon-user icon"></span>Author: </strong>MoYu</p>
+    <p><strong><span class="icon-link icon"></span>Permalink: </strong><a href="https://11111-beep.github.io/en/2025/10/20/%E8%87%AA%E5%AE%9A%E4%B9%89view/">https://11111-beep.github.io/en/2025/10/20/%E8%87%AA%E5%AE%9A%E4%B9%89view/</a></p>
+    
+    <p><strong><span class="icon-calendar icon"></span>Published: </strong>2025-10-20 17:25:18</p>
+    
+    <p><strong><span class="icon-copyright icon"></span>License: </strong>All articles on this blog are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener nofollow noreferrer" target="_blank"><span class="icon-creative-commons"></span>BY-NC-SA</a> license agreement unless otherwise stated. Please indicate the source when reprinting!</p>
+    <span class="icon-creative-commons article-copyright-bg"></span>
+  </blockquote>
+        <div class="sponsor-wrapper">
+  <div class="sponsor-button">
+    <div class="sponsor-icon rotate"></div>
+    <div class="sponsor-title">Sponsor</div>
+    <div class="sponsor-icon rotate"></div>
+  </div>
+  <div class="sponsor-tip">Buy me a coffee</div>
+    <div class="sponsor-qr">
+        <div class="sponsor-qr-image-wrapper">
+          <img src="/sponsor/alipay.jpg" alt=支付宝 width="200" />
+          <p class="sponsor-qr-name">支付宝</p>
+        </div>
+        <div class="sponsor-qr-image-wrapper">
+          <img src="/sponsor/wechat.png" alt=微信 width="200" />
+          <p class="sponsor-qr-name">微信</p>
+        </div>
+    </div>
+</div>
+        <div class="share-wrapper">
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F11111-beep.github.io%2F2025%2F10%2F20%2F%25E8%2587%25AA%25E5%25AE%259A%25E4%25B9%2589view%2F" target="_blank" rel="noopener noreferrer" title="自定义view">
+      <div class="share-icon icon icon-facebook">
+      </div>
+    </a>
+    <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F10%2F20%2F%25E8%2587%25AA%25E5%25AE%259A%25E4%25B9%2589view%2F&amp;text=%E8%87%AA%E5%AE%9A%E4%B9%89view&amp;via=https%3A%2F%2F11111-beep.github.io" target="_blank" rel="noopener noreferrer" title="自定义view">
+      <div class="share-icon icon icon-twitter">
+      </div>
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F10%2F20%2F%25E8%2587%25AA%25E5%25AE%259A%25E4%25B9%2589view%2F&amp;title=%E8%87%AA%E5%AE%9A%E4%B9%89view&amp;summary=%E8%87%AA%E5%AE%9A%E4%B9%89view&amp;mini=true&amp;ro=true" target="_blank" rel="noopener noreferrer" title="自定义view">
+      <div class="share-icon icon icon-linkedin">
+      </div>
+    </a>
+    <a href="https://www.reddit.com/submit?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F10%2F20%2F%25E8%2587%25AA%25E5%25AE%259A%25E4%25B9%2589view%2F&amp;title=%E8%87%AA%E5%AE%9A%E4%B9%89view" target="_blank" rel="noopener noreferrer" title="自定义view">
+      <div class="share-icon icon icon-reddit">
+      </div>
+    </a>
+    <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F10%2F20%2F%25E8%2587%25AA%25E5%25AE%259A%25E4%25B9%2589view%2F&amp;appkey=&amp;title=%E8%87%AA%E5%AE%9A%E4%B9%89view&amp;pic=&amp;ralateUid=" target="_blank" rel="noopener noreferrer" title="自定义view">
+      <div class="share-icon icon icon-weibo">
+      </div>
+    </a>
+    <a href="https://connect.qq.com/widget/shareqq/index.html?url=www.baidu.com&amp;title=%E8%87%AA%E5%AE%9A%E4%B9%89view&amp;desc=%E8%87%AA%E5%AE%9A%E4%B9%89view&amp;source=https%3A%2F%2F11111-beep.github.io" target="_blank" rel="noopener noreferrer" title="自定义view">
+      <div class="share-icon icon icon-qq">
+      </div>
+    </a>
+    <a href="javascript:;"  title="自定义view">
+      <div class="share-icon icon icon-weixin">
+          <div id="share-weixin">
+            <div class="share-weixin-dom">
+              <div class="share-weixin-content">
+                <img id="share-weixin-banner"> 
+                <div id="share-weixin-title"></div>
+                <div id="share-weixin-desc"></div>
+              </div>
+              <div class="share-weixin-qrcode">
+                <div class="share-weixin-info">
+                  <div id="share-weixin-author"></div>
+                  <div id="share-weixin-theme">Powered By hexo-theme-reimu</div>
+                </div>
+                <img id="share-weixin-qr" >
+              </div>
+            </div>
+            <div class="share-weixin-canvas"></div>
+          </div>
+      </div>
+    </a>
+</div>
+        <a data-aos="zoom-in" href="/en/2025/10/20/%E8%87%AA%E5%AE%9A%E4%B9%89view/#comments" class="article-comment-link">
+          <span class="post-comments-count waline-comment-count" data-path="/en/2025/10/20/%E8%87%AA%E5%AE%9A%E4%B9%89view/" itemprop="commentCount"></span>
+          Comments
+        </a>
+        <span data-aos="zoom-in" class="article-visitor-link">
+          <span class="waline-pageview-count" data-path="/en/2025/10/20/%E8%87%AA%E5%AE%9A%E4%B9%89view/">0</span>
+          <em class="post-meta-item-text">Readings</em>
+        </span>
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/en/tags/Android/" rel="tag" title="Android">Android</a></li></ul>
+
+    </footer>
+  </div>
+    <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+    <div class="article-nav-link-wrap right">
+          <img data-src="/images/banner.webp" data-sizes="auto" alt="第一行代码-Kotlin" class="lazyload">
+      <a href="/en/2025/10/06/%E7%AC%AC%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81-Kotlin/" aria-label="Next: 第一行代码-Kotlin"  title="Next: 第一行代码-Kotlin"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+          第一行代码-Kotlin
+      </h3>
+    </div>
+  </nav>
+
+</article>
+
+  <section id="comments" data-aos="fade-up">
+    <div class="comment-header">
+        
+      <h2 class="comment-title">Leave a comment</h2>
+      <div class="comment-selector">
+        <div class="comment-selector-wrap">
+            <div class="selector-item" data-selector="waline">
+              <span>waline</span>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="comment-content">
+          <div class="comment waline-comment" data-aos="fade-up"
+            id="waline-comment">
+          </div>
+    </div>
+  </section>
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    <div>
+      <span class="icon-copyright"></span>
+        2024-2025
+      <span class="footer-info-sep rotate"></span>
+      MoYu
+    </div>
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+      <div>
+        <span class="icon-brush"></span>
+        156.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        11:16
+      </div>
+      <div class="footer-beian">
+        <img
+          style="object-fit: contain;margin-right: 2px;"
+          src="https://icp.gov.moe/images/ico64.png"
+          alt=""
+          width="24"
+          height="24"
+        />
+        <a target="_blank" rel="noopener nofollow noreferrer" href="https://icp.gov.moe/?keyword=20250560">萌ICP备20250560号</a>
+      </div>
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+  </div>
+</footer>
+
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">Contents</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#measure%E8%BF%87%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text"> measure过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#onmeasure-%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.1.</span> <span class="toc-text"> onMeasure 的作用是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%90%86%E8%A7%A3%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5measurespec"><span class="toc-number">1.2.</span> <span class="toc-text"> 理解核心概念：MeasureSpec</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#measurespec-%E7%9A%84%E4%B8%89%E7%A7%8D%E6%A8%A1%E5%BC%8F-mode"><span class="toc-number">1.3.</span> <span class="toc-text"> MeasureSpec 的三种模式 (Mode)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-view%E7%9A%84-onmeasure"><span class="toc-number">1.4.</span> <span class="toc-text"> 自定义 View的 onMeasure</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%AD%A3%E6%96%B9%E5%BD%A2-view"><span class="toc-number">1.5.</span> <span class="toc-text"> 代码示例：一个简单的正方形 View</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-viewgroup-%E7%9A%84-onmeasure"><span class="toc-number">1.6.</span> <span class="toc-text"> 自定义 ViewGroup 的 onMeasure</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%9E%82%E7%9B%B4%E7%BA%BF%E6%80%A7%E5%B8%83%E5%B1%80"><span class="toc-number">1.7.</span> <span class="toc-text"> 代码示例：一个简单的垂直线性布局</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#wrap_content%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">1.8.</span> <span class="toc-text"> Wrap_content解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E9%BB%98%E8%AE%A4%E5%B0%BA%E5%AF%B8"><span class="toc-number">1.8.1.</span> <span class="toc-text"> 定义默认尺寸</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%87%8D%E5%86%99-onmeasure-%E6%96%B9%E6%B3%95"><span class="toc-number">1.8.2.</span> <span class="toc-text"> 重写 onMeasure() 方法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%8E%E5%85%B3%E9%94%AE%E7%82%B9"><span class="toc-number">1.9.</span> <span class="toc-text"> 总结与关键点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#layout%E8%BF%87%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text"> layout过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#onlayout%E7%9A%84%E4%BD%9C%E7%94%A8%E5%92%8C%E5%8F%82%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text"> onLayout的作用和参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%A7%A3%E9%87%8A"><span class="toc-number">2.2.</span> <span class="toc-text"> 参数解释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-view%E7%9A%84-onlayout"><span class="toc-number">2.3.</span> <span class="toc-text"> 自定义 View的 onLayout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-viewgroup%E7%9A%84-onlayout"><span class="toc-number">2.4.</span> <span class="toc-text"> 自定义 ViewGroup的 onLayout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B%E7%BB%A7%E7%BB%AD%E5%AE%8C%E5%96%84-customverticallayout"><span class="toc-number">2.5.</span> <span class="toc-text"> 代码示例：继续完善 CustomVerticalLayout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#onmeasurevsonlayout-%E6%A0%B8%E5%BF%83%E5%8C%BA%E5%88%AB%E5%AF%B9%E6%AF%94"><span class="toc-number">2.6.</span> <span class="toc-text"> onMeasurevsonLayout 核心区别对比</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%8E%E5%85%B3%E9%94%AE%E7%82%B9-2"><span class="toc-number">2.7.</span> <span class="toc-text"> 总结与关键点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#draw%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text"> draw过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ondraw-%E7%9A%84%E4%BD%9C%E7%94%A8%E5%92%8C%E6%A0%B8%E5%BF%83%E5%B7%A5%E5%85%B7"><span class="toc-number">3.1.</span> <span class="toc-text"> onDraw 的作用和核心工具</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%A5%E5%85%B7"><span class="toc-number">3.1.1.</span> <span class="toc-text"> 核心工具</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-view%E7%9A%84-ondraw"><span class="toc-number">3.2.</span> <span class="toc-text"> 自定义 View的 onDraw</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B%E4%B8%80%E4%B8%AA%E7%BB%98%E5%88%B6%E4%BA%86%E8%83%8C%E6%99%AF%E5%92%8C%E5%9C%86%E5%BD%A2%E7%9A%84-squareview"><span class="toc-number">3.2.1.</span> <span class="toc-text"> 代码示例：一个绘制了背景和圆形的 SquareView</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-viewgroup-%E7%9A%84-ondraw"><span class="toc-number">3.3.</span> <span class="toc-text"> 自定义 ViewGroup 的 onDraw</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#viewgroup-%E7%9A%84%E7%BB%98%E5%88%B6%E9%A1%BA%E5%BA%8F"><span class="toc-number">3.4.</span> <span class="toc-text"> ViewGroup 的绘制顺序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B%E7%BB%A7%E7%BB%AD%E5%AE%8C%E5%96%84-customverticallayout-2"><span class="toc-number">3.5.</span> <span class="toc-text"> 代码示例：继续完善 CustomVerticalLayout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A6%E5%8F%91%E9%87%8D%E7%BB%98"><span class="toc-number">3.6.</span> <span class="toc-text"> 如何触发重绘</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%8E%E5%85%B3%E9%94%AE%E7%82%B9-3"><span class="toc-number">3.7.</span> <span class="toc-text"> 总结与关键点</span></a></li></ol></li></ol>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/1.jpg" data-sizes="auto" alt="MoYu" class="lazyload">
+  <div class="sidebar-author-name">MoYu</div>
+  <div class="sidebar-description">Lucky Forever~~</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">19</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">10</div>
+  </div>
+</div>
+<div class="sidebar-social">
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:hqw1554799@gmail.com itemprop="url" target="_blank" aria-label="email" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-twitter sidebar-social-icon">
+      <a href=https://twitter.com/MoYu_Lucky itemprop="url" target="_blank" aria-label="twitter" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/lucky_hqw itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
+    </div>
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/" aria-label="Home"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Home</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/archives" aria-label="Archives"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Archives</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/about" aria-label="About"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">About</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/friend" aria-label="Friend"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Friend</div>
+      </div>
+</div>
+</div>
+  </div>
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+</nav>
+
+    </div>
+      <div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png"/>
+        </div>
+      </div>
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+  
+<script src="/js/generator_search.js" defer></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    if (!false || !window.matchMedia('(max-width: 768px)').matches) {
+      window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'));
+    }
+  </script>
+
+  
+<script src="https://npm.webcache.cn/theme-shokax-pjax@0.0.3/dist/index.umd.js" integrity="sha384-xneY1WY8hOfUzswrE4CrYq35N4BdVcxqxwHPr9zawE&#x2F;jMSCxD+jAPU55x&#x2F;jj3wlf" crossorigin="anonymous"></script>
+
+  
+<script src="/js/pjax.js"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/live2d-widgets@0.9.0/autoload.js" integrity="sha384-poTN7wN&#x2F;SqNhQqo3jdFeX20ikddWeFGkUkDEzsKjgH&#x2F;ez8aQLn81oI0Cw6q5xNyB" crossorigin="anonymous"></script>
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@3.0.1/dist/quicklink.umd.js" integrity="sha384-caMDqvgav&#x2F;HWdEYQU1QRRHMLleigpL1YHAG0m371DhzfL8rRzUyOb+bEHtwlmYjD" crossorigin="anonymous"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+<div id="lazy-script">
+  <div>
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "MoYu",
+          title: "自定义view",
+          url: "https://11111-beep.github.io/2025/10/20/%E8%87%AA%E5%AE%9A%E4%B9%89view/",
+          excerpt: "",
+          description: "",
+          stripContent: "自定义View是一个综合的技术体系,他涉及View的层次结构,事件分发机制和View的工作原理等技术细节. 自定义View总体可以分为四类  继承View重写onDraw方法 继承ViewGroup派生特殊的Layout 继承特定的View(比如TextView) 继承特定的ViewGroup(比如LinearLayout)  注意事项  **让View支持wrap_content: **直接继承View或ViewGroup的控件要在onMeasure中对wrap_content做特殊处理. 如",
+          date: "Mon Oct 20 2025 17:25:18 GMT+0800",
+          updated: "Sun Dec 14 2025 17:29:38 GMT+0800",
+          cover: "/images/aaa/1.webp",
+        };
+      </script>
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+<script src="/js/tabs.js" data-pjax></script>
+
+          
+<script src="https://npm.webcache.cn/@zumer/snapdom@1.9.14/dist/snapdom.min.js" integrity="sha384-OEQ+fJp&#x2F;Mvi2uzBREXybtxryJvLytWapuHu4EE6LPwTKUwATYcc55tPPcZTzVcmx" crossorigin="anonymous" defer data-pjax></script>
+
+          
+<script src="https://npm.webcache.cn/qrcode@1.5.1/build/qrcode.js" integrity="sha384-VT1EeewTCEXgndcPMQ0PzV+uVFYjxFIjmAA7s5gcMX9t4Dt5TD+OVQIn7NJWIXn7" crossorigin="anonymous" defer data-pjax></script>
+
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+        
+<script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+
+  var commentConfigKeys = ["waline"];
+  var commentConfig = {
+    waline: {
+      enable: true,
+      load: async () => {
+        const container = document.querySelector('.waline-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        let walineInit;
+        const walineCdn = 'https://npm.webcache.cn/@waline/client@2.15.8/dist/waline.mjs';
+        const walineIntegrity = 'sha384-9sbqJjrfGjbkI6/PI4nU/MvBfEmkkPC4YK9I4zBeMIf1CVCZdCMH/KinBEAZII/5';
+
+        const module = await safeImport(walineCdn, walineIntegrity);
+        walineInit = module.init;
+
+        window.walineInstance = walineInit({
+          el: '.waline-comment',
+          serverURL: 'https://moyublog.vercel.app',
+          lang: document.documentElement.lang || 'en',
+          locale: {},
+          emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus","https://unpkg.com/@waline/emojis@1.2.0/bilibili","https://unpkg.com/@waline/emojis@1.2.0/qq","https://unpkg.com/@waline/emojis@1.2.0/tieba","https://unpkg.com/@waline/emojis@1.2.0/tw-emoji"],
+          meta: ["nick","mail","link"],
+          requiredMeta: ["nick","mail"],
+          wordLimit: JSON.parse('0'),
+          comment: true,
+          pageSize: JSON.parse('10'),
+          dark: 'html[data-theme="dark"]',
+          pageview: JSON.parse('true'),
+        });
+      }
+    },
+  }
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    // 1. 首先检查localStorage中是否有保存的评论类型
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    // 2. 如果localStorage中有值且对应的评论系统可用，就使用它
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    // 3. 如果localStorage无效，检查配置的默认评论系统
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    // 4. 如果前两项都无效，按指定顺序找到第一个可用的评论系统
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    // 隐藏所有评论容器
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    // 按需加载评论系统
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        // 如果已加载，只需显示对应容器
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      // 根据类型加载对应的脚本
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    // 评论组件选择器
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      // 获取要加载的评论系统类型
+      const commentType = item.getAttribute('data-selector');
+
+      // 隐藏所有评论系统
+      hideAllComments();
+
+      // 加载选中的评论系统
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      // 评论组件选择器点击事件
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          // 保存选择器状态
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          // 切换选中状态
+          changeActiveCommentItems(item);
+        });
+      }
+
+      // 检查是否需要加载默认评论系统
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script>
+
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.11.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js" integrity="sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL&#x2F;aORyw+5+HZoU6e" crossorigin="anonymous"></script>
+
+
+  <script>
+    if (!false || !window.matchMedia('(max-width: 768px)').matches) {
+      if (window.matchMedia('(max-width: 959px)').matches) {
+        const meting = _$('meting-js');
+        if (meting) {
+          meting.setAttribute('fixed', 'true');
+          const aside = meting.parentNode?.parentNode;
+          if (aside?.tagName === 'ASIDE') {
+            meting.parentNode.removeChild(meting);
+            document.body.appendChild(meting);
+          }
+        }
+      }
+      const script = document.createElement('script');
+      script.src = "https://npm.webcache.cn/meting@2.0.1/dist/Meting.min.js";
+      script.integrity = "sha384-ASVlpKF80A22OXTK3tfEjZm1EL6uFMKIC4p8+0maanw1S/IyB+Y4JG+ZDU7GpKE8";
+      script.crossOrigin = "anonymous";
+      document.body.appendChild(script);
+    }
+  </script>
+
+  
+<script src="https://npm.webcache.cn/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha384-HeUHqi0nVsPUm&#x2F;E0ss7OfnIV&#x2F;yD96JWB8ehZvUuoVax9DpNHL17jj9pdfXHzqDxm" crossorigin="anonymous" defer></script>
+
+  <script data-pjax>
+    if (document.readyState === "loading") {
+      document.addEventListener('DOMContentLoaded', () => {
+        pangu?.spacingPage();
+      });
+    } else {
+      pangu?.spacingPage();
+    }
+  </script>
+
+  </body>
+  </html>
