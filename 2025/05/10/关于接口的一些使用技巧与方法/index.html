@@ -1,0 +1,1098 @@
+  <!DOCTYPE html>
+  <html lang="zh-CN"  
+      data-theme-mode="auto"
+  >
+  <head>
+  <meta charset="utf-8">
+  
+  
+  
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)","en":"Copy successfully (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","en":"Copy failed (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":20};window.REIMU_CONFIG.base = 'https://11111-beep.github.io';window.REIMU_CONFIG.i18n_languages = ["en"];</script>
+  <title>
+    关于接口的一些使用技巧与方法 | 为什么喜欢沫雨~
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+    <meta name="description" content="作为一个 Android 开发初学者，每当别人提到“接口”这个词时，我内心总会毫不在意地想：“接口？不就是 implements 一下就完事了吗？”然而，真正开始做项目后才发现，原来接口的使用远不止定义几个方法那么简单。很多关于接口的应用技巧和设计思想，在实际开发中常常被我忽略。你是否也曾遇到过类似的情况呢？让我们一起来深入探讨一下吧！  一.通过接口使用实现类的对象 通过接口使用实现类的对象体现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于接口的一些使用技巧与方法">
+<meta property="og:url" content="https://11111-beep.github.io/2025/05/10/%E5%85%B3%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="为什么喜欢沫雨~">
+<meta property="og:description" content="作为一个 Android 开发初学者，每当别人提到“接口”这个词时，我内心总会毫不在意地想：“接口？不就是 implements 一下就完事了吗？”然而，真正开始做项目后才发现，原来接口的使用远不止定义几个方法那么简单。很多关于接口的应用技巧和设计思想，在实际开发中常常被我忽略。你是否也曾遇到过类似的情况呢？让我们一起来深入探讨一下吧！  一.通过接口使用实现类的对象 通过接口使用实现类的对象体现">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-05-10T08:34:52.000Z">
+<meta property="article:modified_time" content="2025-12-14T08:37:12.700Z">
+<meta property="article:author" content="MoYu">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+      <meta name="keywords" content="编程, Android, 技术, 生活">
+    <link rel="alternate" href="/atom.xml" title="为什么喜欢沫雨~" type="application/atom+xml">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+        
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.24/dist/katex.min.css" integrity="sha384-tTgKLjMYmJr94v8qu2PE5MUGSMbyN2xiH266JUB3gpm8vnnJywd1dWSOEfrFz+YI" crossorigin="anonymous">
+
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/@waline/client@2.15.8/dist/waline.css" integrity="sha384-vltfZtesCdl6NYVcFVcjEaIi5RpNvZe9t7fXvq8twVtcoy+Ub9QgnxUYJmwOhYCK" crossorigin="anonymous">
+
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+    <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css" integrity="sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU&#x2F;voDBY5XE2lVh" crossorigin="anonymous">
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+      <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+      </div>
+      <div class="loading-word">少女祈祷中~~~</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var loaderEl = document.getElementById('loader');
+    var startLoading = () => {
+      time = Date.now();
+      loaderEl.classList.remove("loading");
+    }
+    var hideLoader = () => {
+      document.body.style.overflow = 'auto';
+      loader.classList.add('loading');
+    };
+
+    var endLoading = () => {
+      if (!time) {
+        hideLoader();
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          hideLoader();
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    loaderEl.addEventListener('click', endLoading);
+  </script>
+<div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+        <a class="main-nav-link-wrap" href="/">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">首页</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/archives">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">归档</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/about">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">关于</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/friend">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">友链</span>
+        </span>
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" aria-label="RSS 订阅" target="_blank"></a>
+      <a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索" aria-label="搜索"></a>
+  </nav>
+    <nav id="i18n-nav" aria-label="Language selection">
+      <div class="custom-dropdown">
+        <div class="select-selected" id="select-selected" role="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Language menu">
+          <span id="nav-language-btn" class="nav-icon" style="padding: 0 20px 0 0"></span>
+          <span id="selected-lang">简体中文</span>
+        </div>
+        <ul class="select-items" id="select-items" role="listbox" aria-label="Languages">
+            <li data-value="zh-CN" role="option" class="selected" aria-selected="true">简体中文</li>
+            <li data-value="en" role="option" aria-selected="false">English</li>
+        </ul>
+      </div>
+      <script>
+        var selectSelected = document.getElementById("select-selected");
+        var selectedLang = document.getElementById("selected-lang");
+        var selectItems = document.getElementById("select-items");
+        var selectOptions = selectItems.querySelectorAll("li");
+
+        selectSelected.addEventListener("click", () => {
+          selectItems.classList.toggle("show");
+          var expanded = selectSelected.getAttribute("aria-expanded") === "true";
+          selectSelected.setAttribute("aria-expanded", (!expanded).toString());
+        });
+
+        selectOptions.forEach((item) => {
+          item.addEventListener("click", () => {
+            const langMap = {};
+              langMap['zh-CN'] = '/2025/05/10/关于接口的一些使用技巧与方法/';
+              langMap['en'] = '/en/2025/05/10/关于接口的一些使用技巧与方法/';
+            selectedLang.textContent = item.textContent;
+            selectItems.classList.remove("show");
+            selectOptions.forEach((option) => {
+              option.classList.remove("selected");
+            });
+            item.classList.add("selected");
+            window.location = langMap[item.dataset.value];
+          });
+        });
+
+        document.addEventListener("click", (event) => {
+          if (!event.target.closest(".custom-dropdown")) {
+            selectItems.classList.remove("show");
+            selectSelected.setAttribute("aria-expanded", "false");
+          }
+        });
+      </script>
+    </nav>
+</div>
+<header id="header" aria-label="Site header">
+    <picture></picture>
+    <img  fetchpriority="high" src="/images/aaa/11.png" alt="关于接口的一些使用技巧与方法">
+  <div id="header-outer">
+    <div id="header-title">
+          <span id="logo">
+            <h1 data-aos="slide-up">关于接口的一些使用技巧与方法</h1>
+          </span>
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+        </h2>
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content"  class="sidebar-right" >
+          <aside id="sidebar" aria-label="Sidebar">
+  <div class="sidebar-wrapper-container sticky">
+      <meting-js
+        theme="var(--color-link)"
+        id="2265921590"
+        server="netease"
+        type="playlist"
+        auto="lrc"
+        fixed="false"
+        autoplay="true"
+        loop="all"
+        order="list"
+        preload="auto"
+        volume="0.7"
+        mutex="true"
+        list-folded="true"
+        lrc-type="3"
+      ></meting-js>
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E9%80%9A%E8%BF%87%E6%8E%A5%E5%8F%A3%E4%BD%BF%E7%94%A8%E5%AE%9E%E7%8E%B0%E7%B1%BB%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.</span> <span class="toc-text"> 一.通过接口使用实现类的对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E6%8E%A5%E5%8F%A3%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E6%88%96%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">2.</span> <span class="toc-text"> 二.接口作为参数或返回值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text"> 核心概念：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80-%E6%8E%A5%E5%8F%A3%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E7%9B%91%E5%90%AC%E6%8C%89%E9%92%AE%E7%82%B9%E5%87%BB%E5%90%8E%E6%89%A7%E8%A1%8C%E6%9F%90%E4%B8%AA%E5%9B%9E%E8%B0%83%E9%80%BB%E8%BE%91"><span class="toc-number">2.2.</span> <span class="toc-text"> 一、接口作为参数（监听按钮点击后执行某个回调逻辑）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.2.1.</span> <span class="toc-text"> 定义一个接口：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%8E%A5%E5%8F%97%E8%BF%99%E4%B8%AA%E6%8E%A5%E5%8F%A3%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0"><span class="toc-number">2.2.2.</span> <span class="toc-text"> 函数接受这个接口作为参数：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E4%BC%A0%E9%80%92%E8%A1%8C%E4%B8%BA"><span class="toc-number">2.2.3.</span> <span class="toc-text"> 使用接口对象传递行为：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#kotlin-%E4%B8%AD%E8%BF%98%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8-lambda-%E7%AE%80%E5%8C%96%E5%A6%82%E6%9E%9C%E6%98%AF-sam-%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.2.4.</span> <span class="toc-text"> Kotlin 中还可以使用 Lambda 简化（如果是 SAM 接口）：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C-%E6%8E%A5%E5%8F%A3%E4%BD%9C%E4%B8%BA%E8%BF%94%E5%9B%9E%E5%80%BC%E4%BD%A0%E5%B8%8C%E6%9C%9B%E4%BB%8E%E6%9F%90%E4%B8%AA%E7%B1%BB%E4%B8%AD%E8%8E%B7%E5%8F%96%E7%AD%96%E7%95%A5%E6%88%96%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91"><span class="toc-number">2.3.</span> <span class="toc-text"> 二、接口作为返回值(你希望从某个类中获取“策略”或“处理逻辑”)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.3.1.</span> <span class="toc-text"> 定义接口：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.3.2.</span> <span class="toc-text"> 函数返回接口对象：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E6%96%B9%E4%BD%BF%E7%94%A8%E8%BF%94%E5%9B%9E%E7%9A%84%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.3.3.</span> <span class="toc-text"> 调用方使用返回的接口对象：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E6%8E%A5%E5%8F%A3%E7%9A%84%E9%BB%98%E8%AE%A4%E6%96%B9%E6%B3%95%E4%B8%8E%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.</span> <span class="toc-text"> 三.接口的默认方法与函数式接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80-%E6%8E%A5%E5%8F%A3%E7%9A%84%E9%BB%98%E8%AE%A4%E6%96%B9%E6%B3%95default-method"><span class="toc-number">3.1.</span> <span class="toc-text"> 一、接口的默认方法（Default Method）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.1.</span> <span class="toc-text"> 定义</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">3.1.2.</span> <span class="toc-text"> 示例</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C-%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3functional-interface"><span class="toc-number">3.2.</span> <span class="toc-text"> 二、函数式接口（Functional Interface）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89-2"><span class="toc-number">3.2.1.</span> <span class="toc-text"> 定义</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BD%BF%E7%94%A8-lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">3.2.2.</span> <span class="toc-text"> 示例：使用 Lambda 表达式</span></a></li></ol></li></ol></li></ol>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/1.jpg" data-sizes="auto" alt="MoYu" class="lazyload">
+  <div class="sidebar-author-name">MoYu</div>
+  <div class="sidebar-description">Lucky Forever~~</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">13</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">7</div>
+  </div>
+</div>
+<div class="sidebar-social">
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:hqw1554799@gmail.com itemprop="url" target="_blank" aria-label="email" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-twitter sidebar-social-icon">
+      <a href=https://twitter.com/MoYu_Lucky itemprop="url" target="_blank" aria-label="twitter" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/lucky_hqw itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
+    </div>
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+</div>
+</div>
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+    </div>
+  </div>
+  <div class="sidebar-widget">
+  </div>
+  </div>
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-关于接口的一些使用技巧与方法" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2025-05-10T08:34:52.000Z" itemprop="datePublished">2025-05-10</time>
+    <time style="display: none;" id="post-update-time">2025-12-14</time>
+  </span>
+</div>
+
+      
+    </div>
+    
+    <div class="hr-line"></div>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+        <p>作为一个 Android 开发初学者，每当别人提到“接口”这个词时，我内心总会毫不在意地想：“接口？不就是 implements 一下就完事了吗？”然而，真正开始做项目后才发现，原来接口的使用远不止定义几个方法那么简单。很多关于接口的应用技巧和设计思想，在实际开发中常常被我忽略。你是否也曾遇到过类似的情况呢？让我们一起来深入探讨一下吧！</p>
+<h3 id="一通过接口使用实现类的对象"><a class="markdownIt-Anchor" href="#一通过接口使用实现类的对象"></a> 一.通过接口使用实现类的对象</h3>
+<p>通过接口使用实现类的对象体现的是多态的理念,他的核心是面向接口编程.实现类必须实现接口中定义的所有抽象方法（除非该类是抽象类）.</p>
+<ol>
+<li>
+<p><strong>基本语法结构</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">接口名 变量名 = <span class="keyword">new</span> 实现类构造器();</span><br><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">list.add(<span class="string">&quot;小明&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>这行代码的意思是：</p>
+<ul>
+<li><strong>左边：接口 List</strong> —— 表示你“只关心行为”（比如添加、删除、查找等列表操作）.</li>
+<li><strong>右边：实现类 ArrayList</strong> —— 提供具体的行为实现.</li>
+<li><strong>变量名 list</strong> —— 是你手中握住的“遥控器”,通过变量名你可以使用对应的方法.</li>
+</ul>
+<p>这就是通过接口来使用实现类对象的经典方式.</p>
+</li>
+<li>
+<p><strong>设计思想</strong></p>
+<p><strong>编程时面向接口，而非面向实现。</strong></p>
+<p><strong>松耦合</strong>：更容易替换实现类</p>
+<p><strong>可扩展</strong>：可以随时替换为 <code>LinkedList</code>、<code>CopyOnWriteArrayList</code> 等实现</p>
+<p><strong>易测试</strong>：Mock 或 stub 方便替换实现</p>
+<p><strong>更清晰的 API 设计</strong>：只暴露该暴露的能力</p>
+</li>
+<li>
+<p><strong>自定义接口</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 定义接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">makeSound</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Dog</span> <span class="keyword">implements</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">makeSound</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;汪汪！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 使用接口引用实现类对象</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Animal</span> <span class="variable">a</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Dog</span>();  <span class="comment">// 接口引用指向实现类</span></span><br><span class="line">        a.makeSound();         <span class="comment">// 输出：汪汪！</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>虽然我们拿的是 <code>Animal</code> 类型的遥控器，但背后控制的是 <code>Dog</code> 这台机器。</p>
+</li>
+</ol>
+<hr />
+<h3 id="二接口作为参数或返回值"><a class="markdownIt-Anchor" href="#二接口作为参数或返回值"></a> 二.接口作为参数或返回值</h3>
+<p>“接口作为参数或返回值”&quot;是 Android 和 Java/Kotlin 编程中非常关键的一项技能，尤其是在 <strong>回调机制、事件处理、模块解耦</strong> 等场景中应用极广。</p>
+<h4 id="核心概念"><a class="markdownIt-Anchor" href="#核心概念"></a> 核心概念：</h4>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>作为参数</strong></td>
+<td>把某个接口实例传入函数中，用来回调或配置行为</td>
+</tr>
+<tr>
+<td><strong>作为返回值</strong></td>
+<td>函数返回一个接口实例，可以由调用者接收并使用</td>
+</tr>
+</tbody>
+</table>
+<h4 id="一-接口作为参数监听按钮点击后执行某个回调逻辑"><a class="markdownIt-Anchor" href="#一-接口作为参数监听按钮点击后执行某个回调逻辑"></a> 一、接口作为参数（监听按钮点击后执行某个回调逻辑）</h4>
+<h5 id="定义一个接口"><a class="markdownIt-Anchor" href="#定义一个接口"></a> 定义一个接口：</h5>
+   <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">OnConfirmListener</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">onConfirm</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="函数接受这个接口作为参数"><a class="markdownIt-Anchor" href="#函数接受这个接口作为参数"></a> 函数接受这个接口作为参数：</h5>
+   <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showDialog</span><span class="params">(listener: <span class="type">OnConfirmListener</span>)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 模拟用户点击确认按钮</span></span><br><span class="line">    println(<span class="string">&quot;用户点击了确认按钮&quot;</span>)</span><br><span class="line">    listener.onConfirm()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><code>listener.onConfirm()</code></strong>: 这是关键所在。<code>showDialog</code> 函数通过其接收到的 <code>listener</code> 参数（类型是接口），调用了接口中定义的 <code>onConfirm()</code> 方法。此时，<code>showDialog</code> 函数并不知道 <code>listener</code> 参数具体是哪个类的实例，它只知道这个实例有一个 <code>onConfirm()</code> 方法可以被调用。这正是<strong>多态</strong>的体现。</p>
+<h5 id="使用接口对象传递行为"><a class="markdownIt-Anchor" href="#使用接口对象传递行为"></a> 使用接口对象传递行为：</h5>
+   <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">showDialog(<span class="keyword">object</span> : OnConfirmListener &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onConfirm</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">&quot;执行确认操作，比如提交表单&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><strong><code>showDialog(...)</code></strong>: 这里调用了 <code>showDialog</code> 函数。</p>
+<p><strong><code>object : OnConfirmListener &#123; ... &#125;</code></strong>: 这是 Kotlin 中的<strong>匿名对象 (Anonymous Object)</strong>。它是一个临时的、只使用一次的类实例，并且直接实现了 <code>OnConfirmListener</code> 接口。</p>
+<p><strong><code>override fun onConfirm() &#123; ... &#125;</code></strong>: 在匿名对象内部，我们提供了 <code>onConfirm()</code> 方法的具体实现，也就是当确认事件发生时，我们希望执行的逻辑（例如，“执行确认操作，比如提交表单”）。</p>
+<p><strong>目的</strong>: 通过这种方式，我们将一个“行为”（<code>onConfirm()</code> 的实现）作为参数传递给了 <code>showDialog</code> 函数。<code>showDialog</code> 在合适的时机（模拟用户点击确认后）会“回调”这个行为。</p>
+<h5 id="kotlin-中还可以使用-lambda-简化如果是-sam-接口"><a class="markdownIt-Anchor" href="#kotlin-中还可以使用-lambda-简化如果是-sam-接口"></a> Kotlin 中还可以使用 Lambda 简化（如果是 SAM 接口）：</h5>
+   <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showDialog</span><span class="params">(onConfirm: () -&gt; <span class="type">Unit</span>)</span></span> &#123;</span><br><span class="line">    println(<span class="string">&quot;用户点击了确认按钮&quot;</span>)</span><br><span class="line">    onConfirm()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">showDialog &#123;</span><br><span class="line">    println(<span class="string">&quot;Lambda方式的确认逻辑&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><code>fun showDialog(onConfirm: () -&gt; Unit)</code></strong>: 这是 Kotlin 的一个强大特性：如果一个接口只包含一个抽象方法（称为 <strong>SAM - Single Abstract Method 接口</strong>），Kotlin 允许你使用 <strong>Lambda 表达式</strong> 来简化它的实现。这里的 <code>onConfirm: () -&gt; Unit</code> 表示 <code>onConfirm</code> 是一个函数类型参数，它接受零个参数并返回 <code>Unit</code>（相当于 Java 中的 <code>void</code>）。</p>
+<p><strong><code>onConfirm()</code></strong>: 调用传入的 Lambda 表达式。</p>
+<p><strong><code>showDialog &#123; println(&quot;Lambda方式的确认逻辑&quot;) &#125;</code></strong>: 这是 Lambda 表达式的调用方式。它提供了一种更简洁、更具函数式编程风格的方式来实现回调。当函数类型参数是最后一个参数时，Kotlin 允许将 Lambda 放在圆括号外部（尾随 Lambda）。</p>
+<hr />
+<h4 id="二-接口作为返回值你希望从某个类中获取策略或处理逻辑"><a class="markdownIt-Anchor" href="#二-接口作为返回值你希望从某个类中获取策略或处理逻辑"></a> 二、接口作为返回值(你希望从某个类中获取“策略”或“处理逻辑”)</h4>
+<h5 id="定义接口"><a class="markdownIt-Anchor" href="#定义接口"></a> 定义接口：</h5>
+   <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">DataProcessor</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">process</span><span class="params">(<span class="keyword">data</span>: <span class="type">String</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="函数返回接口对象"><a class="markdownIt-Anchor" href="#函数返回接口对象"></a> 函数返回接口对象：</h5>
+   <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">getProcessor</span><span class="params">()</span></span>: DataProcessor &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">object</span> : DataProcessor &#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">process</span><span class="params">(<span class="keyword">data</span>: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">            println(<span class="string">&quot;处理数据：<span class="variable">$data</span>&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><code>fun getProcessor(): DataProcessor</code></strong>: 定义了一个名为 <code>getProcessor</code> 的函数，它声明返回一个 <code>DataProcessor</code> 类型的对象。</p>
+<p><strong><code>return object : DataProcessor &#123; ... &#125;</code></strong>: 这里，<code>getProcessor</code> 函数返回了一个<strong>匿名对象</strong>，这个匿名对象实现了 <code>DataProcessor</code> 接口。</p>
+<p><strong><code>override fun process(data: String) &#123; println(&quot;处理数据：$data&quot;) &#125;</code></strong>: 这是匿名对象内部对 <code>process</code> 方法的具体实现。这个实现就是 <code>getProcessor</code> 函数所提供的“处理逻辑”。</p>
+<h5 id="调用方使用返回的接口对象"><a class="markdownIt-Anchor" href="#调用方使用返回的接口对象"></a> 调用方使用返回的接口对象：</h5>
+   <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> processor = getProcessor()</span><br><span class="line">processor.process(<span class="string">&quot;Hello from interface!&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p><strong><code>val processor = getProcessor()</code></strong>: 调用 <code>getProcessor()</code> 函数，并将返回的 <code>DataProcessor</code> 接口对象赋值给 <code>processor</code> 变量。注意，<code>processor</code> 变量的静态类型是 <code>DataProcessor</code> 接口类型。</p>
+<p><strong><code>processor.process(&quot;Hello from interface!&quot;)</code></strong>: 通过 <code>processor</code> 接口变量，调用了它所引用的实现类对象中的 <code>process</code> 方法。此时，执行的是 <code>getProcessor</code> 函数内部匿名对象里定义的 <code>process</code> 逻辑。</p>
+<hr />
+<h3 id="三接口的默认方法与函数式接口"><a class="markdownIt-Anchor" href="#三接口的默认方法与函数式接口"></a> 三.接口的默认方法与函数式接口</h3>
+<p>你问到了 Java 接口中两个非常现代且实用的特性：<strong>默认方法（default methods）</strong> 与 <strong>函数式接口（functional interfaces）</strong>。这两个概念如同接口的“双翼”，一个重在扩展性，一个重在简洁性，帮助接口在面向对象与函数式编程之间架起桥梁。</p>
+<hr />
+<h4 id="一-接口的默认方法default-method"><a class="markdownIt-Anchor" href="#一-接口的默认方法default-method"></a> 一、接口的默认方法（Default Method）</h4>
+<h5 id="定义"><a class="markdownIt-Anchor" href="#定义"></a> 定义</h5>
+<p>Java 8 开始，接口中允许定义带有默认实现的方法，用 <code>default</code> 关键字修饰。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">makeSound</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 默认方法：可以被实现类继承或重写</span></span><br><span class="line">    <span class="keyword">default</span> <span class="keyword">void</span> <span class="title function_">breathe</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;呼吸空气...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="示例"><a class="markdownIt-Anchor" href="#示例"></a> 示例</h5>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Dog</span> <span class="keyword">implements</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">makeSound</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;汪汪！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Animal</span> <span class="variable">a</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Dog</span>();</span><br><span class="line">        a.makeSound();   <span class="comment">// 汪汪！</span></span><br><span class="line">        a.breathe();     <span class="comment">// 呼吸空气...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr />
+<h4 id="二-函数式接口functional-interface"><a class="markdownIt-Anchor" href="#二-函数式接口functional-interface"></a> 二、函数式接口（Functional Interface）</h4>
+<h5 id="定义-2"><a class="markdownIt-Anchor" href="#定义-2"></a> 定义</h5>
+<p>函数式接口是<strong>只包含一个抽象方法</strong>的接口，适合用于 Lambda 表达式。</p>
+<p>使用 <code>@FunctionalInterface</code> 注解可明确声明该意图：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Calculator</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="title function_">calc</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span>; <span class="comment">// 只允许一个抽象方法</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">default</span> <span class="keyword">void</span> <span class="title function_">printResult</span><span class="params">(<span class="type">int</span> result)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;结果是：&quot;</span> + result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="示例使用-lambda-表达式"><a class="markdownIt-Anchor" href="#示例使用-lambda-表达式"></a> 示例：使用 Lambda 表达式</h5>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 使用 Lambda 表达式实现函数式接口</span></span><br><span class="line">        <span class="type">Calculator</span> <span class="variable">add</span> <span class="operator">=</span> (a, b) -&gt; a + b;</span><br><span class="line">        <span class="type">Calculator</span> <span class="variable">mul</span> <span class="operator">=</span> (a, b) -&gt; a * b;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">r1</span> <span class="operator">=</span> add.calc(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">        <span class="type">int</span> <span class="variable">r2</span> <span class="operator">=</span> mul.calc(<span class="number">4</span>, <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">        add.printResult(r1); <span class="comment">// 结果是：5</span></span><br><span class="line">        mul.printResult(r2); <span class="comment">// 结果是：20</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr />
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>接口默认方法</th>
+<th>函数式接口（Functional Interface）</th>
+<th>接口多态（通过接口使用实现类的对象）</th>
+<th>接口作为参数或返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>出现版本</td>
+<td>Java 8</td>
+<td>Java 8</td>
+<td>Java 基础特性</td>
+<td>Java 基础特性</td>
+</tr>
+<tr>
+<td>方法数量</td>
+<td>可有多个方法（含默认实现）</td>
+<td>只能有一个抽象方法</td>
+<td>接口中定义的所有抽象方法</td>
+<td>接口中定义的抽象方法（可含默认方法）</td>
+</tr>
+<tr>
+<td>使用关键字</td>
+<td><code>default</code></td>
+<td><code>@FunctionalInterface</code>（建议加）</td>
+<td><code>interface</code>、<code>implements</code></td>
+<td><code>interface</code> + 参数/返回类型为接口</td>
+</tr>
+<tr>
+<td>可否有默认方法</td>
+<td>✅ 可以</td>
+<td>✅ 可以</td>
+<td>✅ 可以（Java 8 起）</td>
+<td>✅ 可以（Java 8 起）</td>
+</tr>
+<tr>
+<td>使用优势</td>
+<td>向后兼容，减少重复逻辑</td>
+<td>适配 Lambda，简洁表达函数逻辑</td>
+<td>解耦结构、支持多态、便于扩展与维护</td>
+<td>增强灵活性、支持回调、适配不同实现类</td>
+</tr>
+<tr>
+<td>使用场景</td>
+<td>接口升级、代码复用</td>
+<td>Lambda 表达式、方法引用、回调、流式操作等</td>
+<td>多态调用、策略模式、面向接口设计、依赖注入等</td>
+<td>回调机制、策略模式、工厂方法、依赖注入等</td>
+</tr>
+<tr>
+<td>表现形式</td>
+<td>在接口中用 <code>default</code> 修饰方法</td>
+<td>用 Lambda 表达式实现：<code>(a, b) -&gt; a + b</code></td>
+<td><code>接口名 obj = new 实现类();</code></td>
+<td><code>void func(接口名 obj)</code> / <code>接口名 getObj()</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>通过上面的内容，我们一起回顾了在 Android 实际项目中常见的三个接口使用方式和一些实用技巧。接口虽然简单，但灵活运用起来却大有学问。希望这些内容能在你今后的开发过程中带来启发和帮助！</p>
+
+    </div>
+    <footer class="article-footer">
+        <blockquote class="article-copyright">
+    <p><strong><span class="icon-user icon"></span>本文作者：</strong>MoYu</p>
+    <p><strong><span class="icon-link icon"></span>本文链接：</strong><a href="https://11111-beep.github.io/2025/05/10/%E5%85%B3%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%96%B9%E6%B3%95/">https://11111-beep.github.io/2025/05/10/%E5%85%B3%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%96%B9%E6%B3%95/</a></p>
+    
+    <p><strong><span class="icon-calendar icon"></span>本文发布时间：</strong>2025-05-10 16:34:52</p>
+    
+    <p><strong><span class="icon-copyright icon"></span>本文版权：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener nofollow noreferrer" target="_blank"><span class="icon-creative-commons"></span>BY-NC-SA</a> 许可协议。转载请注明出处！</p>
+    <span class="icon-creative-commons article-copyright-bg"></span>
+  </blockquote>
+        <div class="sponsor-wrapper">
+  <div class="sponsor-button">
+    <div class="sponsor-icon rotate"></div>
+    <div class="sponsor-title">赞助</div>
+    <div class="sponsor-icon rotate"></div>
+  </div>
+  <div class="sponsor-tip">请作者喝杯咖啡吧</div>
+    <div class="sponsor-qr">
+        <div class="sponsor-qr-image-wrapper">
+          <img src="/sponsor/alipay.jpg" alt=支付宝 width="200" />
+          <p class="sponsor-qr-name">支付宝</p>
+        </div>
+        <div class="sponsor-qr-image-wrapper">
+          <img src="/sponsor/wechat.png" alt=微信 width="200" />
+          <p class="sponsor-qr-name">微信</p>
+        </div>
+    </div>
+</div>
+        <div class="share-wrapper">
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F11111-beep.github.io%2F2025%2F05%2F10%2F%25E5%2585%25B3%25E4%25BA%258E%25E6%258E%25A5%25E5%258F%25A3%25E7%259A%2584%25E4%25B8%2580%25E4%25BA%259B%25E4%25BD%25BF%25E7%2594%25A8%25E6%258A%2580%25E5%25B7%25A7%25E4%25B8%258E%25E6%2596%25B9%25E6%25B3%2595%2F" target="_blank" rel="noopener noreferrer" title="关于接口的一些使用技巧与方法">
+      <div class="share-icon icon icon-facebook">
+      </div>
+    </a>
+    <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F05%2F10%2F%25E5%2585%25B3%25E4%25BA%258E%25E6%258E%25A5%25E5%258F%25A3%25E7%259A%2584%25E4%25B8%2580%25E4%25BA%259B%25E4%25BD%25BF%25E7%2594%25A8%25E6%258A%2580%25E5%25B7%25A7%25E4%25B8%258E%25E6%2596%25B9%25E6%25B3%2595%2F&amp;text=%E5%85%B3%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%96%B9%E6%B3%95&amp;via=https%3A%2F%2F11111-beep.github.io" target="_blank" rel="noopener noreferrer" title="关于接口的一些使用技巧与方法">
+      <div class="share-icon icon icon-twitter">
+      </div>
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F05%2F10%2F%25E5%2585%25B3%25E4%25BA%258E%25E6%258E%25A5%25E5%258F%25A3%25E7%259A%2584%25E4%25B8%2580%25E4%25BA%259B%25E4%25BD%25BF%25E7%2594%25A8%25E6%258A%2580%25E5%25B7%25A7%25E4%25B8%258E%25E6%2596%25B9%25E6%25B3%2595%2F&amp;title=%E5%85%B3%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%96%B9%E6%B3%95&amp;summary=%E5%85%B3%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%96%B9%E6%B3%95&amp;mini=true&amp;ro=true" target="_blank" rel="noopener noreferrer" title="关于接口的一些使用技巧与方法">
+      <div class="share-icon icon icon-linkedin">
+      </div>
+    </a>
+    <a href="https://www.reddit.com/submit?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F05%2F10%2F%25E5%2585%25B3%25E4%25BA%258E%25E6%258E%25A5%25E5%258F%25A3%25E7%259A%2584%25E4%25B8%2580%25E4%25BA%259B%25E4%25BD%25BF%25E7%2594%25A8%25E6%258A%2580%25E5%25B7%25A7%25E4%25B8%258E%25E6%2596%25B9%25E6%25B3%2595%2F&amp;title=%E5%85%B3%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%96%B9%E6%B3%95" target="_blank" rel="noopener noreferrer" title="关于接口的一些使用技巧与方法">
+      <div class="share-icon icon icon-reddit">
+      </div>
+    </a>
+    <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F05%2F10%2F%25E5%2585%25B3%25E4%25BA%258E%25E6%258E%25A5%25E5%258F%25A3%25E7%259A%2584%25E4%25B8%2580%25E4%25BA%259B%25E4%25BD%25BF%25E7%2594%25A8%25E6%258A%2580%25E5%25B7%25A7%25E4%25B8%258E%25E6%2596%25B9%25E6%25B3%2595%2F&amp;appkey=&amp;title=%E5%85%B3%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%96%B9%E6%B3%95&amp;pic=&amp;ralateUid=" target="_blank" rel="noopener noreferrer" title="关于接口的一些使用技巧与方法">
+      <div class="share-icon icon icon-weibo">
+      </div>
+    </a>
+    <a href="https://connect.qq.com/widget/shareqq/index.html?url=www.baidu.com&amp;title=%E5%85%B3%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%96%B9%E6%B3%95&amp;desc=%E5%85%B3%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%96%B9%E6%B3%95&amp;source=https%3A%2F%2F11111-beep.github.io" target="_blank" rel="noopener noreferrer" title="关于接口的一些使用技巧与方法">
+      <div class="share-icon icon icon-qq">
+      </div>
+    </a>
+    <a href="javascript:;"  title="关于接口的一些使用技巧与方法">
+      <div class="share-icon icon icon-weixin">
+          <div id="share-weixin">
+            <div class="share-weixin-dom">
+              <div class="share-weixin-content">
+                <img id="share-weixin-banner"> 
+                <div id="share-weixin-title"></div>
+                <div id="share-weixin-desc"></div>
+              </div>
+              <div class="share-weixin-qrcode">
+                <div class="share-weixin-info">
+                  <div id="share-weixin-author"></div>
+                  <div id="share-weixin-theme">Powered By hexo-theme-reimu</div>
+                </div>
+                <img id="share-weixin-qr" >
+              </div>
+            </div>
+            <div class="share-weixin-canvas"></div>
+          </div>
+      </div>
+    </a>
+</div>
+        <a data-aos="zoom-in" href="/2025/05/10/%E5%85%B3%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%96%B9%E6%B3%95/#comments" class="article-comment-link">
+          <span class="post-comments-count waline-comment-count" data-path="/2025/05/10/%E5%85%B3%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%96%B9%E6%B3%95/" itemprop="commentCount"></span>
+          留言
+        </a>
+        <span data-aos="zoom-in" class="article-visitor-link">
+          <span class="waline-pageview-count" data-path="/2025/05/10/%E5%85%B3%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%96%B9%E6%B3%95/">0</span>
+          <em class="post-meta-item-text">阅读量</em>
+        </span>
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/Android/" rel="tag" title="Android">Android</a></li></ul>
+
+    </footer>
+  </div>
+    <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+      <div class="article-nav-link-wrap left">
+          <img data-src="/images/aaa/6.webp" data-sizes="auto" alt="ExecutorService介绍及其使用方法" class="lazyload">
+        <a href="/2025/06/28/ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" aria-label="前一篇: ExecutorService介绍及其使用方法" title="前一篇: ExecutorService介绍及其使用方法"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">
+            ExecutorService介绍及其使用方法
+        </h3>
+      </div>
+    <div class="article-nav-link-wrap right">
+        <img data-src="/images/aaa/4.webp" data-sizes="auto" alt="Android中调用接口和回调的区别" class="lazyload">
+      <a href="/2025/05/05/Android%E4%B8%AD%E8%B0%83%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%9B%9E%E8%B0%83%E7%9A%84%E5%8C%BA%E5%88%AB/" aria-label="后一篇: Android中调用接口和回调的区别"  title="后一篇: Android中调用接口和回调的区别"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+          Android中调用接口和回调的区别
+      </h3>
+    </div>
+  </nav>
+
+</article>
+
+  <section id="comments" data-aos="fade-up">
+    <div class="comment-header">
+        
+      <h2 class="comment-title">说些什么吧！</h2>
+      <div class="comment-selector">
+        <div class="comment-selector-wrap">
+            <div class="selector-item" data-selector="waline">
+              <span>waline</span>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="comment-content">
+          <div class="comment waline-comment" data-aos="fade-up"
+            id="waline-comment">
+          </div>
+    </div>
+  </section>
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    <div>
+      <span class="icon-copyright"></span>
+        2024-2025
+      <span class="footer-info-sep rotate"></span>
+      MoYu
+    </div>
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+      <div>
+        <span class="icon-brush"></span>
+        14.9k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        01:08
+      </div>
+      <div class="footer-beian">
+        <img
+          style="object-fit: contain;margin-right: 2px;"
+          src="https://icp.gov.moe/images/ico64.png"
+          alt=""
+          width="24"
+          height="24"
+        />
+        <a target="_blank" rel="noopener nofollow noreferrer" href="https://icp.gov.moe/?keyword=20250560">萌ICP备20250560号</a>
+      </div>
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+  </div>
+</footer>
+
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E9%80%9A%E8%BF%87%E6%8E%A5%E5%8F%A3%E4%BD%BF%E7%94%A8%E5%AE%9E%E7%8E%B0%E7%B1%BB%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.</span> <span class="toc-text"> 一.通过接口使用实现类的对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E6%8E%A5%E5%8F%A3%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E6%88%96%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">2.</span> <span class="toc-text"> 二.接口作为参数或返回值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text"> 核心概念：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80-%E6%8E%A5%E5%8F%A3%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E7%9B%91%E5%90%AC%E6%8C%89%E9%92%AE%E7%82%B9%E5%87%BB%E5%90%8E%E6%89%A7%E8%A1%8C%E6%9F%90%E4%B8%AA%E5%9B%9E%E8%B0%83%E9%80%BB%E8%BE%91"><span class="toc-number">2.2.</span> <span class="toc-text"> 一、接口作为参数（监听按钮点击后执行某个回调逻辑）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.2.1.</span> <span class="toc-text"> 定义一个接口：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%8E%A5%E5%8F%97%E8%BF%99%E4%B8%AA%E6%8E%A5%E5%8F%A3%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0"><span class="toc-number">2.2.2.</span> <span class="toc-text"> 函数接受这个接口作为参数：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E4%BC%A0%E9%80%92%E8%A1%8C%E4%B8%BA"><span class="toc-number">2.2.3.</span> <span class="toc-text"> 使用接口对象传递行为：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#kotlin-%E4%B8%AD%E8%BF%98%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8-lambda-%E7%AE%80%E5%8C%96%E5%A6%82%E6%9E%9C%E6%98%AF-sam-%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.2.4.</span> <span class="toc-text"> Kotlin 中还可以使用 Lambda 简化（如果是 SAM 接口）：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C-%E6%8E%A5%E5%8F%A3%E4%BD%9C%E4%B8%BA%E8%BF%94%E5%9B%9E%E5%80%BC%E4%BD%A0%E5%B8%8C%E6%9C%9B%E4%BB%8E%E6%9F%90%E4%B8%AA%E7%B1%BB%E4%B8%AD%E8%8E%B7%E5%8F%96%E7%AD%96%E7%95%A5%E6%88%96%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91"><span class="toc-number">2.3.</span> <span class="toc-text"> 二、接口作为返回值(你希望从某个类中获取“策略”或“处理逻辑”)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.3.1.</span> <span class="toc-text"> 定义接口：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.3.2.</span> <span class="toc-text"> 函数返回接口对象：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E6%96%B9%E4%BD%BF%E7%94%A8%E8%BF%94%E5%9B%9E%E7%9A%84%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.3.3.</span> <span class="toc-text"> 调用方使用返回的接口对象：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E6%8E%A5%E5%8F%A3%E7%9A%84%E9%BB%98%E8%AE%A4%E6%96%B9%E6%B3%95%E4%B8%8E%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.</span> <span class="toc-text"> 三.接口的默认方法与函数式接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80-%E6%8E%A5%E5%8F%A3%E7%9A%84%E9%BB%98%E8%AE%A4%E6%96%B9%E6%B3%95default-method"><span class="toc-number">3.1.</span> <span class="toc-text"> 一、接口的默认方法（Default Method）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.1.</span> <span class="toc-text"> 定义</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">3.1.2.</span> <span class="toc-text"> 示例</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C-%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3functional-interface"><span class="toc-number">3.2.</span> <span class="toc-text"> 二、函数式接口（Functional Interface）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89-2"><span class="toc-number">3.2.1.</span> <span class="toc-text"> 定义</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BD%BF%E7%94%A8-lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">3.2.2.</span> <span class="toc-text"> 示例：使用 Lambda 表达式</span></a></li></ol></li></ol></li></ol>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/1.jpg" data-sizes="auto" alt="MoYu" class="lazyload">
+  <div class="sidebar-author-name">MoYu</div>
+  <div class="sidebar-description">Lucky Forever~~</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">13</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">7</div>
+  </div>
+</div>
+<div class="sidebar-social">
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:hqw1554799@gmail.com itemprop="url" target="_blank" aria-label="email" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-twitter sidebar-social-icon">
+      <a href=https://twitter.com/MoYu_Lucky itemprop="url" target="_blank" aria-label="twitter" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/lucky_hqw itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
+    </div>
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+</div>
+</div>
+  </div>
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+</nav>
+
+    </div>
+      <div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png"/>
+        </div>
+      </div>
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+  
+<script src="/js/generator_search.js" defer></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    if (!false || !window.matchMedia('(max-width: 768px)').matches) {
+      window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'));
+    }
+  </script>
+
+  
+<script src="https://npm.webcache.cn/theme-shokax-pjax@0.0.3/dist/index.umd.js" integrity="sha384-xneY1WY8hOfUzswrE4CrYq35N4BdVcxqxwHPr9zawE&#x2F;jMSCxD+jAPU55x&#x2F;jj3wlf" crossorigin="anonymous"></script>
+
+  
+<script src="/js/pjax.js"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/live2d-widgets@0.9.0/autoload.js" integrity="sha384-poTN7wN&#x2F;SqNhQqo3jdFeX20ikddWeFGkUkDEzsKjgH&#x2F;ez8aQLn81oI0Cw6q5xNyB" crossorigin="anonymous"></script>
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@3.0.1/dist/quicklink.umd.js" integrity="sha384-caMDqvgav&#x2F;HWdEYQU1QRRHMLleigpL1YHAG0m371DhzfL8rRzUyOb+bEHtwlmYjD" crossorigin="anonymous"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+<div id="lazy-script">
+  <div>
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "MoYu",
+          title: "关于接口的一些使用技巧与方法",
+          url: "https://11111-beep.github.io/2025/05/10/%E5%85%B3%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%96%B9%E6%B3%95/",
+          excerpt: "",
+          description: "",
+          stripContent: "作为一个 Android 开发初学者，每当别人提到“接口”这个词时，我内心总会毫不在意地想：“接口？不就是 implements 一下就完事了吗？”然而，真正开始做项目后才发现，原来接口的使用远不止定义几个方法那么简单。很多关于接口的应用技巧和设计思想，在实际开发中常常被我忽略。你是否也曾遇到过类似的情况呢？让我们一起来深入探讨一下吧！  一.通过接口使用实现类的对象 通过接口使用实现类的对象体现的是多态的理念,他的核心是面向接口编程.实现类必须实现接口中定义的所有抽象方法（除非该类是抽象类）.",
+          date: "Sat May 10 2025 16:34:52 GMT+0800",
+          updated: "Sun Dec 14 2025 16:37:12 GMT+0800",
+          cover: "/images/aaa/11.png",
+        };
+      </script>
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+<script src="/js/tabs.js" data-pjax></script>
+
+          
+<script src="https://npm.webcache.cn/@zumer/snapdom@1.9.14/dist/snapdom.min.js" integrity="sha384-OEQ+fJp&#x2F;Mvi2uzBREXybtxryJvLytWapuHu4EE6LPwTKUwATYcc55tPPcZTzVcmx" crossorigin="anonymous" defer data-pjax></script>
+
+          
+<script src="https://npm.webcache.cn/qrcode@1.5.1/build/qrcode.js" integrity="sha384-VT1EeewTCEXgndcPMQ0PzV+uVFYjxFIjmAA7s5gcMX9t4Dt5TD+OVQIn7NJWIXn7" crossorigin="anonymous" defer data-pjax></script>
+
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+        
+<script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+
+  var commentConfigKeys = ["waline"];
+  var commentConfig = {
+    waline: {
+      enable: true,
+      load: async () => {
+        const container = document.querySelector('.waline-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        let walineInit;
+        const walineCdn = 'https://npm.webcache.cn/@waline/client@2.15.8/dist/waline.mjs';
+        const walineIntegrity = 'sha384-9sbqJjrfGjbkI6/PI4nU/MvBfEmkkPC4YK9I4zBeMIf1CVCZdCMH/KinBEAZII/5';
+
+        const module = await safeImport(walineCdn, walineIntegrity);
+        walineInit = module.init;
+
+        window.walineInstance = walineInit({
+          el: '.waline-comment',
+          serverURL: 'https://moyublog.vercel.app',
+          lang: document.documentElement.lang || 'en',
+          locale: {},
+          emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus","https://unpkg.com/@waline/emojis@1.2.0/bilibili","https://unpkg.com/@waline/emojis@1.2.0/qq","https://unpkg.com/@waline/emojis@1.2.0/tieba","https://unpkg.com/@waline/emojis@1.2.0/tw-emoji"],
+          meta: ["nick","mail","link"],
+          requiredMeta: ["nick","mail"],
+          wordLimit: JSON.parse('0'),
+          comment: true,
+          pageSize: JSON.parse('10'),
+          dark: 'html[data-theme="dark"]',
+          pageview: JSON.parse('true'),
+        });
+      }
+    },
+  }
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    // 1. 首先检查localStorage中是否有保存的评论类型
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    // 2. 如果localStorage中有值且对应的评论系统可用，就使用它
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    // 3. 如果localStorage无效，检查配置的默认评论系统
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    // 4. 如果前两项都无效，按指定顺序找到第一个可用的评论系统
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    // 隐藏所有评论容器
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    // 按需加载评论系统
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        // 如果已加载，只需显示对应容器
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      // 根据类型加载对应的脚本
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    // 评论组件选择器
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      // 获取要加载的评论系统类型
+      const commentType = item.getAttribute('data-selector');
+
+      // 隐藏所有评论系统
+      hideAllComments();
+
+      // 加载选中的评论系统
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      // 评论组件选择器点击事件
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          // 保存选择器状态
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          // 切换选中状态
+          changeActiveCommentItems(item);
+        });
+      }
+
+      // 检查是否需要加载默认评论系统
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script>
+
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.11.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js" integrity="sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL&#x2F;aORyw+5+HZoU6e" crossorigin="anonymous"></script>
+
+
+  <script>
+    if (!false || !window.matchMedia('(max-width: 768px)').matches) {
+      if (window.matchMedia('(max-width: 959px)').matches) {
+        const meting = _$('meting-js');
+        if (meting) {
+          meting.setAttribute('fixed', 'true');
+          const aside = meting.parentNode?.parentNode;
+          if (aside?.tagName === 'ASIDE') {
+            meting.parentNode.removeChild(meting);
+            document.body.appendChild(meting);
+          }
+        }
+      }
+      const script = document.createElement('script');
+      script.src = "https://npm.webcache.cn/meting@2.0.1/dist/Meting.min.js";
+      script.integrity = "sha384-ASVlpKF80A22OXTK3tfEjZm1EL6uFMKIC4p8+0maanw1S/IyB+Y4JG+ZDU7GpKE8";
+      script.crossOrigin = "anonymous";
+      document.body.appendChild(script);
+    }
+  </script>
+
+  
+<script src="https://npm.webcache.cn/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha384-HeUHqi0nVsPUm&#x2F;E0ss7OfnIV&#x2F;yD96JWB8ehZvUuoVax9DpNHL17jj9pdfXHzqDxm" crossorigin="anonymous" defer></script>
+
+  <script data-pjax>
+    if (document.readyState === "loading") {
+      document.addEventListener('DOMContentLoaded', () => {
+        pangu?.spacingPage();
+      });
+    } else {
+      pangu?.spacingPage();
+    }
+  </script>
+
+  </body>
+  </html>

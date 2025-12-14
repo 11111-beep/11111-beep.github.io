@@ -1,0 +1,1293 @@
+  <!DOCTYPE html>
+  <html lang="en"  
+      data-theme-mode="auto"
+  >
+  <head>
+  <meta charset="utf-8">
+  
+  
+  
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)","en":"Copy successfully (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","en":"Copy failed (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":20};window.REIMU_CONFIG.base = 'https://11111-beep.github.io';window.REIMU_CONFIG.i18n_languages = ["en"];</script>
+  <title>
+    ExecutorService介绍及其使用方法 | 为什么喜欢沫雨~
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+    <meta name="description" content="在 Android 开发中，我们经常需要在后台执行耗时操作，以避免阻塞主线程（UI 线程），从而导致应用无响应（ANR）。传统的做法是使用 Thread 类，但 Thread 的管理开销较大，包括线程的创建、销毁和调度。当并发任务较多时，频繁地创建和销毁线程会消耗大量的系统资源，甚至可能导致 OOM（Out Of Memory）错误。 ExecutorService 接口（及其父接口 Execut">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ExecutorService介绍及其使用方法">
+<meta property="og:url" content="https://11111-beep.github.io/en/2025/06/28/ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="为什么喜欢沫雨~">
+<meta property="og:description" content="在 Android 开发中，我们经常需要在后台执行耗时操作，以避免阻塞主线程（UI 线程），从而导致应用无响应（ANR）。传统的做法是使用 Thread 类，但 Thread 的管理开销较大，包括线程的创建、销毁和调度。当并发任务较多时，频繁地创建和销毁线程会消耗大量的系统资源，甚至可能导致 OOM（Out Of Memory）错误。 ExecutorService 接口（及其父接口 Execut">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://11111-beep.github.io/2025/06/28/ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/f1f0f438f43f4991ac0550a9b7d04e9a.png">
+<meta property="article:published_time" content="2025-06-28T08:38:06.000Z">
+<meta property="article:modified_time" content="2025-12-14T08:39:36.970Z">
+<meta property="article:author" content="MoYu">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://11111-beep.github.io/2025/06/28/ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/f1f0f438f43f4991ac0550a9b7d04e9a.png">
+      <meta name="keywords" content="编程, Android, 技术, 生活">
+    <link rel="alternate" href="/atom.xml" title="为什么喜欢沫雨~" type="application/atom+xml">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+        
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.24/dist/katex.min.css" integrity="sha384-tTgKLjMYmJr94v8qu2PE5MUGSMbyN2xiH266JUB3gpm8vnnJywd1dWSOEfrFz+YI" crossorigin="anonymous">
+
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/@waline/client@2.15.8/dist/waline.css" integrity="sha384-vltfZtesCdl6NYVcFVcjEaIi5RpNvZe9t7fXvq8twVtcoy+Ub9QgnxUYJmwOhYCK" crossorigin="anonymous">
+
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+    <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css" integrity="sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU&#x2F;voDBY5XE2lVh" crossorigin="anonymous">
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+      <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+      </div>
+      <div class="loading-word">Loading~~~</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var loaderEl = document.getElementById('loader');
+    var startLoading = () => {
+      time = Date.now();
+      loaderEl.classList.remove("loading");
+    }
+    var hideLoader = () => {
+      document.body.style.overflow = 'auto';
+      loader.classList.add('loading');
+    };
+
+    var endLoading = () => {
+      if (!time) {
+        hideLoader();
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          hideLoader();
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    loaderEl.addEventListener('click', endLoading);
+  </script>
+<div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+        <a class="main-nav-link-wrap" href="/en/">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">Home</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/en/archives">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">Archives</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/en/about">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">About</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/en/friend">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">Friend</span>
+        </span>
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" aria-label="RSS Feed" target="_blank"></a>
+      <a id="nav-search-btn" class="nav-icon popup-trigger" title="Search" aria-label="Search"></a>
+  </nav>
+    <nav id="i18n-nav" aria-label="Language selection">
+      <div class="custom-dropdown">
+        <div class="select-selected" id="select-selected" role="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Language menu">
+          <span id="nav-language-btn" class="nav-icon" style="padding: 0 20px 0 0"></span>
+          <span id="selected-lang">English</span>
+        </div>
+        <ul class="select-items" id="select-items" role="listbox" aria-label="Languages">
+            <li data-value="zh-CN" role="option" aria-selected="false">简体中文</li>
+            <li data-value="en" role="option" class="selected" aria-selected="true">English</li>
+        </ul>
+      </div>
+      <script>
+        var selectSelected = document.getElementById("select-selected");
+        var selectedLang = document.getElementById("selected-lang");
+        var selectItems = document.getElementById("select-items");
+        var selectOptions = selectItems.querySelectorAll("li");
+
+        selectSelected.addEventListener("click", () => {
+          selectItems.classList.toggle("show");
+          var expanded = selectSelected.getAttribute("aria-expanded") === "true";
+          selectSelected.setAttribute("aria-expanded", (!expanded).toString());
+        });
+
+        selectOptions.forEach((item) => {
+          item.addEventListener("click", () => {
+            const langMap = {};
+              langMap['zh-CN'] = '/2025/06/28/ExecutorService介绍及其使用方法/';
+              langMap['en'] = '/en/2025/06/28/ExecutorService介绍及其使用方法/';
+            selectedLang.textContent = item.textContent;
+            selectItems.classList.remove("show");
+            selectOptions.forEach((option) => {
+              option.classList.remove("selected");
+            });
+            item.classList.add("selected");
+            window.location = langMap[item.dataset.value];
+          });
+        });
+
+        document.addEventListener("click", (event) => {
+          if (!event.target.closest(".custom-dropdown")) {
+            selectItems.classList.remove("show");
+            selectSelected.setAttribute("aria-expanded", "false");
+          }
+        });
+      </script>
+    </nav>
+</div>
+<header id="header" aria-label="Site header">
+    <picture></picture>
+    <img  fetchpriority="high" src="/images/aaa/6.webp" alt="ExecutorService介绍及其使用方法">
+  <div id="header-outer">
+    <div id="header-title">
+          <span id="logo">
+            <h1 data-aos="slide-up">ExecutorService介绍及其使用方法</h1>
+          </span>
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+        </h2>
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content"  class="sidebar-right" >
+          <aside id="sidebar" aria-label="Sidebar">
+  <div class="sidebar-wrapper-container sticky">
+      <meting-js
+        theme="var(--color-link)"
+        id="2265921590"
+        server="netease"
+        type="playlist"
+        auto="lrc"
+        fixed="false"
+        autoplay="true"
+        loop="all"
+        order="list"
+        preload="auto"
+        volume="0.7"
+        mutex="true"
+        list-folded="true"
+        lrc-type="3"
+      ></meting-js>
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">Contents</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#executorservice-%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text"> ExecutorService 概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#executorservice-%E7%9A%84%E4%B8%BB%E8%A6%81%E4%BC%98%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text"> ExecutorService 的主要优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#executorservice-%E7%9A%84%E5%88%9B%E5%BB%BA%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text"> ExecutorService 的创建方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#executorservice-%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text"> ExecutorService 的使用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#scheduledexecutorservice-%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text"> ScheduledExecutorService 的使用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#executorservice-%E7%9A%84%E5%85%B3%E9%97%AD"><span class="toc-number">6.</span> <span class="toc-text"> ExecutorService 的关闭</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#executorservice-%E5%9C%A8-android-%E4%B8%AD%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">7.</span> <span class="toc-text"> ExecutorService 在 Android 中的最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E5%9C%BA%E6%99%AF"><span class="toc-number">7.1.</span> <span class="toc-text"> 示例场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E8%A7%A3%E9%87%8A"><span class="toc-number">7.2.</span> <span class="toc-text"> 工作流程解释：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">8.</span> <span class="toc-text"> 注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#android-%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">9.</span> <span class="toc-text"> Android 中的应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">10.</span> <span class="toc-text"> 总结</span></a></li></ol>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/1.jpg" data-sizes="auto" alt="MoYu" class="lazyload">
+  <div class="sidebar-author-name">MoYu</div>
+  <div class="sidebar-description">Lucky Forever~~</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">13</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">7</div>
+  </div>
+</div>
+<div class="sidebar-social">
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:hqw1554799@gmail.com itemprop="url" target="_blank" aria-label="email" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-twitter sidebar-social-icon">
+      <a href=https://twitter.com/MoYu_Lucky itemprop="url" target="_blank" aria-label="twitter" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/lucky_hqw itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
+    </div>
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/" aria-label="Home"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Home</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/archives" aria-label="Archives"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Archives</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/about" aria-label="About"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">About</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/friend" aria-label="Friend"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Friend</div>
+      </div>
+</div>
+</div>
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+    </div>
+  </div>
+  <div class="sidebar-widget">
+  </div>
+  </div>
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-ExecutorService介绍及其使用方法" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2025-06-28T08:38:06.000Z" itemprop="datePublished">2025-06-28</time>
+    <time style="display: none;" id="post-update-time">2025-12-14</time>
+  </span>
+</div>
+
+      
+    </div>
+    
+    <div class="hr-line"></div>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+        <p>在 Android 开发中，我们经常需要在后台执行耗时操作，以避免阻塞主线程（UI 线程），从而导致应用无响应（ANR）。传统的做法是使用 <code>Thread</code> 类，但 <code>Thread</code> 的管理开销较大，包括线程的创建、销毁和调度。当并发任务较多时，频繁地创建和销毁线程会消耗大量的系统资源，甚至可能导致 OOM（Out Of Memory）错误。</p>
+<p><code>ExecutorService</code> 接口（及其父接口 <code>Executor</code>）是 Java 并发包 <code>java.util.concurrent</code> 中的核心组件，它提供了一种更高级、更灵活的方式来管理和执行并发任务。它将任务的提交和任务的执行解耦，允许我们使用线程池来管理线程，从而提高应用程序的性能和稳定性。</p>
+<h3 id="executorservice-概述"><a class="markdownIt-Anchor" href="#executorservice-概述"></a> ExecutorService 概述</h3>
+<p><code>ExecutorService</code> 是 <code>Executor</code> 的子接口，它提供了更丰富的生命周期管理方法，例如关闭线程池、判断线程池是否已关闭等。</p>
+<p><strong>核心思想：</strong></p>
+<ul>
+<li><strong>线程池（Thread Pool）</strong>：<code>ExecutorService</code> 的实现通常基于线程池。线程池预先创建了一定数量的线程，当有任务提交时，线程池中的空闲线程会去执行任务。任务执行完毕后，线程不会被销毁，而是返回线程池等待下一个任务。这样就避免了频繁创建和销毁线程的开销。</li>
+<li><strong>任务提交与执行分离</strong>：开发者只需将任务提交给 <code>ExecutorService</code>，而无需关心任务具体由哪个线程执行、线程如何管理等底层细节。</li>
+<li><strong>任务队列（Task Queue）</strong>：当线程池中的所有线程都在忙碌时，新提交的任务会被放入一个任务队列中等待。</li>
+</ul>
+<img src="/2025/06/28/ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/f1f0f438f43f4991ac0550a9b7d04e9a.png" class="" title="在这里插入图片描述">
+<h3 id="executorservice-的主要优点"><a class="markdownIt-Anchor" href="#executorservice-的主要优点"></a> ExecutorService 的主要优点</h3>
+<ol>
+<li><strong>资源管理</strong>：避免了线程频繁创建和销毁的开销，降低了系统资源消耗。</li>
+<li><strong>提高响应速度</strong>：当任务到达时，可以直接从线程池中获取线程执行，无需等待线程创建，从而提高了响应速度。</li>
+<li><strong>提高稳定性</strong>：限制了并发线程的数量，避免了过多的线程导致系统资源耗尽。</li>
+<li><strong>提供丰富的功能</strong>：例如定时任务、任务取消、任务结果获取等。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>特性 / 工具</th>
+<th><code>Thread</code></th>
+<th><code>ExecutorService</code></th>
+<th><code>HandlerThread</code></th>
+<th><code>Coroutine</code>（协程）</th>
+<th><code>RxJava</code></th>
+<th><code>WorkManager</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>线程复用</strong></td>
+<td>❌ 每次新建</td>
+<td>✅ 线程池复用</td>
+<td>✅ 单线程长驻</td>
+<td>✅ 调度器复用</td>
+<td>✅ 调度器复用</td>
+<td>✅ 系统级复用</td>
+</tr>
+<tr>
+<td><strong>是否并发处理任务</strong></td>
+<td>❌（需手动管理）</td>
+<td>✅ 高并发处理</td>
+<td>❌ 顺序执行（消息队列）</td>
+<td>✅ 支持并发/顺序</td>
+<td>✅ 支持高并发</td>
+<td>✅（系统调度并发）</td>
+</tr>
+<tr>
+<td><strong>任务调度能力</strong></td>
+<td>❌ 无队列</td>
+<td>✅ 可配置队列/线程策略</td>
+<td>✅ 消息队列</td>
+<td>✅ <code>Dispatcher</code> 灵活切换</td>
+<td>✅ <code>.observeOn()</code> 等灵活切换</td>
+<td>✅ 系统控制、基于约束</td>
+</tr>
+<tr>
+<td><strong>主线程交互支持</strong></td>
+<td>❌ 需手动</td>
+<td>❌ 需结合 Handler</td>
+<td>✅ 内置 Handler</td>
+<td>✅ <code>withContext(Main)</code></td>
+<td>✅ <code>.observeOn(Main)</code></td>
+<td>✅ 自动在主线程回调</td>
+</tr>
+<tr>
+<td><strong>生命周期感知</strong></td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅ 可集成 <code>ViewModelScope</code></td>
+<td>⚠️ 需手动处理</td>
+<td>✅ 自动管理，生命周期无关</td>
+</tr>
+<tr>
+<td><strong>适合复杂流处理</strong></td>
+<td>❌</td>
+<td>⚠️ 需手动拆分逻辑</td>
+<td>❌</td>
+<td>✅ 易组合、结构化优雅</td>
+<td>✅ 响应式流天生适合</td>
+<td>❌（偏系统任务，不适用于复杂流）</td>
+</tr>
+<tr>
+<td><strong>取消任务机制</strong></td>
+<td>✅ <code>interrupt()</code></td>
+<td>✅ <code>Future.cancel()</code></td>
+<td>⚠️ 手动标记退出</td>
+<td>✅ <code>Job.cancel()</code></td>
+<td>✅ <code>dispose()</code></td>
+<td>✅ 根据约束自动取消</td>
+</tr>
+<tr>
+<td><strong>适合后台持久任务</strong></td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅（结合 <code>IO Dispatcher</code>）</td>
+<td>✅</td>
+<td>✅ 持久运行，系统可靠调度</td>
+</tr>
+<tr>
+<td><strong>Jetpack 兼容性</strong></td>
+<td>❌</td>
+<td>⚠️ 一般</td>
+<td>❌</td>
+<td>✅ 完美集成</td>
+<td>⚠️ 可与 LiveData 配合</td>
+<td>✅ Jetpack 官方支持</td>
+</tr>
+<tr>
+<td><strong>推荐使用场景</strong></td>
+<td>简单线程任务</td>
+<td>高并发异步任务</td>
+<td>轮询/消息处理类后台任务</td>
+<td>✅ 推荐主力工具，用于几乎所有异步任务</td>
+<td>响应式编程、复杂事件流</td>
+<td>后台约束型任务（上传/同步等）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="executorservice-的创建方法"><a class="markdownIt-Anchor" href="#executorservice-的创建方法"></a> ExecutorService 的创建方法</h3>
+<p><code>Executors</code> 工具类提供了多种静态工厂方法来创建不同类型的 <code>ExecutorService</code>：</p>
+<ol>
+<li>
+<p><strong><code>Executors.newFixedThreadPool(int nThreads)</code></strong>：</p>
+<ul>
+<li>创建一个固定大小的线程池。</li>
+<li>线程池中的线程数量是固定的，如果所有线程都在忙碌，新任务会进入一个无界队列等待。</li>
+<li>适用于已知并发任务数量，并且希望控制并发线程数量的场景。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ExecutorService</span> <span class="variable">fixedThreadPool</span> <span class="operator">=</span> Executors.newFixedThreadPool(<span class="number">5</span>); <span class="comment">// 创建一个包含5个线程的线程池</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>Executors.newCachedThreadPool()</code></strong>：</p>
+<ul>
+<li>创建一个可缓存的线程池。</li>
+<li>线程池的线程数量是不固定的，当有任务提交时，如果线程池中有空闲线程，则直接使用；如果没有空闲线程，则创建一个新线程来执行任务。</li>
+<li>空闲的线程在一段时间（通常是 60 秒）后会被回收。</li>
+<li>适用于执行大量短期异步任务的场景，可以根据任务量自动调整线程数量。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ExecutorService</span> <span class="variable">cachedThreadPool</span> <span class="operator">=</span> Executors.newCachedThreadPool();</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>Executors.newSingleThreadExecutor()</code></strong>：</p>
+<ul>
+<li>创建一个单线程的 <code>ExecutorService</code>。</li>
+<li>它只有一个工作线程，所有的任务都按照提交的顺序串行执行。</li>
+<li>适用于需要保证所有任务严格顺序执行的场景。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ExecutorService</span> <span class="variable">singleThreadPool</span> <span class="operator">=</span> Executors.newSingleThreadExecutor();</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>Executors.newScheduledThreadPool(int corePoolSize)</code></strong>：</p>
+<ul>
+<li>创建一个可定时执行任务的线程池。</li>
+<li>它支持延迟执行任务和周期性执行任务。</li>
+<li><code>corePoolSize</code> 表示核心线程数量。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ScheduledExecutorService</span> <span class="variable">scheduledThreadPool</span> <span class="operator">=</span> Executors.newScheduledThreadPool(<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="executorservice-的使用方法"><a class="markdownIt-Anchor" href="#executorservice-的使用方法"></a> ExecutorService 的使用方法</h3>
+<p><code>ExecutorService</code> 主要通过以下方法来提交任务：</p>
+<ol>
+<li>
+<p><strong><code>execute(Runnable command)</code></strong>：</p>
+<ul>
+<li>提交一个不需要返回结果的任务。</li>
+<li><code>Runnable</code> 接口的 <code>run()</code> 方法不返回任何值。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">fixedThreadPool.execute(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 后台执行耗时操作</span></span><br><span class="line">        System.out.println(<span class="string">&quot;Executing task in fixedThreadPool...&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            Thread.currentThread().interrupt();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;Task in fixedThreadPool finished.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>submit(Callable&lt;T&gt; task)</code></strong>：</p>
+<ul>
+<li>提交一个需要返回结果的任务。</li>
+<li><code>Callable</code> 接口的 <code>call()</code> 方法可以返回一个值，并且可以抛出异常。</li>
+<li><code>submit()</code> 方法会返回一个 <code>Future</code> 对象，可以通过 <code>Future</code> 对象获取任务执行结果。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Future&lt;String&gt; future = cachedThreadPool.submit(<span class="keyword">new</span> <span class="title class_">Callable</span>&lt;String&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Executing task in cachedThreadPool...&quot;</span>);</span><br><span class="line">        Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Task result from cachedThreadPool&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在需要结果的时候获取</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> future.get(); <span class="comment">// 阻塞直到任务完成并返回结果</span></span><br><span class="line">    System.out.println(result);</span><br><span class="line">&#125; <span class="keyword">catch</span> (InterruptedException | ExecutionException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>submit(Runnable task, T result)</code></strong>：</p>
+<ul>
+<li>提交一个 <code>Runnable</code> 任务，并指定一个结果对象，当任务完成时，该结果对象会作为 <code>Future</code> 的结果返回。</li>
+<li>这个方法通常用于 <code>Runnable</code> 任务本身没有返回值，但你仍然希望通过 <code>Future</code> 获取某个特定对象的情况。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">myResult</span> <span class="operator">=</span> <span class="string">&quot;Default Result&quot;</span>;</span><br><span class="line">Future&lt;String&gt; futureRunnable = singleThreadPool.submit(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Executing Runnable with result in singleThreadPool...&quot;</span>);</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;, myResult);</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">finalResult</span> <span class="operator">=</span> futureRunnable.get();</span><br><span class="line">    System.out.println(<span class="string">&quot;Runnable with result finished: &quot;</span> + finalResult);</span><br><span class="line">&#125; <span class="keyword">catch</span> (InterruptedException | ExecutionException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>submit(Runnable task)</code></strong>：</p>
+<ul>
+<li>提交一个 <code>Runnable</code> 任务。</li>
+<li>虽然 <code>Runnable</code> 没有返回值，但 <code>submit()</code> 方法仍然会返回一个 <code>Future&lt;?&gt;</code> 对象，可以用于检查任务是否完成或取消任务。当任务成功完成时，调用 <code>Future.get()</code> 会返回 <code>null</code>。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Future&lt;?&gt; futureVoid = fixedThreadPool.submit(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Executing void task in fixedThreadPool...&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            Thread.currentThread().interrupt();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    futureVoid.get(); <span class="comment">// 阻塞直到任务完成，返回null</span></span><br><span class="line">    System.out.println(<span class="string">&quot;Void task finished.&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (InterruptedException | ExecutionException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="scheduledexecutorservice-的使用方法"><a class="markdownIt-Anchor" href="#scheduledexecutorservice-的使用方法"></a> ScheduledExecutorService 的使用方法</h3>
+<p><code>ScheduledExecutorService</code> 提供了定时和周期性任务执行的能力：</p>
+<ol>
+<li>
+<p><strong><code>schedule(Callable&lt;V&gt; callable, long delay, TimeUnit unit)</code></strong>：</p>
+<ul>
+<li>在指定的延迟时间后执行一次任务。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">scheduledThreadPool.schedule(<span class="keyword">new</span> <span class="title class_">Callable</span>&lt;String&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Scheduled task executed after 5 seconds.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Scheduled Task Done&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="number">5</span>, TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>schedule(Runnable command, long delay, TimeUnit unit)</code></strong>：</p>
+<ul>
+<li>在指定的延迟时间后执行一次任务（无返回值）。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">scheduledThreadPool.schedule(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Another scheduled runnable executed after 3 seconds.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="number">3</span>, TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit)</code></strong>：</p>
+<ul>
+<li>在指定的初始延迟后开始执行任务，然后以固定的频率（<code>period</code>）周期性地执行任务。</li>
+<li><code>period</code> 是指任务开始执行的间隔时间，<strong>不考虑任务本身的执行时间</strong>。如果任务执行时间超过 <code>period</code>，则下一个任务会立即开始执行（或者在当前任务完成后立即执行）。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">scheduledThreadPool.scheduleAtFixedRate(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">now</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">&quot;Fixed rate task executed at: &quot;</span> + now);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1500</span>); <span class="comment">// 假设任务执行1.5秒</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            Thread.currentThread().interrupt();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="number">1</span>, <span class="number">2</span>, TimeUnit.SECONDS); <span class="comment">// 首次延迟1秒，之后每2秒执行一次</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit)</code></strong>：</p>
+<ul>
+<li>在指定的初始延迟后开始执行任务，然后在上一个任务<strong>执行完成后</strong>再等待指定的 <code>delay</code> 时间后执行下一个任务。</li>
+<li>这种方式可以保证任务之间至少有 <code>delay</code> 的间隔。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">scheduledThreadPool.scheduleWithFixedDelay(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">now</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">&quot;Fixed delay task executed at: &quot;</span> + now);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1500</span>); <span class="comment">// 假设任务执行1.5秒</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            Thread.currentThread().interrupt();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="number">1</span>, <span class="number">2</span>, TimeUnit.SECONDS); <span class="comment">// 首次延迟1秒，之后在上一个任务完成后再等待2秒执行下一个</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="executorservice-的关闭"><a class="markdownIt-Anchor" href="#executorservice-的关闭"></a> ExecutorService 的关闭</h3>
+<p>在使用完 <code>ExecutorService</code> 后，务必将其关闭，否则线程池中的线程会一直保持活跃状态，阻止应用程序正常退出，造成资源泄露。</p>
+<ol>
+<li>
+<p><strong><code>shutdown()</code></strong>：</p>
+<ul>
+<li>平滑地关闭 <code>ExecutorService</code>。</li>
+<li>它不会立即停止正在执行的任务，也不会接受新任务。</li>
+<li>已提交但尚未执行的任务会继续执行。</li>
+<li>当所有任务执行完成后，线程池才会真正关闭。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fixedThreadPool.shutdown();</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>shutdownNow()</code></strong>：</p>
+<ul>
+<li>尝试立即停止所有正在执行的任务。</li>
+<li>它会中断正在执行的任务，并返回一个尚未执行的任务列表。</li>
+<li>它不会等待任务完成。</li>
+<li>这是一个“尽力而为”的操作，不保证所有任务都会立即停止。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Runnable&gt; unexecutedTasks = cachedThreadPool.shutdownNow();</span><br><span class="line">System.out.println(<span class="string">&quot;Unexecuted tasks: &quot;</span> + unexecutedTasks.size());</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>awaitTermination(long timeout, TimeUnit unit)</code></strong>：</p>
+<ul>
+<li>在调用 <code>shutdown()</code> 后，可以使用此方法等待线程池终止。</li>
+<li>它会阻塞当前线程，直到所有任务执行完成，或者达到指定的超时时间，或者当前线程被中断。</li>
+<li>通常和 <code>shutdown()</code> 配合使用，以确保在所有任务完成后再进行后续操作。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fixedThreadPool.shutdown();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!fixedThreadPool.awaitTermination(<span class="number">60</span>, TimeUnit.SECONDS)) &#123;</span><br><span class="line">        <span class="comment">// 如果在指定时间内未能终止，可以再次尝试 shutdownNow() 或者记录日志</span></span><br><span class="line">        System.err.println(<span class="string">&quot;Thread pool did not terminate in the specified time.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">    Thread.currentThread().interrupt();</span><br><span class="line">    System.err.println(<span class="string">&quot;Waiting for thread pool termination was interrupted.&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="executorservice-在-android-中的最佳实践"><a class="markdownIt-Anchor" href="#executorservice-在-android-中的最佳实践"></a> ExecutorService 在 Android 中的最佳实践</h3>
+<h4 id="示例场景"><a class="markdownIt-Anchor" href="#示例场景"></a> <strong>示例场景</strong></h4>
+<p>假设我们有一个 <code>TextView</code> 需要每 5 秒显示一次从“网络”或“数据库”获取的模拟数据。</p>
+<p><strong>1. 准备你的 Android 项目</strong></p>
+<ul>
+<li>
+<p><strong><code>activity_main.xml</code> (布局文件)</strong>：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">&quot;vertical&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:gravity</span>=<span class="string">&quot;center&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">&quot;@+id/dataTextView&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">&quot;等待数据刷新...&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:textSize</span>=<span class="string">&quot;24sp&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:textColor</span>=<span class="string">&quot;@android:color/black&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>MyApp.java</code> (Application 类，用于管理全局的 ExecutorService)</strong>： （沿用之前我们讨论过的 Application 类，确保 ExecutorService 是单例且在应用生命周期内正确管理）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MyApp.java (保持不变，已包含在之前的回答中)</span></span><br><span class="line"><span class="keyword">import</span> android.app.Application;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyApp</span> <span class="keyword">extends</span> <span class="title class_">Application</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> ExecutorService backgroundExecutor;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">CPU_COUNT</span> <span class="operator">=</span> Runtime.getRuntime().availableProcessors();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">CORE_POOL_SIZE</span> <span class="operator">=</span> CPU_COUNT * <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate();</span><br><span class="line">        <span class="comment">// 创建线程池</span></span><br><span class="line">        backgroundExecutor = Executors.newFixedThreadPool(CORE_POOL_SIZE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title function_">getBackgroundExecutor</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (backgroundExecutor == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (MyApp.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (backgroundExecutor == <span class="literal">null</span>) &#123;</span><br><span class="line">                    backgroundExecutor = Executors.newFixedThreadPool(CORE_POOL_SIZE);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> backgroundExecutor;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onTerminate</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onTerminate();</span><br><span class="line">        <span class="keyword">if</span> (backgroundExecutor != <span class="literal">null</span> &amp;&amp; !backgroundExecutor.isShutdown()) &#123;</span><br><span class="line">            backgroundExecutor.shutdown();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (!backgroundExecutor.awaitTermination(<span class="number">60</span>, TimeUnit.SECONDS)) &#123;</span><br><span class="line">                    backgroundExecutor.shutdownNow();</span><br><span class="line">                    <span class="keyword">if</span> (!backgroundExecutor.awaitTermination(<span class="number">60</span>, TimeUnit.SECONDS)) &#123;</span><br><span class="line">                        System.err.println(<span class="string">&quot;ExecutorService did not terminate after forced shutdown.&quot;</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException ie) &#123;</span><br><span class="line">                backgroundExecutor.shutdownNow();</span><br><span class="line">                Thread.currentThread().interrupt();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>2. <code>MainActivity.java</code> (核心逻辑)</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> android.os.Looper;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"><span class="keyword">import</span> androidx.appcompat.app.AppCompatActivity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.Locale;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainActivity</span> <span class="keyword">extends</span> <span class="title class_">AppCompatActivity</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> TextView dataTextView;</span><br><span class="line">    <span class="keyword">private</span> Handler uiHandler; <span class="comment">// 用于将结果发布到主线程</span></span><br><span class="line">    <span class="keyword">private</span> ExecutorService backgroundExecutor; <span class="comment">// 获取后台线程池</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">REFRESH_INTERVAL_MS</span> <span class="operator">=</span> <span class="number">5000</span>; <span class="comment">// 刷新间隔：5 秒</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这个 Runnable 封装了“获取数据”和“调度下一次刷新”的逻辑。</span></span><br><span class="line">    <span class="comment">// 它首先将数据获取任务提交给 ExecutorService，然后等待 ExecutorService 完成并更新 UI，</span></span><br><span class="line">    <span class="comment">// 最后再通过 Handler 调度自身的下一次执行。</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Runnable</span> <span class="variable">refreshDataAndScheduleNext</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="comment">// 将数据获取任务提交给 ExecutorService</span></span><br><span class="line">            backgroundExecutor.execute(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">                    <span class="comment">// --- 1. 后台线程执行耗时的数据获取操作 ---</span></span><br><span class="line">                    <span class="type">String</span> <span class="variable">fetchedData</span> <span class="operator">=</span> fetchDataInBackground();</span><br><span class="line">                    System.out.println(<span class="string">&quot;后台获取数据完成: &quot;</span> + fetchedData);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// --- 2. 通过 Handler 将结果发布到主线程更新 UI ---</span></span><br><span class="line">                    uiHandler.post(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">                        <span class="meta">@Override</span></span><br><span class="line">                        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">                            dataTextView.setText(fetchedData);</span><br><span class="line">                            System.out.println(<span class="string">&quot;UI已更新: &quot;</span> + fetchedData);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// --- 3. 再次调度此 Runnable，实现定时循环 ---</span></span><br><span class="line">            <span class="comment">// 每次任务完成后，通过 Handler 再次 postDelayed 自身，实现周期性执行。</span></span><br><span class="line">            <span class="comment">// 注意：这里是主线程的Handler在调度下一个后台任务的启动。</span></span><br><span class="line">            uiHandler.postDelayed(<span class="built_in">this</span>, REFRESH_INTERVAL_MS);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        dataTextView = findViewById(R.id.dataTextView);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 初始化主线程 Handler</span></span><br><span class="line">        uiHandler = <span class="keyword">new</span> <span class="title class_">Handler</span>(Looper.getMainLooper());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取全局的后台线程池</span></span><br><span class="line">        backgroundExecutor = MyApp.getBackgroundExecutor();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onResume</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onResume();</span><br><span class="line">        <span class="comment">// 在 Activity 可见时启动定时刷新</span></span><br><span class="line">        <span class="comment">// 第一次调度任务，之后任务会通过自身递归实现循环</span></span><br><span class="line">        uiHandler.postDelayed(refreshDataAndScheduleNext, REFRESH_INTERVAL_MS);</span><br><span class="line">        System.out.println(<span class="string">&quot;定时UI刷新已启动.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onPause</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onPause();</span><br><span class="line">        <span class="comment">// 在 Activity 不可见时停止定时刷新，避免内存泄漏和不必要的资源消耗</span></span><br><span class="line">        uiHandler.removeCallbacks(refreshDataAndScheduleNext);</span><br><span class="line">        System.out.println(<span class="string">&quot;定时UI刷新已停止.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onDestroy</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onDestroy();</span><br><span class="line">        <span class="comment">// 再次确保移除所有回调，防止内存泄漏</span></span><br><span class="line">        uiHandler.removeCallbacks(refreshDataAndScheduleNext);</span><br><span class="line">        <span class="comment">// 通常不需要在这里关闭 backgroundExecutor，因为它是 Application 级别的</span></span><br><span class="line">        <span class="comment">// 它的关闭逻辑应该在 MyApp.onTerminate() 中处理</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 模拟在后台线程中执行的数据获取操作。</span></span><br><span class="line"><span class="comment">     * 这是一个耗时操作。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 模拟的最新数据字符串</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String <span class="title function_">fetchDataInBackground</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 模拟网络请求或数据库查询的耗时</span></span><br><span class="line">            Thread.sleep(<span class="number">2000</span>); <span class="comment">// 假设数据获取需要2秒</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            Thread.currentThread().interrupt();</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;数据获取被中断&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 生成模拟数据，例如当前时间</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;新数据: &quot;</span> + <span class="keyword">new</span> <span class="title class_">SimpleDateFormat</span>(<span class="string">&quot;HH:mm:ss&quot;</span>, Locale.getDefault()).format(<span class="keyword">new</span> <span class="title class_">Date</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="工作流程解释"><a class="markdownIt-Anchor" href="#工作流程解释"></a> 工作流程解释：</h4>
+<ol>
+<li>
+<p><strong><code>MyApp.java</code> (<code>ExecutorService</code> 的创建和管理)</strong>:</p>
+<ul>
+<li>在 <code>Application</code> 类的 <code>onCreate()</code> 中创建并初始化一个全局的 <code>ExecutorService</code>（如 <code>FixedThreadPool</code>）。这确保了整个应用只使用一个线程池实例，方便管理和资源复用。</li>
+<li>提供一个静态方法 <code>getBackgroundExecutor()</code> 让其他组件可以获取到这个线程池实例。</li>
+<li>在 <code>onTerminate()</code> 中，优雅地关闭 <code>ExecutorService</code>，释放所有线程资源。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>MainActivity.java</code> (<code>Handler</code> 和调度逻辑)</strong>:</p>
+<ul>
+<li>
+<p><strong><code>uiHandler = new Handler(Looper.getMainLooper());</code></strong>: 在 <code>onCreate()</code> 中初始化 <code>Handler</code>，并明确它关联到主线程的 Looper，这意味着通过此 <code>Handler</code> 发布的所有任务都将在主线程中执行。</p>
+</li>
+<li>
+<p><strong><code>backgroundExecutor = MyApp.getBackgroundExecutor();</code></strong>: 获取全局的后台线程池实例。</p>
+</li>
+<li>
+<p><code>refreshDataAndScheduleNext</code> (Runnable) :</p>
+<ul>
+<li>
+<p>这是一个关键的   <code>Runnable  </code>当它被执行时，它会做两件事：</p>
+<ol>
+<li><strong>将数据获取任务提交到 <code>backgroundExecutor</code></strong>：<code>backgroundExecutor.execute(new Runnable() &#123; ... &#125;);</code>。这个内部的 <code>Runnable</code> 负责执行 <code>fetchDataInBackground()</code> 这个耗时操作。</li>
+<li><strong>在数据获取完成后，通过 <code>uiHandler.post()</code> 将结果发布到主线程</strong>：<code>uiHandler.post(new Runnable() &#123; ... &#125;);</code>。这确保了 <code>TextView.setText()</code>（UI 操作）是在主线程上安全进行的。</li>
+<li><strong>重新调度自身</strong>：<code>uiHandler.postDelayed(this, REFRESH_INTERVAL_MS);</code>。在当前循环的 UI 更新操作（或数据获取任务的提交）完成后，它会再次通过主线程的 <code>Handler</code> 调度自身，使其在 <code>REFRESH_INTERVAL_MS</code> 毫秒后再次执行，从而形成一个定时刷新的循环。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p><code>onResume()</code> 和 <code>onPause()</code> :</p>
+<ul>
+<li>在 <code>onResume()</code> 中，调用 <code>uiHandler.postDelayed(refreshDataAndScheduleNext, REFRESH_INTERVAL_MS);</code> 来启动第一次定时刷新。</li>
+<li>在 <code>onPause()</code> 中，调用 <code>uiHandler.removeCallbacks(refreshDataAndScheduleNext);</code> 来停止定时刷新。这至关重要，它可以防止内存泄漏（因为 <code>Runnable</code> 持有对 Activity 的引用）和不必要的后台活动。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>这种组合方式实现了：</p>
+<ul>
+<li><strong>UI 响应性</strong>：所有耗时操作都在 <code>ExecutorService</code> 提供的后台线程中执行，主线程始终保持流畅，避免 ANR。</li>
+<li><strong>UI 安全更新</strong>：通过 <code>Handler</code> 的 <code>post()</code> 方法，确保所有 UI 更新都回到主线程执行。</li>
+<li><strong>资源高效利用</strong>：<code>ExecutorService</code> 通过线程池管理线程，避免了频繁创建和销毁线程的开销。</li>
+<li><strong>定时调度</strong>：<code>Handler</code> 的 <code>postDelayed()</code> 提供了简单可靠的定时调度机制。</li>
+<li><strong>生命周期管理</strong>：结合 Activity 的 <code>onResume()</code> 和 <code>onPause()</code> 来启动和停止刷新，避免内存泄漏和资源浪费。</li>
+</ul>
+<h3 id="注意事项"><a class="markdownIt-Anchor" href="#注意事项"></a> 注意事项</h3>
+<ol>
+<li>
+<p><strong>合理设置线程池大小</strong><br />
+太小会导致任务排队，太大可能造成资源浪费甚至 OOM。</p>
+</li>
+<li>
+<p><strong>记得调用 <code>shutdown()</code></strong><br />
+否则线程池不会自动退出，可能导致程序无法正常结束。</p>
+</li>
+<li>
+<p><strong>异常处理要小心</strong><br />
+如果任务中抛出未捕获的异常，可能导致任务失败而无声无息。</p>
+</li>
+<li>
+<p><strong>避免死锁</strong><br />
+不要在任务中调用 <code>future.get()</code> 而导致线程阻塞。</p>
+</li>
+</ol>
+<hr />
+<h3 id="android-中的应用"><a class="markdownIt-Anchor" href="#android-中的应用"></a> Android 中的应用</h3>
+<p>在 Android 开发中，<code>ExecutorService</code> 常用于：</p>
+<ul>
+<li>异步加载图片或数据（替代 AsyncTask）</li>
+<li>执行数据库操作（Room、SQLite）</li>
+<li>多文件下载、上传</li>
+<li>定时刷新 UI 数据（结合 Handler）</li>
+</ul>
+<hr />
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p><code>ExecutorService</code> 是 Android 开发中处理并发任务的强大工具。通过合理使用线程池，可以有效管理线程资源，提高应用程序的性能、响应速度和稳定性。理解不同类型的 <code>ExecutorService</code> 及其使用场景，以及如何正确地提交、取消和关闭任务，是编写高效、健壮 Android 应用的关键。</p>
+
+    </div>
+    <footer class="article-footer">
+        <blockquote class="article-copyright">
+    <p><strong><span class="icon-user icon"></span>Author: </strong>MoYu</p>
+    <p><strong><span class="icon-link icon"></span>Permalink: </strong><a href="https://11111-beep.github.io/en/2025/06/28/ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">https://11111-beep.github.io/en/2025/06/28/ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</a></p>
+    
+    <p><strong><span class="icon-calendar icon"></span>Published: </strong>2025-06-28 16:38:06</p>
+    
+    <p><strong><span class="icon-copyright icon"></span>License: </strong>All articles on this blog are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener nofollow noreferrer" target="_blank"><span class="icon-creative-commons"></span>BY-NC-SA</a> license agreement unless otherwise stated. Please indicate the source when reprinting!</p>
+    <span class="icon-creative-commons article-copyright-bg"></span>
+  </blockquote>
+        <div class="sponsor-wrapper">
+  <div class="sponsor-button">
+    <div class="sponsor-icon rotate"></div>
+    <div class="sponsor-title">Sponsor</div>
+    <div class="sponsor-icon rotate"></div>
+  </div>
+  <div class="sponsor-tip">Buy me a coffee</div>
+    <div class="sponsor-qr">
+        <div class="sponsor-qr-image-wrapper">
+          <img src="/sponsor/alipay.jpg" alt=支付宝 width="200" />
+          <p class="sponsor-qr-name">支付宝</p>
+        </div>
+        <div class="sponsor-qr-image-wrapper">
+          <img src="/sponsor/wechat.png" alt=微信 width="200" />
+          <p class="sponsor-qr-name">微信</p>
+        </div>
+    </div>
+</div>
+        <div class="share-wrapper">
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F11111-beep.github.io%2F2025%2F06%2F28%2FExecutorService%25E4%25BB%258B%25E7%25BB%258D%25E5%258F%258A%25E5%2585%25B6%25E4%25BD%25BF%25E7%2594%25A8%25E6%2596%25B9%25E6%25B3%2595%2F" target="_blank" rel="noopener noreferrer" title="ExecutorService介绍及其使用方法">
+      <div class="share-icon icon icon-facebook">
+      </div>
+    </a>
+    <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F06%2F28%2FExecutorService%25E4%25BB%258B%25E7%25BB%258D%25E5%258F%258A%25E5%2585%25B6%25E4%25BD%25BF%25E7%2594%25A8%25E6%2596%25B9%25E6%25B3%2595%2F&amp;text=ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95&amp;via=https%3A%2F%2F11111-beep.github.io" target="_blank" rel="noopener noreferrer" title="ExecutorService介绍及其使用方法">
+      <div class="share-icon icon icon-twitter">
+      </div>
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F06%2F28%2FExecutorService%25E4%25BB%258B%25E7%25BB%258D%25E5%258F%258A%25E5%2585%25B6%25E4%25BD%25BF%25E7%2594%25A8%25E6%2596%25B9%25E6%25B3%2595%2F&amp;title=ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95&amp;summary=ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95&amp;mini=true&amp;ro=true" target="_blank" rel="noopener noreferrer" title="ExecutorService介绍及其使用方法">
+      <div class="share-icon icon icon-linkedin">
+      </div>
+    </a>
+    <a href="https://www.reddit.com/submit?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F06%2F28%2FExecutorService%25E4%25BB%258B%25E7%25BB%258D%25E5%258F%258A%25E5%2585%25B6%25E4%25BD%25BF%25E7%2594%25A8%25E6%2596%25B9%25E6%25B3%2595%2F&amp;title=ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95" target="_blank" rel="noopener noreferrer" title="ExecutorService介绍及其使用方法">
+      <div class="share-icon icon icon-reddit">
+      </div>
+    </a>
+    <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F06%2F28%2FExecutorService%25E4%25BB%258B%25E7%25BB%258D%25E5%258F%258A%25E5%2585%25B6%25E4%25BD%25BF%25E7%2594%25A8%25E6%2596%25B9%25E6%25B3%2595%2F&amp;appkey=&amp;title=ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95&amp;pic=&amp;ralateUid=" target="_blank" rel="noopener noreferrer" title="ExecutorService介绍及其使用方法">
+      <div class="share-icon icon icon-weibo">
+      </div>
+    </a>
+    <a href="https://connect.qq.com/widget/shareqq/index.html?url=www.baidu.com&amp;title=ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95&amp;desc=ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95&amp;source=https%3A%2F%2F11111-beep.github.io" target="_blank" rel="noopener noreferrer" title="ExecutorService介绍及其使用方法">
+      <div class="share-icon icon icon-qq">
+      </div>
+    </a>
+    <a href="javascript:;"  title="ExecutorService介绍及其使用方法">
+      <div class="share-icon icon icon-weixin">
+          <div id="share-weixin">
+            <div class="share-weixin-dom">
+              <div class="share-weixin-content">
+                <img id="share-weixin-banner"> 
+                <div id="share-weixin-title"></div>
+                <div id="share-weixin-desc"></div>
+              </div>
+              <div class="share-weixin-qrcode">
+                <div class="share-weixin-info">
+                  <div id="share-weixin-author"></div>
+                  <div id="share-weixin-theme">Powered By hexo-theme-reimu</div>
+                </div>
+                <img id="share-weixin-qr" >
+              </div>
+            </div>
+            <div class="share-weixin-canvas"></div>
+          </div>
+      </div>
+    </a>
+</div>
+        <a data-aos="zoom-in" href="/en/2025/06/28/ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/#comments" class="article-comment-link">
+          <span class="post-comments-count waline-comment-count" data-path="/en/2025/06/28/ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" itemprop="commentCount"></span>
+          Comments
+        </a>
+        <span data-aos="zoom-in" class="article-visitor-link">
+          <span class="waline-pageview-count" data-path="/en/2025/06/28/ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">0</span>
+          <em class="post-meta-item-text">Readings</em>
+        </span>
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/en/tags/Android/" rel="tag" title="Android">Android</a></li></ul>
+
+    </footer>
+  </div>
+    <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+    <div class="article-nav-link-wrap right">
+        <img data-src="/images/aaa/11.png" data-sizes="auto" alt="关于接口的一些使用技巧与方法" class="lazyload">
+      <a href="/en/2025/05/10/%E5%85%B3%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%96%B9%E6%B3%95/" aria-label="Next: 关于接口的一些使用技巧与方法"  title="Next: 关于接口的一些使用技巧与方法"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+          关于接口的一些使用技巧与方法
+      </h3>
+    </div>
+  </nav>
+
+</article>
+
+  <section id="comments" data-aos="fade-up">
+    <div class="comment-header">
+        
+      <h2 class="comment-title">Leave a comment</h2>
+      <div class="comment-selector">
+        <div class="comment-selector-wrap">
+            <div class="selector-item" data-selector="waline">
+              <span>waline</span>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="comment-content">
+          <div class="comment waline-comment" data-aos="fade-up"
+            id="waline-comment">
+          </div>
+    </div>
+  </section>
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    <div>
+      <span class="icon-copyright"></span>
+        2024-2025
+      <span class="footer-info-sep rotate"></span>
+      MoYu
+    </div>
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+      <div>
+        <span class="icon-brush"></span>
+        14.9k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        01:08
+      </div>
+      <div class="footer-beian">
+        <img
+          style="object-fit: contain;margin-right: 2px;"
+          src="https://icp.gov.moe/images/ico64.png"
+          alt=""
+          width="24"
+          height="24"
+        />
+        <a target="_blank" rel="noopener nofollow noreferrer" href="https://icp.gov.moe/?keyword=20250560">萌ICP备20250560号</a>
+      </div>
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+  </div>
+</footer>
+
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">Contents</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#executorservice-%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text"> ExecutorService 概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#executorservice-%E7%9A%84%E4%B8%BB%E8%A6%81%E4%BC%98%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text"> ExecutorService 的主要优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#executorservice-%E7%9A%84%E5%88%9B%E5%BB%BA%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text"> ExecutorService 的创建方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#executorservice-%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text"> ExecutorService 的使用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#scheduledexecutorservice-%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text"> ScheduledExecutorService 的使用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#executorservice-%E7%9A%84%E5%85%B3%E9%97%AD"><span class="toc-number">6.</span> <span class="toc-text"> ExecutorService 的关闭</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#executorservice-%E5%9C%A8-android-%E4%B8%AD%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">7.</span> <span class="toc-text"> ExecutorService 在 Android 中的最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E5%9C%BA%E6%99%AF"><span class="toc-number">7.1.</span> <span class="toc-text"> 示例场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E8%A7%A3%E9%87%8A"><span class="toc-number">7.2.</span> <span class="toc-text"> 工作流程解释：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">8.</span> <span class="toc-text"> 注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#android-%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">9.</span> <span class="toc-text"> Android 中的应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">10.</span> <span class="toc-text"> 总结</span></a></li></ol>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/1.jpg" data-sizes="auto" alt="MoYu" class="lazyload">
+  <div class="sidebar-author-name">MoYu</div>
+  <div class="sidebar-description">Lucky Forever~~</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">13</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">7</div>
+  </div>
+</div>
+<div class="sidebar-social">
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:hqw1554799@gmail.com itemprop="url" target="_blank" aria-label="email" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-twitter sidebar-social-icon">
+      <a href=https://twitter.com/MoYu_Lucky itemprop="url" target="_blank" aria-label="twitter" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/lucky_hqw itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
+    </div>
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/" aria-label="Home"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Home</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/archives" aria-label="Archives"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Archives</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/about" aria-label="About"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">About</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/friend" aria-label="Friend"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Friend</div>
+      </div>
+</div>
+</div>
+  </div>
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+</nav>
+
+    </div>
+      <div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png"/>
+        </div>
+      </div>
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+  
+<script src="/js/generator_search.js" defer></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    if (!false || !window.matchMedia('(max-width: 768px)').matches) {
+      window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'));
+    }
+  </script>
+
+  
+<script src="https://npm.webcache.cn/theme-shokax-pjax@0.0.3/dist/index.umd.js" integrity="sha384-xneY1WY8hOfUzswrE4CrYq35N4BdVcxqxwHPr9zawE&#x2F;jMSCxD+jAPU55x&#x2F;jj3wlf" crossorigin="anonymous"></script>
+
+  
+<script src="/js/pjax.js"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/live2d-widgets@0.9.0/autoload.js" integrity="sha384-poTN7wN&#x2F;SqNhQqo3jdFeX20ikddWeFGkUkDEzsKjgH&#x2F;ez8aQLn81oI0Cw6q5xNyB" crossorigin="anonymous"></script>
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@3.0.1/dist/quicklink.umd.js" integrity="sha384-caMDqvgav&#x2F;HWdEYQU1QRRHMLleigpL1YHAG0m371DhzfL8rRzUyOb+bEHtwlmYjD" crossorigin="anonymous"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+<div id="lazy-script">
+  <div>
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "MoYu",
+          title: "ExecutorService介绍及其使用方法",
+          url: "https://11111-beep.github.io/2025/06/28/ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/",
+          excerpt: "",
+          description: "",
+          stripContent: "在 Android 开发中，我们经常需要在后台执行耗时操作，以避免阻塞主线程（UI 线程），从而导致应用无响应（ANR）。传统的做法是使用 Thread 类，但 Thread 的管理开销较大，包括线程的创建、销毁和调度。当并发任务较多时，频繁地创建和销毁线程会消耗大量的系统资源，甚至可能导致 OOM（Out Of Memory）错误。 ExecutorService 接口（及其父接口 Executor）是 Java 并发包 java.util.concurrent 中的核心组件，它提供了一种更高",
+          date: "Sat Jun 28 2025 16:38:06 GMT+0800",
+          updated: "Sun Dec 14 2025 16:39:36 GMT+0800",
+          cover: "/images/aaa/6.webp",
+        };
+      </script>
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+<script src="/js/tabs.js" data-pjax></script>
+
+          
+<script src="https://npm.webcache.cn/@zumer/snapdom@1.9.14/dist/snapdom.min.js" integrity="sha384-OEQ+fJp&#x2F;Mvi2uzBREXybtxryJvLytWapuHu4EE6LPwTKUwATYcc55tPPcZTzVcmx" crossorigin="anonymous" defer data-pjax></script>
+
+          
+<script src="https://npm.webcache.cn/qrcode@1.5.1/build/qrcode.js" integrity="sha384-VT1EeewTCEXgndcPMQ0PzV+uVFYjxFIjmAA7s5gcMX9t4Dt5TD+OVQIn7NJWIXn7" crossorigin="anonymous" defer data-pjax></script>
+
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+        
+<script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+
+  var commentConfigKeys = ["waline"];
+  var commentConfig = {
+    waline: {
+      enable: true,
+      load: async () => {
+        const container = document.querySelector('.waline-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        let walineInit;
+        const walineCdn = 'https://npm.webcache.cn/@waline/client@2.15.8/dist/waline.mjs';
+        const walineIntegrity = 'sha384-9sbqJjrfGjbkI6/PI4nU/MvBfEmkkPC4YK9I4zBeMIf1CVCZdCMH/KinBEAZII/5';
+
+        const module = await safeImport(walineCdn, walineIntegrity);
+        walineInit = module.init;
+
+        window.walineInstance = walineInit({
+          el: '.waline-comment',
+          serverURL: 'https://moyublog.vercel.app',
+          lang: document.documentElement.lang || 'en',
+          locale: {},
+          emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus","https://unpkg.com/@waline/emojis@1.2.0/bilibili","https://unpkg.com/@waline/emojis@1.2.0/qq","https://unpkg.com/@waline/emojis@1.2.0/tieba","https://unpkg.com/@waline/emojis@1.2.0/tw-emoji"],
+          meta: ["nick","mail","link"],
+          requiredMeta: ["nick","mail"],
+          wordLimit: JSON.parse('0'),
+          comment: true,
+          pageSize: JSON.parse('10'),
+          dark: 'html[data-theme="dark"]',
+          pageview: JSON.parse('true'),
+        });
+      }
+    },
+  }
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    // 1. 首先检查localStorage中是否有保存的评论类型
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    // 2. 如果localStorage中有值且对应的评论系统可用，就使用它
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    // 3. 如果localStorage无效，检查配置的默认评论系统
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    // 4. 如果前两项都无效，按指定顺序找到第一个可用的评论系统
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    // 隐藏所有评论容器
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    // 按需加载评论系统
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        // 如果已加载，只需显示对应容器
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      // 根据类型加载对应的脚本
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    // 评论组件选择器
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      // 获取要加载的评论系统类型
+      const commentType = item.getAttribute('data-selector');
+
+      // 隐藏所有评论系统
+      hideAllComments();
+
+      // 加载选中的评论系统
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      // 评论组件选择器点击事件
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          // 保存选择器状态
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          // 切换选中状态
+          changeActiveCommentItems(item);
+        });
+      }
+
+      // 检查是否需要加载默认评论系统
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script>
+
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.11.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js" integrity="sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL&#x2F;aORyw+5+HZoU6e" crossorigin="anonymous"></script>
+
+
+  <script>
+    if (!false || !window.matchMedia('(max-width: 768px)').matches) {
+      if (window.matchMedia('(max-width: 959px)').matches) {
+        const meting = _$('meting-js');
+        if (meting) {
+          meting.setAttribute('fixed', 'true');
+          const aside = meting.parentNode?.parentNode;
+          if (aside?.tagName === 'ASIDE') {
+            meting.parentNode.removeChild(meting);
+            document.body.appendChild(meting);
+          }
+        }
+      }
+      const script = document.createElement('script');
+      script.src = "https://npm.webcache.cn/meting@2.0.1/dist/Meting.min.js";
+      script.integrity = "sha384-ASVlpKF80A22OXTK3tfEjZm1EL6uFMKIC4p8+0maanw1S/IyB+Y4JG+ZDU7GpKE8";
+      script.crossOrigin = "anonymous";
+      document.body.appendChild(script);
+    }
+  </script>
+
+  
+<script src="https://npm.webcache.cn/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha384-HeUHqi0nVsPUm&#x2F;E0ss7OfnIV&#x2F;yD96JWB8ehZvUuoVax9DpNHL17jj9pdfXHzqDxm" crossorigin="anonymous" defer></script>
+
+  <script data-pjax>
+    if (document.readyState === "loading") {
+      document.addEventListener('DOMContentLoaded', () => {
+        pangu?.spacingPage();
+      });
+    } else {
+      pangu?.spacingPage();
+    }
+  </script>
+
+  </body>
+  </html>
