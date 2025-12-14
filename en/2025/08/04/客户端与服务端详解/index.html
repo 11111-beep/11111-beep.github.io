@@ -1,0 +1,1086 @@
+  <!DOCTYPE html>
+  <html lang="en"  
+      data-theme-mode="auto"
+  >
+  <head>
+  <meta charset="utf-8">
+  
+  
+  
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)","en":"Copy successfully (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","en":"Copy failed (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":20};window.REIMU_CONFIG.base = 'https://11111-beep.github.io';window.REIMU_CONFIG.i18n_languages = ["en"];</script>
+  <title>
+    客户端与服务端详解 | 为什么喜欢沫雨~
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+    <meta name="description" content="在Android应用开发中,客户端(Client)与服务端(Server)是时常被提及的概念,通常来说&quot;客户端指的是用户直接交互的那个Android应用程序本身,而服务端则是为客户端提供数据,计算或存储服务的远程计算机系统&quot;.但我本人认为其实这种表述并不是特别准确,以下是我的一些分析与见解.    客户端(Client) 1.定义 : 在Android开发中,客户端其实是你安装">
+<meta property="og:type" content="article">
+<meta property="og:title" content="客户端与服务端详解">
+<meta property="og:url" content="https://11111-beep.github.io/en/2025/08/04/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="为什么喜欢沫雨~">
+<meta property="og:description" content="在Android应用开发中,客户端(Client)与服务端(Server)是时常被提及的概念,通常来说&quot;客户端指的是用户直接交互的那个Android应用程序本身,而服务端则是为客户端提供数据,计算或存储服务的远程计算机系统&quot;.但我本人认为其实这种表述并不是特别准确,以下是我的一些分析与见解.    客户端(Client) 1.定义 : 在Android开发中,客户端其实是你安装">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://11111-beep.github.io/2025/08/04/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3/4204780b9d414fffbd98dea1a4d21096.png">
+<meta property="article:published_time" content="2025-08-04T08:44:19.000Z">
+<meta property="article:modified_time" content="2025-12-14T08:45:46.507Z">
+<meta property="article:author" content="MoYu">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://11111-beep.github.io/2025/08/04/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3/4204780b9d414fffbd98dea1a4d21096.png">
+      <meta name="keywords" content="编程, Android, 技术, 生活">
+    <link rel="alternate" href="/atom.xml" title="为什么喜欢沫雨~" type="application/atom+xml">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+        
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.24/dist/katex.min.css" integrity="sha384-tTgKLjMYmJr94v8qu2PE5MUGSMbyN2xiH266JUB3gpm8vnnJywd1dWSOEfrFz+YI" crossorigin="anonymous">
+
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/@waline/client@2.15.8/dist/waline.css" integrity="sha384-vltfZtesCdl6NYVcFVcjEaIi5RpNvZe9t7fXvq8twVtcoy+Ub9QgnxUYJmwOhYCK" crossorigin="anonymous">
+
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+    <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css" integrity="sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU&#x2F;voDBY5XE2lVh" crossorigin="anonymous">
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+      <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+      </div>
+      <div class="loading-word">Loading~~~</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var loaderEl = document.getElementById('loader');
+    var startLoading = () => {
+      time = Date.now();
+      loaderEl.classList.remove("loading");
+    }
+    var hideLoader = () => {
+      document.body.style.overflow = 'auto';
+      loader.classList.add('loading');
+    };
+
+    var endLoading = () => {
+      if (!time) {
+        hideLoader();
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          hideLoader();
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    loaderEl.addEventListener('click', endLoading);
+  </script>
+<div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+        <a class="main-nav-link-wrap" href="/en/">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">Home</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/en/archives">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">Archives</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/en/about">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">About</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/en/friend">
+          <div class="main-nav-icon icon rotate">
+              &#xe62b;
+          </div>
+          <span class="main-nav-link">Friend</span>
+        </span>
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" aria-label="RSS Feed" target="_blank"></a>
+      <a id="nav-search-btn" class="nav-icon popup-trigger" title="Search" aria-label="Search"></a>
+  </nav>
+    <nav id="i18n-nav" aria-label="Language selection">
+      <div class="custom-dropdown">
+        <div class="select-selected" id="select-selected" role="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Language menu">
+          <span id="nav-language-btn" class="nav-icon" style="padding: 0 20px 0 0"></span>
+          <span id="selected-lang">English</span>
+        </div>
+        <ul class="select-items" id="select-items" role="listbox" aria-label="Languages">
+            <li data-value="zh-CN" role="option" aria-selected="false">简体中文</li>
+            <li data-value="en" role="option" class="selected" aria-selected="true">English</li>
+        </ul>
+      </div>
+      <script>
+        var selectSelected = document.getElementById("select-selected");
+        var selectedLang = document.getElementById("selected-lang");
+        var selectItems = document.getElementById("select-items");
+        var selectOptions = selectItems.querySelectorAll("li");
+
+        selectSelected.addEventListener("click", () => {
+          selectItems.classList.toggle("show");
+          var expanded = selectSelected.getAttribute("aria-expanded") === "true";
+          selectSelected.setAttribute("aria-expanded", (!expanded).toString());
+        });
+
+        selectOptions.forEach((item) => {
+          item.addEventListener("click", () => {
+            const langMap = {};
+              langMap['zh-CN'] = '/2025/08/04/客户端与服务端详解/';
+              langMap['en'] = '/en/2025/08/04/客户端与服务端详解/';
+            selectedLang.textContent = item.textContent;
+            selectItems.classList.remove("show");
+            selectOptions.forEach((option) => {
+              option.classList.remove("selected");
+            });
+            item.classList.add("selected");
+            window.location = langMap[item.dataset.value];
+          });
+        });
+
+        document.addEventListener("click", (event) => {
+          if (!event.target.closest(".custom-dropdown")) {
+            selectItems.classList.remove("show");
+            selectSelected.setAttribute("aria-expanded", "false");
+          }
+        });
+      </script>
+    </nav>
+</div>
+<header id="header" aria-label="Site header">
+    <picture></picture>
+    <img  fetchpriority="high" src="/images/aaa/10.png" alt="客户端与服务端详解">
+  <div id="header-outer">
+    <div id="header-title">
+          <span id="logo">
+            <h1 data-aos="slide-up">客户端与服务端详解</h1>
+          </span>
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+        </h2>
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content"  class="sidebar-right" >
+          <aside id="sidebar" aria-label="Sidebar">
+  <div class="sidebar-wrapper-container sticky">
+      <meting-js
+        theme="var(--color-link)"
+        id="2265921590"
+        server="netease"
+        type="playlist"
+        auto="lrc"
+        fixed="false"
+        autoplay="true"
+        loop="all"
+        order="list"
+        preload="auto"
+        volume="0.7"
+        mutex="true"
+        list-folded="true"
+        lrc-type="3"
+      ></meting-js>
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">Contents</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AFclient"><span class="toc-number">1.</span> <span class="toc-text"> 客户端(Client)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">2.</span> <span class="toc-text"> 服务端</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">2.1.</span> <span class="toc-text"> 一.远程服务端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8Candroid%E5%BA%94%E7%94%A8%E5%86%85%E6%9C%8D%E5%8A%A1%E7%AB%AFipc%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">2.2.</span> <span class="toc-text"> 二.Android应用内服务端(IPC服务端)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#android%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BA%A4%E4%BA%92%E7%9A%84%E5%B8%B8%E8%A7%81%E6%96%B9%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text"> Android客户端与远程服务端交互的常见方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1ipc"><span class="toc-number">4.</span> <span class="toc-text"> 进程间通信IPC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B7%E4%BE%8B%E7%A4%BA%E8%8C%83"><span class="toc-number">5.</span> <span class="toc-text"> 样例示范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#android%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E8%BF%9C%E7%A8%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8httprestful-api%E4%BA%A4%E4%BA%92%E4%BD%BF%E7%94%A8retrofit"><span class="toc-number">5.1.</span> <span class="toc-text"> Android客户端与远程Web服务器(HTTP&#x2F;RESTful API)交互:使用Retrofit</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90"><span class="toc-number">5.1.1.</span> <span class="toc-text"> 解析:</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#android%E5%BA%94%E7%94%A8%E5%86%85%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BA%A4%E4%BA%92%E4%BD%BF%E7%94%A8messenger-ipc"><span class="toc-number">5.2.</span> <span class="toc-text"> Android应用内客户端与服务端交互：使用Messenger (IPC)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text"> 总结</span></a></li></ol>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/1.jpg" data-sizes="auto" alt="MoYu" class="lazyload">
+  <div class="sidebar-author-name">MoYu</div>
+  <div class="sidebar-description">Lucky Forever~~</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">7</div>
+  </div>
+</div>
+<div class="sidebar-social">
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:hqw1554799@gmail.com itemprop="url" target="_blank" aria-label="email" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-twitter sidebar-social-icon">
+      <a href=https://twitter.com/MoYu_Lucky itemprop="url" target="_blank" aria-label="twitter" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/lucky_hqw itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
+    </div>
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/" aria-label="Home"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Home</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/archives" aria-label="Archives"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Archives</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/about" aria-label="About"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">About</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/friend" aria-label="Friend"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Friend</div>
+      </div>
+</div>
+</div>
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+    </div>
+  </div>
+  <div class="sidebar-widget">
+  </div>
+  </div>
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-客户端与服务端详解" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2025-08-04T08:44:19.000Z" itemprop="datePublished">2025-08-04</time>
+    <time style="display: none;" id="post-update-time">2025-12-14</time>
+  </span>
+</div>
+
+      
+    </div>
+    
+    <div class="hr-line"></div>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+        <p>在Android应用开发中,<strong>客户端</strong>(Client)与<strong>服务端</strong>(Server)是时常被提及的概念,通常来说&quot;客户端指的是用户直接交互的那个<strong>Android应用程序本身</strong>,而服务端则是为客户端提供数据,计算或存储服务的<strong>远程计算机系统&quot;</strong>.但我本人认为其实这种表述<strong>并不是特别准确</strong>,以下是我的一些分析与见解.</p>
+<hr />
+<img src="/2025/08/04/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3/4204780b9d414fffbd98dea1a4d21096.png" class="">
+<h2 id="客户端client"><a class="markdownIt-Anchor" href="#客户端client"></a> 客户端(Client)</h2>
+<p>1.定义 :<br />
+在Android开发中,客户端其实是你安装在手机平板上的那个由<strong>apk文件运行的应用程序</strong>,通俗点说你手机上进行<strong>UI交互的App</strong>.它是用户界面的提供者,负责显示信息,接收用户输入并根据需要向远程服务端或应用内其他组件发起请求.</p>
+<p>2.功能 ：</p>
+<ul>
+<li><strong>用户界面 (UI)：</strong> 展示数据、图片、按钮等，并响应用户的触摸、滑动等操作。</li>
+<li><strong>数据展示与处理：</strong> 从服务端获取数据后，进行格式化、展示，或进行一些本地的计算和处理。</li>
+<li><strong>网络请求：</strong> 通过 HTTP/HTTPS 等协议向<strong>远程服务端</strong>发送请求（例如，获取用户信息、上传图片、提交订单等）。</li>
+<li><strong>本地存储：</strong> 在设备上存储一些数据（如用户偏好设置、缓存数据）。</li>
+<li><strong>设备功能调用：</strong> 使用摄像头、GPS、传感器等设备硬件功能。</li>
+<li><strong>应用内通信：</strong> 向<strong>应用内服务端</strong>发送消息、绑定服务或查询数据，以利用其提供的本地服务。</li>
+</ul>
+<p>3.例子 :</p>
+<ul>
+<li><strong>微信 App：</strong> 你手机上打开的微信就是客户端。它负责显示聊天界面、朋友圈、联系人列表等。当你发送消息、刷新朋友圈时，它会向微信的<strong>远程服务器</strong>发送请求。</li>
+<li><strong>淘宝 App：</strong> 你浏览商品、下单支付时，淘宝 App 就是客户端。它展示商品图片和描述，并向淘宝的<strong>远程服务器</strong>发送购买请求。</li>
+<li><strong>一个音乐播放 App 中的 Activity：</strong> 它作为<strong>应用内客户端</strong>，向同应用内的<strong>音乐播放 Service</strong>（应用内服务端）发送播放、暂停等指令，以控制音乐播放。</li>
+</ul>
+<hr />
+<h2 id="服务端"><a class="markdownIt-Anchor" href="#服务端"></a> 服务端</h2>
+<p>根据部署功能和位置,服务端其实可以分为以下两类:</p>
+<h3 id="一远程服务端"><a class="markdownIt-Anchor" href="#一远程服务端"></a> 一.远程服务端</h3>
+<p>1.定义 :<br />
+远程服务端是一台或一组运行在远程数据中心(例如阿里云,Google Cloud等)的计算机系统.它并不直接与用户交互,而是接收来自Android客户端是网络请求,处理这些请求,并返回相应数据或执行相应的操作.</p>
+<p>2.功能 :</p>
+<ul>
+<li><strong>数据存储与管理：</strong> 存储和管理大量的用户数据、商品信息、图片、视频等（通常使用数据库，如 <code>MySQL</code>、<code>PostgreSQL</code>、<code>MongoDB</code>等）。</li>
+<li><strong>业务逻辑处理：</strong> 执行复杂的业务规则和计算，例如用户认证、权限管理、订单处理、商品推荐算法、数据分析等。</li>
+<li><strong>API 提供：</strong> 提供应用程序接口（<code>API</code>，Application Programming Interface），Android 客户端通过这些接口与远程服务端进行通信。API 定义了客户端可以如何请求数据以及服务端会如何响应。</li>
+<li><strong>安全性：</strong> 处理用户认证、数据加密、防攻击等安全相关任务。</li>
+<li><strong>负载均衡与伸缩性：</strong> 确保在高并发访问下系统依然稳定运行。</li>
+</ul>
+<p>3.例子 :</p>
+<ul>
+<li><strong>微信服务器：</strong> 存储所有用户的聊天记录、朋友圈动态、联系人信息。当你发送消息时，消息会先发送到微信服务器，服务器再转发给目标用户。</li>
+<li><strong>淘宝服务器：</strong> 存储所有商品信息、用户订单、支付记录。当你搜索商品、下单时，淘宝服务器会处理这些请求，并从数据库中检索或写入相应数据。</li>
+<li><strong>天气 API 服务：</strong> 存储全球各地的天气数据。当天气 App 客户端请求某个城市的天气时，服务器会查询数据并返回给客户端。</li>
+</ul>
+<h3 id="二android应用内服务端ipc服务端"><a class="markdownIt-Anchor" href="#二android应用内服务端ipc服务端"></a> 二.Android应用内服务端(IPC服务端)</h3>
+<p>1.定义 :<br />
+在Android设备内部,某些应用程序组件(例如<code>Service</code>或<code>ContentProvider</code>)可以充当&quot;服务端&quot;,为同一应用或不同应用中的其他组件(充当客户端)提供特定功能或数据.这种&quot;服务端&quot;通常<strong>运行在独立的进程当中</strong>,并通过Android的进程间通信(IPC)机制进行交互.</p>
+<p>2.功能 :</p>
+<ul>
+<li><strong>提供后台操作：</strong> <code>Service</code> 可以在没有用户界面的情况下执行长时间运行的操作（如音乐播放、下载文件），作为其他组件的后台服务提供者。</li>
+<li><strong>数据共享：</strong> <code>ContentProvider</code> 允许应用程序以结构化的方式共享数据给其他应用程序。</li>
+<li><strong>跨进程方法调用/消息传递：</strong> 通过 AIDL 或 Messenger，允许不同进程的组件互相调用方法或传递消息。</li>
+</ul>
+<p>2.例子 :</p>
+<ul>
+<li>一个音乐播放 App 中的<strong>音乐播放 Service</strong>：它作为“服务端”，负责实际的音乐播放逻辑。其他组件（客户端）可以向它发送播放、暂停等指令，即使界面不可见，Service 仍能继续播放。</li>
+<li>系统相册的<strong>ContentProvider</strong>：作为“服务端”，它管理设备上的所有图片和视频数据。其他 App（客户端）可以通过 <code>ContentResolver</code> 查询、访问这些数据，而无需直接访问文件系统。</li>
+<li>一个提供复杂计算的<strong>辅助 Service</strong>：如果一个应用的某个计算非常耗时且需要独立进程，它可以通过 <code>Service</code> 作为“服务端”暴露接口，供应用的 UI 进程（客户端）调用。</li>
+</ul>
+<hr />
+<h2 id="android客户端与远程服务端交互的常见方式"><a class="markdownIt-Anchor" href="#android客户端与远程服务端交互的常见方式"></a> Android客户端与远程服务端交互的常见方式</h2>
+<p>Android客户端与远程服务端交互主要依赖于网络通信,以下是几种常见的通信方式:</p>
+<ul>
+<li><strong>HTTP/HTTPS (RESTful API)</strong>：这是最常用的一种方式。客户端通过HTTP/HTTPS协议发送请求（GET, POST, PUT, DELETE等），服务端接收请求并返回响应（通常是JSON或XML格式）。这种方式简单、灵活，并且有成熟的工具库支持。</li>
+<li><strong>WebSocket</strong>：与HTTP的请求-响应模式不同，WebSocket提供全双工通信，允许客户端和服务器之间建立持久连接，双方可以随时发送消息。这对于实时应用（如聊天、游戏）非常有用。</li>
+<li><strong>Socket (TCP/UDP)</strong>：这是更底层的网络通信方式，允许开发者直接控制数据包的发送和接收。适用于对性能和实时性要求极高，或需要自定义协议的场景。</li>
+<li><strong>MQTT</strong>：一种轻量级的消息发布/订阅协议，适用于物联网（IoT）设备和网络带宽有限的场景。</li>
+</ul>
+<hr />
+<h2 id="进程间通信ipc"><a class="markdownIt-Anchor" href="#进程间通信ipc"></a> 进程间通信IPC</h2>
+<p>在Android应用内部,不同组件之间(如<code>Activity</code>、<code>Service</code>、<code>BroadcastReceiver</code>、<code>ContentProvider</code>)也存在客户端与服务端的概念,这通常涉及到<strong>进程间通信(IPC)</strong>.当一个组件需要调用另一个组件的功能,而这两个组件运行在不同的进程时,就需要IPC.</p>
+<ul>
+<li><strong>Binder</strong>：Android中最核心的IPC机制。它基于Linux Binder驱动，提供了高效的进程间通信能力。Parcelable是Binder通信中常用的数据序列化方式。</li>
+<li><strong>AIDL (Android Interface Definition Language)</strong>：如果需要跨进程通信，并且客户端和服务端定义了一个公共接口，AIDL可以帮助你自动生成接口代码，简化IPC的实现。它在底层也是基于Binder。</li>
+<li><strong>Messenger</strong>：基于Handler和Message机制，可以在不同进程间发送Message对象，实现简单的IPC。相对AIDL更简单，但功能不如AIDL强大，一次只能处理一个请求。</li>
+<li><strong>ContentProvider</strong>：主要用于进程间共享数据。它提供了一套标准接口（insert, query, update, delete），其他应用可以通过URI访问ContentProvider暴露的数据。</li>
+<li><strong>BroadcastReceiver</strong>：通过发送和接收广播消息，实现轻量级的进程间通信。不适合大量数据传输或复杂交互。</li>
+</ul>
+<hr />
+<h2 id="样例示范"><a class="markdownIt-Anchor" href="#样例示范"></a> 样例示范</h2>
+<p>这里我给出最常见的两个代码样例来帮助我们更深入的理解客户端与服务端的机制:</p>
+<p><strong>1.Android客户端与远程Web服务器(HTTP/RESTful API)交互:使用Retrofit</strong><br />
+<strong>2. Android应用内客户端与服务端(Service)交互:使用Messenger</strong></p>
+<hr />
+<h3 id="android客户端与远程web服务器httprestful-api交互使用retrofit"><a class="markdownIt-Anchor" href="#android客户端与远程web服务器httprestful-api交互使用retrofit"></a> Android客户端与远程Web服务器(HTTP/RESTful API)交互:使用Retrofit</h3>
+<p>Retrofit是一个安全的HTTP客户端,它简化了Android应用中HTTP请求的缩写.他将REST API转化为Java接口.<br />
+场景:Android应用从一个公共API获取用户列表.</p>
+<p>服务端假设:  我们假设有一个简单的REST API,例如<code>https://jsonplaceholder.typicode.com/users</code>，它返回一个JSON格式的用户列表。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Leanne Graham&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;username&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Bret&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Sincere@april.biz&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="comment">// ... other fields</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Ervin Howell&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;username&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Antonette&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Shanna@melissa.tv&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="comment">// ... other fields</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+<p><strong>步骤:</strong><br />
+1.添加依赖</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">plugins &#123;</span><br><span class="line">    id <span class="string">&#x27;com.android.application&#x27;</span></span><br><span class="line">    id <span class="string">&#x27;org.jetbrains.kotlin.android&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    <span class="comment">// Retrofit</span></span><br><span class="line">    implementation <span class="string">&#x27;com.squareup.retrofit2:retrofit:2.9.0&#x27;</span></span><br><span class="line">    <span class="comment">// Gson Converter (将JSON转换为Java对象)</span></span><br><span class="line">    implementation <span class="string">&#x27;com.squareup.retrofit2:converter-gson:2.9.0&#x27;</span></span><br><span class="line">    <span class="comment">// OkHttp (Retrofit底层使用的HTTP客户端)</span></span><br><span class="line">    implementation <span class="string">&#x27;com.squareup.okhttp3:okhttp:4.9.0&#x27;</span></span><br><span class="line">    implementation <span class="string">&#x27;androidx.appcompat:appcompat:1.6.1&#x27;</span></span><br><span class="line">    implementation <span class="string">&#x27;com.google.android.material:material:1.12.0&#x27;</span></span><br><span class="line">    implementation <span class="string">&#x27;androidx.constraintlayout:constraintlayout:2.1.4&#x27;</span></span><br><span class="line">    testImplementation <span class="string">&#x27;junit:junit:4.13.2&#x27;</span></span><br><span class="line">    androidTestImplementation <span class="string">&#x27;androidx.test.ext:junit:1.1.5&#x27;</span></span><br><span class="line">    androidTestImplementation <span class="string">&#x27;androidx.test.espresso:espresso-core:3.5.1&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr />
+<p>2.添加网络权限</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.INTERNET&quot;</span> /&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr />
+<p>3.定义数据类</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">User</span>(</span><br><span class="line">    <span class="keyword">val</span> id: <span class="built_in">Int</span>,</span><br><span class="line">    <span class="keyword">val</span> name: String,</span><br><span class="line">    <span class="keyword">val</span> username: String,</span><br><span class="line">    <span class="keyword">val</span> email: String</span><br><span class="line">    <span class="comment">// ... </span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<hr />
+<p>4.定义API接口</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">ApiService</span> &#123;</span><br><span class="line">    <span class="meta">@GET(<span class="string">&quot;users&quot;</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getUsers</span><span class="params">()</span></span>: Call&lt;List&lt;User&gt;&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr />
+<p>5.创建<code>Retrofit</code>实例并执行请求</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MainActivity</span> : <span class="type">AppCompatActivity</span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> resultTextView: TextView</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">        resultTextView = findViewById(R.id.resultTextView)</span><br><span class="line">        <span class="keyword">val</span> fetchButton: Button = findViewById(R.id.fetchButton)</span><br><span class="line"></span><br><span class="line">        fetchButton.setOnClickListener &#123;</span><br><span class="line">            fetchUsers()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">fetchUsers</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// 1. 创建 Retrofit 实例</span></span><br><span class="line">        <span class="keyword">val</span> retrofit = Retrofit.Builder()</span><br><span class="line">            .baseUrl(<span class="string">&quot;https://jsonplaceholder.typicode.com/&quot;</span>) <span class="comment">// 替换为你的服务器基础URL</span></span><br><span class="line">            .addConverterFactory(GsonConverterFactory.create()) <span class="comment">// 添加Gson转换器</span></span><br><span class="line">            .build()</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 创建 ApiService 实例</span></span><br><span class="line">        <span class="keyword">val</span> apiService = retrofit.create(ApiService::<span class="keyword">class</span>.java)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 执行网络请求 (在非UI线程)</span></span><br><span class="line">        apiService.getUsers().enqueue(<span class="keyword">object</span> : Callback&lt;List&lt;User&gt;&gt; &#123;</span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onResponse</span><span class="params">(call: <span class="type">Call</span>&lt;<span class="type">List</span>&lt;<span class="type">User</span>&gt;&gt;, response: <span class="type">Response</span>&lt;<span class="type">List</span>&lt;<span class="type">User</span>&gt;&gt;)</span></span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (response.isSuccessful) &#123;</span><br><span class="line">                    <span class="keyword">val</span> users = response.body()</span><br><span class="line">                    users?.let &#123;</span><br><span class="line">                        <span class="keyword">val</span> userNames = it.joinToString(separator = <span class="string">&quot;\n&quot;</span>) &#123; user -&gt; user.name &#125;</span><br><span class="line">                        resultTextView.text = <span class="string">&quot;Fetched Users:\n<span class="variable">$userNames</span>&quot;</span></span><br><span class="line">                        Log.d(<span class="string">&quot;MainActivity&quot;</span>, <span class="string">&quot;Users fetched successfully: <span class="variable">$userNames</span>&quot;</span>)</span><br><span class="line">                    &#125; ?: run &#123;</span><br><span class="line">                        resultTextView.text = <span class="string">&quot;No users found.&quot;</span></span><br><span class="line">                        Log.e(<span class="string">&quot;MainActivity&quot;</span>, <span class="string">&quot;Response body is null.&quot;</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">val</span> errorBody = response.errorBody()?.string()</span><br><span class="line">                    resultTextView.text = <span class="string">&quot;Error: <span class="subst">$&#123;response.code()&#125;</span> - <span class="variable">$errorBody</span>&quot;</span></span><br><span class="line">                    Log.e(<span class="string">&quot;MainActivity&quot;</span>, <span class="string">&quot;Error response: <span class="subst">$&#123;response.code()&#125;</span> - <span class="variable">$errorBody</span>&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onFailure</span><span class="params">(call: <span class="type">Call</span>&lt;<span class="type">List</span>&lt;<span class="type">User</span>&gt;&gt;, t: <span class="type">Throwable</span>)</span></span> &#123;</span><br><span class="line">                resultTextView.text = <span class="string">&quot;Network Error: <span class="subst">$&#123;t.message&#125;</span>&quot;</span></span><br><span class="line">                Log.e(<span class="string">&quot;MainActivity&quot;</span>, <span class="string">&quot;Network error: <span class="subst">$&#123;t.message&#125;</span>&quot;</span>, t)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="解析"><a class="markdownIt-Anchor" href="#解析"></a> 解析:</h4>
+<ul>
+<li><strong>客户端</strong>：<code>MainActivity</code> 负责UI交互，并通过Retrofit库发送HTTP请求。</li>
+<li><strong>服务端</strong>：<code>https://jsonplaceholder.typicode.com/</code> 是一个远程的Web服务，它提供了RESTful API来响应客户端的请求。</li>
+<li><strong>交互过程</strong>：
+<ol>
+<li>用户点击“Fetch Users”按钮。</li>
+<li><code>MainActivity</code> 使用Retrofit创建一个请求，该请求对应于 <code>ApiService</code> 接口中定义的 <code>getUsers()</code> 方法。</li>
+<li>Retrofit和OkHttp在后台执行HTTP GET请求到 <code>https://jsonplaceholder.typicode.com/users</code>。</li>
+<li>远程服务器处理请求并返回JSON数据。</li>
+<li>Retrofit的Gson转换器将JSON数据自动解析为 <code>List&lt;User&gt;</code> 对象。</li>
+<li><code>onResponse</code> 回调被触发，<code>MainActivity</code> 更新UI显示获取到的用户名称。</li>
+<li>如果发生网络错误或其他异常，<code>onFailure</code> 回调被触发。</li>
+</ol>
+</li>
+</ul>
+<hr />
+<h3 id="android应用内客户端与服务端交互使用messenger-ipc"><a class="markdownIt-Anchor" href="#android应用内客户端与服务端交互使用messenger-ipc"></a> Android应用内客户端与服务端交互：使用Messenger (IPC)</h3>
+<p>Messenger提供了一种在不同进程中通过通信的方式,它基于<code>Handler</code>和<code>Message</code>.一个Service可以充当&quot;服务端&quot;,而Activity或其他组件可以充当&quot;客户端&quot;.</p>
+<p>场景:  Activity(客户端)向Service(服务端)发送消息,Service处理消息并可选择地回复消息.</p>
+<p><strong>步骤:</strong><br />
+1.定义服务端<code>Service</code></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用于客户端发送给服务端的Message的What值</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> MSG_SAY_HELLO = <span class="number">1</span></span><br><span class="line"><span class="comment">// 用于服务端回复给客户端的Message的What值</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> MSG_REPLY_HELLO = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyMessengerService</span> : <span class="type">Service</span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 处理来自客户端的消息的Handler</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">class</span> <span class="title class_">IncomingHandler</span>(</span><br><span class="line">        context: MyMessengerService,</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">val</span> applicationContext: MyMessengerService</span><br><span class="line">    ) : Handler(Looper.getMainLooper()) &#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">handleMessage</span><span class="params">(msg: <span class="type">Message</span>)</span></span> &#123;</span><br><span class="line">            <span class="keyword">when</span> (msg.what) &#123;</span><br><span class="line">                MSG_SAY_HELLO -&gt; &#123;</span><br><span class="line">                    <span class="keyword">val</span> messageContent = msg.<span class="keyword">data</span>.getString(<span class="string">&quot;message&quot;</span>)</span><br><span class="line">                    <span class="keyword">val</span> replyToMessenger = msg.replyTo <span class="comment">// 获取客户端的Messenger，用于回复</span></span><br><span class="line"></span><br><span class="line">                    Log.d(<span class="string">&quot;MyMessengerService&quot;</span>, <span class="string">&quot;Received message from client: <span class="variable">$messageContent</span>&quot;</span>)</span><br><span class="line">                    Toast.makeText(applicationContext, <span class="string">&quot;Service received: <span class="variable">$messageContent</span>&quot;</span>, Toast.LENGTH_SHORT).show()</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 如果客户端提供了replyTo Messenger，则回复客户端</span></span><br><span class="line">                    replyToMessenger?.let &#123;</span><br><span class="line">                        <span class="keyword">val</span> replyMessage = Message.obtain(<span class="literal">null</span>, MSG_REPLY_HELLO)</span><br><span class="line">                        <span class="keyword">val</span> bundle = Bundle()</span><br><span class="line">                        bundle.putString(<span class="string">&quot;reply&quot;</span>, <span class="string">&quot;Hello from Service! Received: <span class="variable">$messageContent</span>&quot;</span>)</span><br><span class="line">                        replyMessage.<span class="keyword">data</span> = bundle</span><br><span class="line">                        <span class="keyword">try</span> &#123;</span><br><span class="line">                            it.send(replyMessage)</span><br><span class="line">                            Log.d(<span class="string">&quot;MyMessengerService&quot;</span>, <span class="string">&quot;Sent reply to client.&quot;</span>)</span><br><span class="line">                        &#125; <span class="keyword">catch</span> (e: RemoteException) &#123;</span><br><span class="line">                            Log.e(<span class="string">&quot;MyMessengerService&quot;</span>, <span class="string">&quot;Error sending reply: <span class="subst">$&#123;e.message&#125;</span>&quot;</span>, e)</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> -&gt; <span class="keyword">super</span>.handleMessage(msg)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 服务的Messenger，用于接收来自客户端的消息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> mMessenger: Messenger</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate()</span><br><span class="line">        <span class="comment">// 创建Handler并将它与服务的Messenger关联</span></span><br><span class="line">        mMessenger = Messenger(IncomingHandler(<span class="keyword">this</span>, <span class="keyword">this</span>))</span><br><span class="line">        Log.d(<span class="string">&quot;MyMessengerService&quot;</span>, <span class="string">&quot;Service created.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 当客户端绑定到服务时，返回服务的IBinder对象，Messenger会包装一个Binder对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onBind</span><span class="params">(intent: <span class="type">Intent</span>?)</span></span>: IBinder? &#123;</span><br><span class="line">        Log.d(<span class="string">&quot;MyMessengerService&quot;</span>, <span class="string">&quot;Service bound.&quot;</span>)</span><br><span class="line">        Toast.makeText(applicationContext, <span class="string">&quot;Service bound&quot;</span>, Toast.LENGTH_SHORT).show()</span><br><span class="line">        <span class="keyword">return</span> mMessenger.binder</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onUnbind</span><span class="params">(intent: <span class="type">Intent</span>?)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        Log.d(<span class="string">&quot;MyMessengerService&quot;</span>, <span class="string">&quot;Service unbound.&quot;</span>)</span><br><span class="line">        Toast.makeText(applicationContext, <span class="string">&quot;Service unbound&quot;</span>, Toast.LENGTH_SHORT).show()</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onUnbind(intent)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onDestroy</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy()</span><br><span class="line">        Log.d(<span class="string">&quot;MyMessengerService&quot;</span>, <span class="string">&quot;Service destroyed.&quot;</span>)</span><br><span class="line">        Toast.makeText(applicationContext, <span class="string">&quot;Service destroyed&quot;</span>, Toast.LENGTH_SHORT).show()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr />
+<p>2.定义客户端<code>Activity</code></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MainActivity</span> : <span class="type">AppCompatActivity</span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> mService: Messenger? = <span class="literal">null</span> <span class="comment">// 服务端的Messenger</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> mBound: <span class="built_in">Boolean</span> = <span class="literal">false</span> <span class="comment">// 是否已绑定服务</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> messageEditText: EditText</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> sendButton: Button</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> statusTextView: TextView</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> replyTextView: TextView</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 处理来自服务端的消息的Handler</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">class</span> <span class="title class_">ReplyHandler</span>(</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">val</span> activity: MainActivity</span><br><span class="line">    ) : Handler(Looper.getMainLooper()) &#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">handleMessage</span><span class="params">(msg: <span class="type">Message</span>)</span></span> &#123;</span><br><span class="line">            <span class="keyword">when</span> (msg.what) &#123;</span><br><span class="line">                MSG_REPLY_HELLO -&gt; &#123;</span><br><span class="line">                    <span class="keyword">val</span> replyContent = msg.<span class="keyword">data</span>.getString(<span class="string">&quot;reply&quot;</span>)</span><br><span class="line">                    activity.replyTextView.text = <span class="string">&quot;Reply from Service: <span class="variable">$replyContent</span>&quot;</span></span><br><span class="line">                    Log.d(<span class="string">&quot;MainActivity&quot;</span>, <span class="string">&quot;Received reply from service: <span class="variable">$replyContent</span>&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> -&gt; <span class="keyword">super</span>.handleMessage(msg)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> mClientMessenger = Messenger(ReplyHandler(<span class="keyword">this</span>)) <span class="comment">// 客户端的Messenger，用于接收服务端的回复</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 定义ServiceConnection，用于监听服务连接状态</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> mConnection = <span class="keyword">object</span> : ServiceConnection &#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onServiceConnected</span><span class="params">(className: <span class="type">ComponentName</span>, service: <span class="type">IBinder</span>)</span></span> &#123;</span><br><span class="line">            <span class="comment">// 当服务连接成功时调用</span></span><br><span class="line">            mService = Messenger(service) <span class="comment">// 获取服务端的Messenger</span></span><br><span class="line">            mBound = <span class="literal">true</span></span><br><span class="line">            statusTextView.text = <span class="string">&quot;Service Status: Connected&quot;</span></span><br><span class="line">            Log.d(<span class="string">&quot;MainActivity&quot;</span>, <span class="string">&quot;Service Connected.&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onServiceDisconnected</span><span class="params">(className: <span class="type">ComponentName</span>)</span></span> &#123;</span><br><span class="line">            <span class="comment">// 当与服务的连接意外断开时调用</span></span><br><span class="line">            mService = <span class="literal">null</span></span><br><span class="line">            mBound = <span class="literal">false</span></span><br><span class="line">            statusTextView.text = <span class="string">&quot;Service Status: Disconnected&quot;</span></span><br><span class="line">            Log.d(<span class="string">&quot;MainActivity&quot;</span>, <span class="string">&quot;Service Disconnected.&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">        messageEditText = findViewById(R.id.messageEditText)</span><br><span class="line">        sendButton = findViewById(R.id.sendButton)</span><br><span class="line">        statusTextView = findViewById(R.id.statusTextView)</span><br><span class="line">        replyTextView = findViewById(R.id.replyTextView)</span><br><span class="line"></span><br><span class="line">        sendButton.setOnClickListener &#123;</span><br><span class="line">            sendMessageToService()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onStart</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onStart()</span><br><span class="line">        <span class="comment">// 绑定服务</span></span><br><span class="line">        Intent(<span class="keyword">this</span>, MyMessengerService::<span class="keyword">class</span>.java).also &#123; intent -&gt;</span><br><span class="line">            bindService(intent, mConnection, Context.BIND_AUTO_CREATE)</span><br><span class="line">        &#125;</span><br><span class="line">        statusTextView.text = <span class="string">&quot;Service Status: Binding...&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onStop</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onStop()</span><br><span class="line">        <span class="comment">// 解除绑定</span></span><br><span class="line">        <span class="keyword">if</span> (mBound) &#123;</span><br><span class="line">            unbindService(mConnection)</span><br><span class="line">            mBound = <span class="literal">false</span></span><br><span class="line">            statusTextView.text = <span class="string">&quot;Service Status: Unbound&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">sendMessageToService</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!mBound) &#123;</span><br><span class="line">            statusTextView.text = <span class="string">&quot;Service Status: Not Bound yet.&quot;</span></span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">val</span> messageContent = messageEditText.text.toString()</span><br><span class="line">        <span class="keyword">if</span> (messageContent.isBlank()) &#123;</span><br><span class="line">            statusTextView.text = <span class="string">&quot;Please enter a message.&quot;</span></span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建要发送给Service的Message</span></span><br><span class="line">        <span class="keyword">val</span> msg: Message = Message.obtain(<span class="literal">null</span>, MSG_SAY_HELLO).apply &#123;</span><br><span class="line">            <span class="comment">// 将客户端的Messenger添加到replyTo字段，以便Service可以回复</span></span><br><span class="line">            replyTo = mClientMessenger</span><br><span class="line">            <span class="comment">// 将数据放入Bundle</span></span><br><span class="line">            <span class="keyword">data</span> = Bundle().apply &#123;</span><br><span class="line">                putString(<span class="string">&quot;message&quot;</span>, messageContent)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            mService?.send(msg) <span class="comment">// 发送消息给Service</span></span><br><span class="line">            statusTextView.text = <span class="string">&quot;Message sent: &#x27;<span class="variable">$messageContent</span>&#x27;&quot;</span></span><br><span class="line">            Log.d(<span class="string">&quot;MainActivity&quot;</span>, <span class="string">&quot;Message sent to service: <span class="variable">$messageContent</span>&quot;</span>)</span><br><span class="line">            messageEditText.text.clear()</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e: RemoteException) &#123;</span><br><span class="line">            statusTextView.text = <span class="string">&quot;Error sending message: <span class="subst">$&#123;e.message&#125;</span>&quot;</span></span><br><span class="line">            Log.e(<span class="string">&quot;MainActivity&quot;</span>, <span class="string">&quot;Error sending message: <span class="subst">$&#123;e.message&#125;</span>&quot;</span>, e)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr />
+<p>3.在AndroidManifest.xml中声明<code>Service</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.INTERNET&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:allowBackup</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:dataExtractionRules</span>=<span class="string">&quot;@xml/data_extraction_rules&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:fullBackupContent</span>=<span class="string">&quot;@xml/full_backup_content&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">&quot;@mipmap/ic_launcher&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:label</span>=<span class="string">&quot;@string/app_name&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:roundIcon</span>=<span class="string">&quot;@mipmap/ic_launcher_round&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:supportsRtl</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:theme</span>=<span class="string">&quot;@style/Theme.MyApp&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">tools:targetApi</span>=<span class="string">&quot;31&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;.MainActivity&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.MAIN&quot;</span> /&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.LAUNCHER&quot;</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">service</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;.MyMessengerService&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:enabled</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:process</span>=<span class="string">&quot;:remote&quot;</span>/&gt;</span> <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：<code>android:process=&quot;:remote&quot;</code> 属性将 <code>MyMessengerService</code> 运行在一个独立的进程中。这使得它成为一个真正的IPC场景。如果移除这个属性，Service和Activity会运行在同一个进程，Messenger仍然可以使用，但它更多是用于线程间通信，而不是进程间通信。</p>
+<hr />
+<p><strong>解析</strong>：</p>
+<ul>
+<li>
+<p><strong>服务端</strong>：<code>MyMessengerService</code> 作为一个后台运行的组件，通过 <code>onBind()</code> 返回一个 <code>IBinder</code>，这个 <code>IBinder</code> 被 <code>Messenger</code> 包装，并持有一个 <code>Handler</code> (<code>IncomingHandler</code>) 来处理来自客户端的消息。</p>
+</li>
+<li>
+<p><strong>客户端</strong>：<code>MainActivity</code> 绑定到 <code>MyMessengerService</code>。通过 <code>ServiceConnection</code> 的 <code>onServiceConnected()</code> 方法获取到服务端的 <code>Messenger</code> 对象 (<code>mService</code>)。它也持有一个自己的 <code>Messenger</code> (<code>mClientMessenger</code>) 来接收服务端的回复。</p>
+</li>
+<li>
+<p><strong>交互过程</strong>：</p>
+<ol>
+<li><code>MainActivity</code> (客户端) 在 <code>onStart()</code> 中调用 <code>bindService()</code> 绑定到 <code>MyMessengerService</code>。</li>
+<li>一旦绑定成功，<code>ServiceConnection</code> 的 <code>onServiceConnected()</code> 回调被调用，客户端获取到服务端的 <code>Messenger</code>。</li>
+<li>用户在 <code>MainActivity</code> 中输入消息并点击发送。</li>
+<li><code>MainActivity</code> 创建一个 <code>Message</code> 对象，将用户输入的消息放入 <code>Bundle</code>，并将客户端的 <code>Messenger</code> (用于回复) 放入 <code>msg.replyTo</code> 字段。</li>
+<li>客户端通过 <code>mService?.send(msg)</code> 将 <code>Message</code> 发送给服务端。</li>
+<li><code>MyMessengerService</code> (服务端) 中的 <code>IncomingHandler</code> 接收到 <code>Message</code>。</li>
+<li><code>IncomingHandler</code> 从 <code>Message</code> 中取出数据，并使用 <code>msg.replyTo</code> (即客户端的 <code>Messenger</code>) 回复消息给客户端。</li>
+<li><code>MainActivity</code> 中的 <code>ReplyHandler</code> 接收到服务端的回复 <code>Message</code>，并更新UI。</li>
+<li>当 <code>MainActivity</code> 不再需要服务时 (例如 <code>onStop()</code> 中)，它调用 <code>unbindService()</code> 解除绑定，服务在没有客户端绑定时可以被销毁。</li>
+</ol>
+<hr />
+</li>
+</ul>
+<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
+<p>Android中的“服务端与客户端”是一个<strong>广义</strong>的概念。它既可以指<strong>Android应用与远程服务器</strong>，也可以指<strong>Android应用内部不同进程组件</strong>。</p>
+
+    </div>
+    <footer class="article-footer">
+        <blockquote class="article-copyright">
+    <p><strong><span class="icon-user icon"></span>Author: </strong>MoYu</p>
+    <p><strong><span class="icon-link icon"></span>Permalink: </strong><a href="https://11111-beep.github.io/en/2025/08/04/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3/">https://11111-beep.github.io/en/2025/08/04/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3/</a></p>
+    
+    <p><strong><span class="icon-calendar icon"></span>Published: </strong>2025-08-04 16:44:19</p>
+    
+    <p><strong><span class="icon-copyright icon"></span>License: </strong>All articles on this blog are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener nofollow noreferrer" target="_blank"><span class="icon-creative-commons"></span>BY-NC-SA</a> license agreement unless otherwise stated. Please indicate the source when reprinting!</p>
+    <span class="icon-creative-commons article-copyright-bg"></span>
+  </blockquote>
+        <div class="sponsor-wrapper">
+  <div class="sponsor-button">
+    <div class="sponsor-icon rotate"></div>
+    <div class="sponsor-title">Sponsor</div>
+    <div class="sponsor-icon rotate"></div>
+  </div>
+  <div class="sponsor-tip">Buy me a coffee</div>
+    <div class="sponsor-qr">
+        <div class="sponsor-qr-image-wrapper">
+          <img src="/sponsor/alipay.jpg" alt=支付宝 width="200" />
+          <p class="sponsor-qr-name">支付宝</p>
+        </div>
+        <div class="sponsor-qr-image-wrapper">
+          <img src="/sponsor/wechat.png" alt=微信 width="200" />
+          <p class="sponsor-qr-name">微信</p>
+        </div>
+    </div>
+</div>
+        <div class="share-wrapper">
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F11111-beep.github.io%2F2025%2F08%2F04%2F%25E5%25AE%25A2%25E6%2588%25B7%25E7%25AB%25AF%25E4%25B8%258E%25E6%259C%258D%25E5%258A%25A1%25E7%25AB%25AF%25E8%25AF%25A6%25E8%25A7%25A3%2F" target="_blank" rel="noopener noreferrer" title="客户端与服务端详解">
+      <div class="share-icon icon icon-facebook">
+      </div>
+    </a>
+    <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F08%2F04%2F%25E5%25AE%25A2%25E6%2588%25B7%25E7%25AB%25AF%25E4%25B8%258E%25E6%259C%258D%25E5%258A%25A1%25E7%25AB%25AF%25E8%25AF%25A6%25E8%25A7%25A3%2F&amp;text=%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3&amp;via=https%3A%2F%2F11111-beep.github.io" target="_blank" rel="noopener noreferrer" title="客户端与服务端详解">
+      <div class="share-icon icon icon-twitter">
+      </div>
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F08%2F04%2F%25E5%25AE%25A2%25E6%2588%25B7%25E7%25AB%25AF%25E4%25B8%258E%25E6%259C%258D%25E5%258A%25A1%25E7%25AB%25AF%25E8%25AF%25A6%25E8%25A7%25A3%2F&amp;title=%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3&amp;summary=%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3&amp;mini=true&amp;ro=true" target="_blank" rel="noopener noreferrer" title="客户端与服务端详解">
+      <div class="share-icon icon icon-linkedin">
+      </div>
+    </a>
+    <a href="https://www.reddit.com/submit?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F08%2F04%2F%25E5%25AE%25A2%25E6%2588%25B7%25E7%25AB%25AF%25E4%25B8%258E%25E6%259C%258D%25E5%258A%25A1%25E7%25AB%25AF%25E8%25AF%25A6%25E8%25A7%25A3%2F&amp;title=%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3" target="_blank" rel="noopener noreferrer" title="客户端与服务端详解">
+      <div class="share-icon icon icon-reddit">
+      </div>
+    </a>
+    <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2F11111-beep.github.io%2F2025%2F08%2F04%2F%25E5%25AE%25A2%25E6%2588%25B7%25E7%25AB%25AF%25E4%25B8%258E%25E6%259C%258D%25E5%258A%25A1%25E7%25AB%25AF%25E8%25AF%25A6%25E8%25A7%25A3%2F&amp;appkey=&amp;title=%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3&amp;pic=&amp;ralateUid=" target="_blank" rel="noopener noreferrer" title="客户端与服务端详解">
+      <div class="share-icon icon icon-weibo">
+      </div>
+    </a>
+    <a href="https://connect.qq.com/widget/shareqq/index.html?url=www.baidu.com&amp;title=%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3&amp;desc=%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3&amp;source=https%3A%2F%2F11111-beep.github.io" target="_blank" rel="noopener noreferrer" title="客户端与服务端详解">
+      <div class="share-icon icon icon-qq">
+      </div>
+    </a>
+    <a href="javascript:;"  title="客户端与服务端详解">
+      <div class="share-icon icon icon-weixin">
+          <div id="share-weixin">
+            <div class="share-weixin-dom">
+              <div class="share-weixin-content">
+                <img id="share-weixin-banner"> 
+                <div id="share-weixin-title"></div>
+                <div id="share-weixin-desc"></div>
+              </div>
+              <div class="share-weixin-qrcode">
+                <div class="share-weixin-info">
+                  <div id="share-weixin-author"></div>
+                  <div id="share-weixin-theme">Powered By hexo-theme-reimu</div>
+                </div>
+                <img id="share-weixin-qr" >
+              </div>
+            </div>
+            <div class="share-weixin-canvas"></div>
+          </div>
+      </div>
+    </a>
+</div>
+        <a data-aos="zoom-in" href="/en/2025/08/04/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3/#comments" class="article-comment-link">
+          <span class="post-comments-count waline-comment-count" data-path="/en/2025/08/04/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3/" itemprop="commentCount"></span>
+          Comments
+        </a>
+        <span data-aos="zoom-in" class="article-visitor-link">
+          <span class="waline-pageview-count" data-path="/en/2025/08/04/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3/">0</span>
+          <em class="post-meta-item-text">Readings</em>
+        </span>
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/en/tags/Android/" rel="tag" title="Android">Android</a></li></ul>
+
+    </footer>
+  </div>
+    <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+    <div class="article-nav-link-wrap right">
+        <img data-src="/images/aaa/6.webp" data-sizes="auto" alt="ExecutorService介绍及其使用方法" class="lazyload">
+      <a href="/en/2025/06/28/ExecutorService%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" aria-label="Next: ExecutorService介绍及其使用方法"  title="Next: ExecutorService介绍及其使用方法"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+          ExecutorService介绍及其使用方法
+      </h3>
+    </div>
+  </nav>
+
+</article>
+
+  <section id="comments" data-aos="fade-up">
+    <div class="comment-header">
+        
+      <h2 class="comment-title">Leave a comment</h2>
+      <div class="comment-selector">
+        <div class="comment-selector-wrap">
+            <div class="selector-item" data-selector="waline">
+              <span>waline</span>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="comment-content">
+          <div class="comment waline-comment" data-aos="fade-up"
+            id="waline-comment">
+          </div>
+    </div>
+  </section>
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    <div>
+      <span class="icon-copyright"></span>
+        2024-2025
+      <span class="footer-info-sep rotate"></span>
+      MoYu
+    </div>
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+      <div>
+        <span class="icon-brush"></span>
+        19.5k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        01:29
+      </div>
+      <div class="footer-beian">
+        <img
+          style="object-fit: contain;margin-right: 2px;"
+          src="https://icp.gov.moe/images/ico64.png"
+          alt=""
+          width="24"
+          height="24"
+        />
+        <a target="_blank" rel="noopener nofollow noreferrer" href="https://icp.gov.moe/?keyword=20250560">萌ICP备20250560号</a>
+      </div>
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+  </div>
+</footer>
+
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">Contents</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AFclient"><span class="toc-number">1.</span> <span class="toc-text"> 客户端(Client)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">2.</span> <span class="toc-text"> 服务端</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">2.1.</span> <span class="toc-text"> 一.远程服务端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8Candroid%E5%BA%94%E7%94%A8%E5%86%85%E6%9C%8D%E5%8A%A1%E7%AB%AFipc%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">2.2.</span> <span class="toc-text"> 二.Android应用内服务端(IPC服务端)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#android%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BA%A4%E4%BA%92%E7%9A%84%E5%B8%B8%E8%A7%81%E6%96%B9%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text"> Android客户端与远程服务端交互的常见方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1ipc"><span class="toc-number">4.</span> <span class="toc-text"> 进程间通信IPC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B7%E4%BE%8B%E7%A4%BA%E8%8C%83"><span class="toc-number">5.</span> <span class="toc-text"> 样例示范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#android%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E8%BF%9C%E7%A8%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8httprestful-api%E4%BA%A4%E4%BA%92%E4%BD%BF%E7%94%A8retrofit"><span class="toc-number">5.1.</span> <span class="toc-text"> Android客户端与远程Web服务器(HTTP&#x2F;RESTful API)交互:使用Retrofit</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90"><span class="toc-number">5.1.1.</span> <span class="toc-text"> 解析:</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#android%E5%BA%94%E7%94%A8%E5%86%85%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BA%A4%E4%BA%92%E4%BD%BF%E7%94%A8messenger-ipc"><span class="toc-number">5.2.</span> <span class="toc-text"> Android应用内客户端与服务端交互：使用Messenger (IPC)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text"> 总结</span></a></li></ol>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/1.jpg" data-sizes="auto" alt="MoYu" class="lazyload">
+  <div class="sidebar-author-name">MoYu</div>
+  <div class="sidebar-description">Lucky Forever~~</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">7</div>
+  </div>
+</div>
+<div class="sidebar-social">
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:hqw1554799@gmail.com itemprop="url" target="_blank" aria-label="email" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/11111-beep itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-twitter sidebar-social-icon">
+      <a href=https://twitter.com/MoYu_Lucky itemprop="url" target="_blank" aria-label="twitter" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/lucky_hqw itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
+    </div>
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/" aria-label="Home"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Home</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/archives" aria-label="Archives"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Archives</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/about" aria-label="About"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">About</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/en/friend" aria-label="Friend"></a>
+        <div class="sidebar-menu-icon icon rotate">
+            &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Friend</div>
+      </div>
+</div>
+</div>
+  </div>
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+</nav>
+
+    </div>
+      <div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png"/>
+        </div>
+      </div>
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+  
+<script src="/js/generator_search.js" defer></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    if (!false || !window.matchMedia('(max-width: 768px)').matches) {
+      window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'));
+    }
+  </script>
+
+  
+<script src="https://npm.webcache.cn/theme-shokax-pjax@0.0.3/dist/index.umd.js" integrity="sha384-xneY1WY8hOfUzswrE4CrYq35N4BdVcxqxwHPr9zawE&#x2F;jMSCxD+jAPU55x&#x2F;jj3wlf" crossorigin="anonymous"></script>
+
+  
+<script src="/js/pjax.js"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/live2d-widgets@0.9.0/autoload.js" integrity="sha384-poTN7wN&#x2F;SqNhQqo3jdFeX20ikddWeFGkUkDEzsKjgH&#x2F;ez8aQLn81oI0Cw6q5xNyB" crossorigin="anonymous"></script>
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@3.0.1/dist/quicklink.umd.js" integrity="sha384-caMDqvgav&#x2F;HWdEYQU1QRRHMLleigpL1YHAG0m371DhzfL8rRzUyOb+bEHtwlmYjD" crossorigin="anonymous"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+<div id="lazy-script">
+  <div>
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "MoYu",
+          title: "客户端与服务端详解",
+          url: "https://11111-beep.github.io/2025/08/04/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%A6%E8%A7%A3/",
+          excerpt: "",
+          description: "",
+          stripContent: "在Android应用开发中,客户端(Client)与服务端(Server)是时常被提及的概念,通常来说&amp;quot;客户端指的是用户直接交互的那个Android应用程序本身,而服务端则是为客户端提供数据,计算或存储服务的远程计算机系统&amp;quot;.但我本人认为其实这种表述并不是特别准确,以下是我的一些分析与见解.    客户端(Client) 1.定义 : 在Android开发中,客户端其实是你安装在手机平板上的那个由apk文件运行的应用程序,通俗点说你手机上进行UI交互的App.它是用户界面的提",
+          date: "Mon Aug 04 2025 16:44:19 GMT+0800",
+          updated: "Sun Dec 14 2025 16:45:46 GMT+0800",
+          cover: "/images/aaa/10.png",
+        };
+      </script>
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+<script src="/js/tabs.js" data-pjax></script>
+
+          
+<script src="https://npm.webcache.cn/@zumer/snapdom@1.9.14/dist/snapdom.min.js" integrity="sha384-OEQ+fJp&#x2F;Mvi2uzBREXybtxryJvLytWapuHu4EE6LPwTKUwATYcc55tPPcZTzVcmx" crossorigin="anonymous" defer data-pjax></script>
+
+          
+<script src="https://npm.webcache.cn/qrcode@1.5.1/build/qrcode.js" integrity="sha384-VT1EeewTCEXgndcPMQ0PzV+uVFYjxFIjmAA7s5gcMX9t4Dt5TD+OVQIn7NJWIXn7" crossorigin="anonymous" defer data-pjax></script>
+
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+        
+<script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+
+  var commentConfigKeys = ["waline"];
+  var commentConfig = {
+    waline: {
+      enable: true,
+      load: async () => {
+        const container = document.querySelector('.waline-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        let walineInit;
+        const walineCdn = 'https://npm.webcache.cn/@waline/client@2.15.8/dist/waline.mjs';
+        const walineIntegrity = 'sha384-9sbqJjrfGjbkI6/PI4nU/MvBfEmkkPC4YK9I4zBeMIf1CVCZdCMH/KinBEAZII/5';
+
+        const module = await safeImport(walineCdn, walineIntegrity);
+        walineInit = module.init;
+
+        window.walineInstance = walineInit({
+          el: '.waline-comment',
+          serverURL: 'https://moyublog.vercel.app',
+          lang: document.documentElement.lang || 'en',
+          locale: {},
+          emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus","https://unpkg.com/@waline/emojis@1.2.0/bilibili","https://unpkg.com/@waline/emojis@1.2.0/qq","https://unpkg.com/@waline/emojis@1.2.0/tieba","https://unpkg.com/@waline/emojis@1.2.0/tw-emoji"],
+          meta: ["nick","mail","link"],
+          requiredMeta: ["nick","mail"],
+          wordLimit: JSON.parse('0'),
+          comment: true,
+          pageSize: JSON.parse('10'),
+          dark: 'html[data-theme="dark"]',
+          pageview: JSON.parse('true'),
+        });
+      }
+    },
+  }
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    // 1. 首先检查localStorage中是否有保存的评论类型
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    // 2. 如果localStorage中有值且对应的评论系统可用，就使用它
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    // 3. 如果localStorage无效，检查配置的默认评论系统
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    // 4. 如果前两项都无效，按指定顺序找到第一个可用的评论系统
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    // 隐藏所有评论容器
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    // 按需加载评论系统
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        // 如果已加载，只需显示对应容器
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      // 根据类型加载对应的脚本
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    // 评论组件选择器
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      // 获取要加载的评论系统类型
+      const commentType = item.getAttribute('data-selector');
+
+      // 隐藏所有评论系统
+      hideAllComments();
+
+      // 加载选中的评论系统
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      // 评论组件选择器点击事件
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          // 保存选择器状态
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          // 切换选中状态
+          changeActiveCommentItems(item);
+        });
+      }
+
+      // 检查是否需要加载默认评论系统
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script>
+
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.11.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js" integrity="sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL&#x2F;aORyw+5+HZoU6e" crossorigin="anonymous"></script>
+
+
+  <script>
+    if (!false || !window.matchMedia('(max-width: 768px)').matches) {
+      if (window.matchMedia('(max-width: 959px)').matches) {
+        const meting = _$('meting-js');
+        if (meting) {
+          meting.setAttribute('fixed', 'true');
+          const aside = meting.parentNode?.parentNode;
+          if (aside?.tagName === 'ASIDE') {
+            meting.parentNode.removeChild(meting);
+            document.body.appendChild(meting);
+          }
+        }
+      }
+      const script = document.createElement('script');
+      script.src = "https://npm.webcache.cn/meting@2.0.1/dist/Meting.min.js";
+      script.integrity = "sha384-ASVlpKF80A22OXTK3tfEjZm1EL6uFMKIC4p8+0maanw1S/IyB+Y4JG+ZDU7GpKE8";
+      script.crossOrigin = "anonymous";
+      document.body.appendChild(script);
+    }
+  </script>
+
+  
+<script src="https://npm.webcache.cn/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha384-HeUHqi0nVsPUm&#x2F;E0ss7OfnIV&#x2F;yD96JWB8ehZvUuoVax9DpNHL17jj9pdfXHzqDxm" crossorigin="anonymous" defer></script>
+
+  <script data-pjax>
+    if (document.readyState === "loading") {
+      document.addEventListener('DOMContentLoaded', () => {
+        pangu?.spacingPage();
+      });
+    } else {
+      pangu?.spacingPage();
+    }
+  </script>
+
+  </body>
+  </html>
