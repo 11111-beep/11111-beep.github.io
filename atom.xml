@@ -6,7 +6,7 @@
   <link href="https://11111-beep.github.io/atom.xml" rel="self"/>
   
   <link href="https://11111-beep.github.io/"/>
-  <updated>2025-12-14T09:50:10.964Z</updated>
+  <updated>2026-06-05T08:51:35.885Z</updated>
   <id>https://11111-beep.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>移动组 Android 方向学习路径</title>
+    <link href="https://11111-beep.github.io/2026/06/05/%E7%A7%BB%E5%8A%A8%E7%BB%84-Android-%E6%96%B9%E5%90%91%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84/"/>
+    <id>https://11111-beep.github.io/2026/06/05/%E7%A7%BB%E5%8A%A8%E7%BB%84-Android-%E6%96%B9%E5%90%91%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84/</id>
+    <published>2026-06-05T07:41:09.000Z</published>
+    <updated>2026-06-05T08:51:35.885Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="第一阶段大一上"><a class="markdownIt-Anchor" href="#第一阶段大一上"></a> 第一阶段（大一上）</h2><ol><li>学习Java面向对象部分，主要是封装、继承、多态，了解Java语法以及集合</li><li>《第一行代码》第2版（1、2、3、4、6章），不用学习 LitePal 、11章定位以及最后一章的上架</li><li>寒假制作一个简易的记事本 demo 或者其他项目</li></ol><h2 id="第二阶段大一下"><a class="markdownIt-Anchor" href="#第二阶段大一下"></a> 第二阶段（大一下）</h2><ol><li>《第一行代码》第2版所有内容，实现天气项目</li><li>学习 Kotlin 以及《第一行代码》第3版 ，不用学习11章 Apache 服务器和最后一章的开源库</li><li>思考计设项目的 idea，思考创新点与可行性</li></ol><h2 id="第三阶段大二上"><a class="markdownIt-Anchor" href="#第三阶段大二上"></a> 第三阶段（大二上）</h2><ol><li>自定义 View</li><li>重新学习 Java 的所有内容</li><li>《Android开发艺术探索》</li><li>开始做计设项目并学习相关技术栈</li></ol><h2 id="第四阶段大二下"><a class="markdownIt-Anchor" href="#第四阶段大二下"></a> 第四阶段（大二下）</h2><ol><li>完成计设项目（大创、挑杯想参加也可以）</li><li>开始背八股和计网、刷算法、找实习</li></ol><h2 id="第五阶段大三大四"><a class="markdownIt-Anchor" href="#第五阶段大三大四"></a> 第五阶段（大三大四）</h2><ol><li>数媒</li><li>实习+转正</li></ol><hr /><h2 id="学习重点"><a class="markdownIt-Anchor" href="#学习重点"></a> 学习重点</h2><ol><li>四大组件</li><li>数据库</li><li>网络通信</li><li>RecyclerView</li><li>Kotlin 协程</li><li>Jecpack 组件（Compose暂时可学可不学）</li><li>Retrofit</li><li>自定义 View</li><li>View 分发机制与手势冲突</li><li>Handler 消息机制</li><li>MVVM、MVI等</li></ol><hr /><h2 id="学习资料"><a class="markdownIt-Anchor" href="#学习资料"></a> 学习资料</h2><ul><li><p><a href="https://developers.google.com/ar/develop/java/quickstart?hl=zh-cn">Android AR</a></p></li><li><p><a href="https://github.com/SceneView/sceneview-android">Android 场景,可配合下面的 3D 模型</a></p></li><li><p><a href="https://developers.google.com/vr/develop/android/get-started">Android VR</a></p></li><li><p><a href="https://polyhaven.com/hdris/sunrise-sunset">360度的全景图</a></p></li><li><p><a href="https://sketchfab.com/feed">3D 模型库（部分免费）</a></p></li><li><p>Android 部分机器学习：<a href="https://developers.google.com/ml-kit?hl=zh-cn">ML Kit</a>、<a href="https://developers.google.com/edge/mediapipe/solutions/guide">MediaPipe</a></p></li><li><p>不推荐训练模型，如有兴趣，自己问找网址</p></li><li><p><a href="https://lottiefiles.com/">动画库（部分免费</a>）</p></li><li><p><a href="https://mastergo.com/">界面设计 AI</a></p></li><li><p><a href="https://jetpackcompose.cn/docs/">compose 学习</a></p></li><li><p><a href="https://www.pinterest.com/">UI 素材</a></p></li><li><p><a href="https://material-foundation.github.io/material-theme-builder/">主题配色</a></p></li><li><p><a href="https://getstream.io/activity-feeds/docs/android/">社区、直播等后端服务</a></p></li><li><p><a href="https://console.firebase.google.com/">Firebase 云存储、性能测试等</a></p></li><li><p><a href="https://docs.cloud.google.com/architecture/choose-design-pattern-agentic-ai-system?hl=zh-cn">Agent 设计模式</a></p></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;第一阶段大一上&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#第一阶段大一上&quot;&gt;&lt;/a&gt; 第一阶段（大一上）&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;学习Java面向对象部分，主要是封装、继承、多态，了解Java语法以及集合&lt;/li&gt;
+&lt;li&gt;《第</summary>
+      
+    
+    
+    
+    
+    <category term="Android 方向学习路径" scheme="https://11111-beep.github.io/tags/Android-%E6%96%B9%E5%90%91%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84/"/>
+    
+  </entry>
   
   <entry>
     <title>Conventional Commits规范</title>
@@ -448,28 +473,6 @@
       
     <summary type="html">&lt;p&gt;你好！&lt;/p&gt;
 </summary>
-      
-    
-    
-    
-    
-    <category term="Hexo" scheme="https://11111-beep.github.io/tags/Hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://11111-beep.github.io/2024/11/02/hello-world/"/>
-    <id>https://11111-beep.github.io/2024/11/02/hello-world/</id>
-    <published>2024-11-02T02:55:10.386Z</published>
-    <updated>2025-12-14T07:48:10.265Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="quick-start"><a class="markdownIt-Anchor" href="#quick-start"></a> Quick Start</h2><h3 id="create-a-new-post"><a class="markdownIt-Anchor" href="#create-a-new-post"></a> Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="run-server"><a class="markdownIt-Anchor" href="#run-server"></a> Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="generate-static-files"><a class="markdownIt-Anchor" href="#generate-static-files"></a> Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="deploy-to-remote-sites"><a class="markdownIt-Anchor" href="#deploy-to-remote-sites"></a> Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for</summary>
       
     
     
